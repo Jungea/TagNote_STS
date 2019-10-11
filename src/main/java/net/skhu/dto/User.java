@@ -1,24 +1,18 @@
 package net.skhu.dto;
 
 public class User {
-	int id;
+	int userNum;
 	String userId;
-	String password;
-	int passwordCheckQ;
-	String passwordCheckA;
+	String userPass;
+	int passFindQust;
+	String passFindAnsr;
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", userId=" + userId + ", password=" + password + ", passwordCheckQ=" + passwordCheckQ
-				+ ", passwordCheckA=" + passwordCheckA + "]";
+	public int getUserNum() {
+		return userNum;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setUserNum(int userNum) {
+		this.userNum = userNum;
 	}
 
 	public String getUserId() {
@@ -29,28 +23,28 @@ public class User {
 		this.userId = userId;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUserPass() {
+		return userPass;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUserPass(String userPass) {
+		this.userPass = userPass;
 	}
 
-	public int getPasswordCheckQ() {
-		return passwordCheckQ;
+	public int getPassFindQust() {
+		return passFindQust;
 	}
 
-	public void setPasswordCheckQ(int passwordCheckQ) {
-		this.passwordCheckQ = passwordCheckQ;
+	public void setPassFindQust(int passFindQust) {
+		this.passFindQust = passFindQust;
 	}
 
-	public String getPasswordCheckA() {
-		return passwordCheckA;
+	public String getPassFindAnsr() {
+		return passFindAnsr;
 	}
 
-	public void setPasswordCheckA(String passwordCheckA) {
-		this.passwordCheckA = passwordCheckA;
+	public void setPassFindAnsr(String passFindAnsr) {
+		this.passFindAnsr = passFindAnsr;
 	}
 
 }

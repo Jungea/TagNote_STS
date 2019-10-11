@@ -89,45 +89,6 @@
 						<td>2019.09.17 08:59</td>
 
 					</tr>
-					<tr onclick="location.href='write-memo.html?memoNum=2'">
-						<td class="collapsing">
-							<div class="ui fitted checkbox">
-								<input type="checkbox"> <label></label>
-							</div>
-						</td>
-						<td>
-							<div class="ui star rating" data-max-rating="1"></div>
-						</td>
-						<td>#2019 #자료구조 #자바 #노은하</td>
-						<td>2019.09.14 10:30</td>
-
-					</tr>
-					<tr onclick="location.href='write-memo.html?memoNum=3'">
-						<td class="collapsing">
-							<div class="ui fitted checkbox">
-								<input type="checkbox"> <label></label>
-							</div>
-						</td>
-						<td>
-							<div class="ui star rating" data-max-rating="1"></div>
-						</td>
-						<td>#2019 #디비캡스톤디자인 #홍은지 #프로젝트</td>
-						<td>2019.09.14 10:30</td>
-
-					</tr>
-					<tr onclick="location.href='write-memo.html?memoNum=4'">
-						<td class="collapsing">
-							<div class="ui fitted checkbox">
-								<input type="checkbox"> <label></label>
-							</div>
-						</td>
-						<td>
-							<div class="ui star rating" data-max-rating="1"></div>
-						</td>
-						<td>#자바플젝 #이승진 #유지보수 #innerClass #멤버변수</td>
-						<td>2018.09.27 09:30</td>
-
-					</tr>
 				</tbody>
 
 			</table>

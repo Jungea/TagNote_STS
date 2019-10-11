@@ -32,12 +32,12 @@ body>.grid {
 </style>
 
 <script>
-		$(function() {
-			$('.button.overlap').click(function(event) {
-				alert("사용가능한 아이디입니다.");
-			});
+	$(function() {
+		$('.button.overlap').click(function(event) {
+			
 		});
-	</script>
+	});
+</script>
 
 </head>
 <body>
@@ -61,7 +61,7 @@ body>.grid {
 						<div class="field" style="text-align: left;">
 							<label>아이디</label>
 							<div class="two fields">
-								<div class="thirteen wide field">
+								<div class="inputId thirteen wide field">
 									<div class="ui left icon input">
 										<i class="user icon"></i>
 										<form:input path="userId" placeholder="아이디" />
@@ -77,7 +77,7 @@ body>.grid {
 							<label>비밀번호</label>
 							<div class="ui left icon input">
 								<i class="lock icon"></i>
-								<form:password path="password" placeholder="비밀번호" />
+								<form:password path="userPass" placeholder="비밀번호"/>
 							</div>
 						</div>
 
@@ -85,23 +85,27 @@ body>.grid {
 							<label>비밀번호 확인</label>
 							<div class="ui left icon input">
 								<i class="lock icon"></i> <input type="password"
-									name="password2" value="" placeholder="비밀번호 확인">
+									name="userPass2" value="" placeholder="비밀번호 확인">
 							</div>
 						</div>
 
 						<div class="field" style="text-align: left;">
 							<label>비밀번호 찾기 질문</label>
-
-							<form:select path="passwordCheckQ" class="ui dropdown fluid"
-								itemValue="id" itemLabel="departmentName"
-								items="${ departments }" />
+							<form:select class="ui dropdown" path="passFindQust">
+								<form:option value="1" label="나의 보물 제 1호는?" />
+								<form:option value="2" label="내가 가장 좋아하는 색깔은?" />
+								<form:option value="3" label="나의 인생 좌우명은?" />
+								<form:option value="4" label="내가 나온 초등학교 이름은?" />
+								<form:option value="5" label="나의 장래희망은?" />
+							</form:select>
 
 						</div>
 
 						<div class="field" style="text-align: left;">
 							<label>비밀번호 찾기 답변</label>
 							<div class="ui left icon input">
-								<i class="exclamation icon"></i> <form:input path="passwordCheckA" placeholder="비밀번호 찾기 답변" />
+								<i class="exclamation icon"></i>
+								<form:input path="passFindAnsr" placeholder="비밀번호 찾기 답변" />
 							</div>
 						</div>
 

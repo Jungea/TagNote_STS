@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,7 @@
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.js"></script>
 <script src="${R}res/listCommon.js"></script>
+<script src="${R}res/memoScript.js"></script>
 <link rel="stylesheet" href="${R}res/common.css">
 <link rel="stylesheet" href="${R}res/listStyle.css">
 

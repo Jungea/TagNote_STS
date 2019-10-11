@@ -1,34 +1,34 @@
 package net.skhu.controller;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.skhu.dto.Department;
 import net.skhu.dto.User;
-import net.skhu.mapper.DepartmentMapper;
+import net.skhu.mapper.UserMapper;
 
 @Controller
 public class TagnoteController {
 
 	@Autowired
-	DepartmentMapper departmentMapper;
+	UserMapper userMapper;
 
 	@RequestMapping(value = "test")
 	public String test(Model model) {
 		return "parent";
 	}
-	
+
 	@RequestMapping(value = "child")
 	public String child(Model model) {
 		return "child";
 	}
-	
-	
+
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(Model model) {
 		User user = new User();
@@ -37,24 +37,36 @@ public class TagnoteController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String login(Model model, User user) {
-		System.out.println(user.getUserId() + " " + user.getPassword());
-		return "login";
+	public String login(Model model, User user, HttpSession httpSession) {
+		System.out.println(user.getUserId() + " " + user.getUserPass());
+
+		if (userMapper.login(user) == 1) {
+			httpSession.setAttribute("user", user);
+			return "redirect:list";
+		} else
+			return "login";
 	}
 
 	@RequestMapping(value = "membership", method = RequestMethod.GET)
 	public String membership(Model model) {
 		User user = new User();
-		List<Department> departments = departmentMapper.findAll();
 		model.addAttribute("user", user);
-		model.addAttribute("departments", departments);
 		return "membership";
 	}
+	
+//	@RequestMapping(value = "idCheck", method = RequestMethod.POST)
+//	public int idCheck(Model model) {
+//		int result = userMapper.idCheck(userId);
+//		return "membership";
+//	}
 
 	@RequestMapping(value = "membership", method = RequestMethod.POST)
 	public String membership(Model model, User user) {
-		System.out.println(user);
-		return "redirect:login";
+		//userMapper.insert(user);
+		return "membership";
+
+		//return "redirect:login";
+
 	}
 
 	@RequestMapping(value = "list")
@@ -71,7 +83,7 @@ public class TagnoteController {
 	public String recent(Model model) {
 		return "list";
 	}
-	
+
 	@RequestMapping(value = "trashCan")
 	public String trashCan(Model model) {
 		return "list";

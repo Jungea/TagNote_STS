@@ -51,7 +51,7 @@ a {
 						<label>비밀번호</label>
 						<div class="ui left icon input">
 							<i class="lock icon"></i>
-							<form:password path="password" placeholder="비밀번호" />
+							<form:password path="userPass" placeholder="비밀번호" />
 						</div>
 					</div>
 					<button class="ui button fluid teal" type="submit">로그인

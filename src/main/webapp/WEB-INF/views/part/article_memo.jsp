@@ -72,32 +72,17 @@
 					style="background-color: white; border-bottom: 1px solid lightgray; width: 100%">
 
 
-					<div class="fifteen wide field center floated"
-						style="margin: 10px;">
-						<select class="ui fluid search dropdown" multiple="" name="paw"
-							form="textarea_form">
-							<option value="">태그를 입력하세요.</option>
-							<option value="1">#2018년</option>
-							<option value="2">#2019년</option>
-							<option value="3">#프로젝트</option>
-							<option value="4">#1학기</option>
-							<option value="5">#2학기</option>
-							<option value="6">#TagNote</option>
-							<option value="7">#알고리즘</option>
-							<option value="8">#데이터베이스</option>
-							<option value="9">#자바</option>
-							<option value="10">#HalliGalli</option>
-							<option value="11">#TagNote</option>
-						</select>
+					<div class="field fluid ui input">
+						<input type="text" placeholder="태그를 입력하세요.">
 					</div>
 
 				</div>
 
 
-				<form class="field wrap" id="textarea_form" action="">
-					<textarea id="ta" class="memoTextarea" name="memo"
-						style="background-color: LightYellow;"></textarea>
-				</form>
+				<form:form class="field wrap" id="textarea_form" method="post" modelAttribute="memo">
+					<form:textarea path="text" class="memoTextarea"
+						style="background-color: LightYellow;" />
+				</form:form>
 			</div>
 
 		</div>
