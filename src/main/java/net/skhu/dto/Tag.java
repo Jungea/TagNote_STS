@@ -3,10 +3,10 @@ package net.skhu.dto;
 import lombok.Data;
 
 @Data
-public class User {
+public class Tag {
+	int tagNum;
 	int userNum;
+	String tagName;
+
 	String userId;
-	String userPass;
-	int passFindQust;
-	String passFindAnsr;
 }

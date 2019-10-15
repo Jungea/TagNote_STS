@@ -8,11 +8,12 @@ import net.skhu.dto.Memo;
 import net.skhu.dto.Tag;
 
 @Mapper
-public interface MemoMapper {
-	Memo findOne(int memoNum);
-    List<Memo> findAllByUserNum(int userNum);
-    List<Memo> findAllByTagNum(int tagNum);
+public interface TagMapper {
+	Tag findOne(int tagNum);
+    List<Tag> findAllByUserNum(int userNum);
+    List<Tag> findAllByMemoNum(int memoNum);
     void insert(Memo memo);
     void update(Memo memo);
     void delete(int MemoNum);
 }
+

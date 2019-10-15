@@ -2,27 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.skhu.mapper.UserMapper">
+<mapper namespace="net.skhu.mapper.TagMapper">
 
-	<select id="login" resultType="User">
-		SELECT * FROM User WHERE
-		user_id
-		=
-		#{userId} and user_pass = #{userPass}
+	<select id="findOne" resultType="Tag">
+		SELECT * FROM Tag WHERE
+		tag_num =
+		#{tagNum}
 	</select>
 
-	<select id="findByUserNum" resultType="User">
-		SELECT * FROM User WHERE
+	<select id="findAllByUserNum" resultType="Tag">
+		SELECT * FROM Tag
+		WHERE
 		user_num = #{userNum}
 	</select>
 
-	<select id="idCheck" resultType="int">
-		SELECT count(*) FROM User WHERE
-		user_id = #{userId}
+	<select id="findAllByTagNum" resultType="Tag">
+		SELECT * FROM Tag
+		WHERE
+		memo_num = #{memoNum}
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true"
-		keyProperty="userNum">
+		keyProperty="tagNum">
 		INSERT
 		User (user_id, user_pass, pass_find_qust,
 		pass_find_ansr)
@@ -40,6 +41,6 @@
 	</update>
 
 	<delete id="delete">
-		DELETE FROM User WHERE user_num = #{UserNum}
+		DELETE FROM User WHERE memo_num = #{memoNum}
 	</delete>
 </mapper>

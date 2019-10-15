@@ -1,5 +1,7 @@
 package net.skhu.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -8,9 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.skhu.dto.Memo;
 import net.skhu.dto.User;
+import net.skhu.mapper.MemoMapper;
 import net.skhu.mapper.UserMapper;
 
 @Controller
@@ -18,6 +21,8 @@ public class TagnoteController {
 
 	@Autowired
 	UserMapper userMapper;
+	@Autowired
+	MemoMapper memoMapper;
 
 	@RequestMapping(value = "test")
 	public String test(Model model) {
@@ -37,11 +42,13 @@ public class TagnoteController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String login(Model model, User user, HttpSession httpSession) {
+	public String login(Model model, User user, HttpServletRequest request) {
 		System.out.println(user.getUserId() + " " + user.getUserPass());
-
-		if (userMapper.login(user) == 1) {
-			httpSession.setAttribute("user", user);
+		User u = userMapper.login(user);
+		if (u != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("user", u);
+			System.out.println(u);
 			return "redirect:list";
 		} else
 			return "login";
@@ -53,7 +60,7 @@ public class TagnoteController {
 		model.addAttribute("user", user);
 		return "membership";
 	}
-	
+
 //	@RequestMapping(value = "idCheck", method = RequestMethod.POST)
 //	public int idCheck(Model model) {
 //		int result = userMapper.idCheck(userId);
@@ -62,15 +69,19 @@ public class TagnoteController {
 
 	@RequestMapping(value = "membership", method = RequestMethod.POST)
 	public String membership(Model model, User user) {
-		//userMapper.insert(user);
+		// userMapper.insert(user);
 		return "membership";
 
-		//return "redirect:login";
+		// return "redirect:login";
 
 	}
 
 	@RequestMapping(value = "list")
-	public String list(Model model) {
+	public String list(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Memo> memos = memoMapper.findByUserNum(user.getUserNum());
+		model.addAttribute("memos", memos);
 		return "list";
 	}
 

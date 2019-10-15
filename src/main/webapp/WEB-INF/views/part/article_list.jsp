@@ -76,19 +76,22 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr onclick="location.href='write-memo.html?memoNum=1'">
-						<td class="collapsing">
-							<div class="ui checkbox">
-								<input type="checkbox"> <label></label>
-							</div>
-						</td>
-						<td>
-							<div class="ui star rating" data-max-rating="1"></div>
-						</td>
-						<td>#2018 #데이터통신 #유상신</td>
-						<td>2019.09.17 08:59</td>
+					<c:forEach var="memo" items="${memos}">
+					
+						<tr onclick="location.href='write-memo.html?memoNum=1'">
+							<td class="collapsing">
+								<div class="ui checkbox">
+									<input type="checkbox"> <label></label>
+								</div>
+							</td>
+							<td>
+								<div class="ui star rating" data-max-rating="1"></div>
+							</td>
+							<td>#2018 #데이터통신 #유상신</td>
+							<td>2019.09.17 08:59</td>
 
-					</tr>
+						</tr>
+					</c:forEach>
 				</tbody>
 
 			</table>
