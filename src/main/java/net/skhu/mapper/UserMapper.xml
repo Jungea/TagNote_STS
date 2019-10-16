@@ -5,7 +5,9 @@
 <mapper namespace="net.skhu.mapper.UserMapper">
 
 	<select id="login" resultType="User">
-		SELECT * FROM User WHERE
+		SELECT user_num, user_id FROM
+		User
+		WHERE
 		user_id
 		=
 		#{userId} and user_pass = #{userPass}

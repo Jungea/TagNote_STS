@@ -77,18 +77,19 @@
 				</thead>
 				<tbody>
 					<c:forEach var="memo" items="${memos}">
-					
-						<tr onclick="location.href='write-memo.html?memoNum=1'">
+
+						<tr data-url="edit?memoNum=${memo.memoNum}">
 							<td class="collapsing">
 								<div class="ui checkbox">
 									<input type="checkbox"> <label></label>
 								</div>
 							</td>
 							<td>
-								<div class="ui star rating" data-max-rating="1"></div>
+								<div class="ui star rating" data-max-rating="1"
+									data-rating="${memo.imptMemo} }"></div>
 							</td>
-							<td>#2018 #데이터통신 #유상신</td>
-							<td>2019.09.17 08:59</td>
+							<td><c:forEach var="tag" items="${memo.tags}">${tag.tagName}&nbsp;&nbsp;</c:forEach></td>
+							<td>${memo.memoDate}</td>
 
 						</tr>
 					</c:forEach>

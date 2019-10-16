@@ -56,20 +56,20 @@ $(function() {
 		var a = $(this).attr('path');
 		location.href = a;
 	});
-	
+
 	$('.icon.tagBookmark.setting').click(function(event) {
 		$('.ui.modal').modal('show');
 	});
-	
+
 	$('#target').accordion({
-		exclusive: false
+		exclusive : false
 	});
 	$('.ui.rating').rating();
 
 	$('.ui.dropdown').dropdown();
-	
-	/////////////////////////////////////////
-	
+
+	// ///////////////////////////////////////
+
 	$('.wrap').on('keyup', 'textarea', function(e) {
 		var t = $('#mainArticle').scrollTop();
 		var ta = $('#mainArticle').innerHeight();
@@ -107,4 +107,10 @@ $(function() {
 		var a = $(this).attr('path');
 		location.href = a;
 	});
+
+	$("[data-url]").click(function() {
+		var url = $(this).attr("data-url");
+		location.href = url;
+	})
+
 })

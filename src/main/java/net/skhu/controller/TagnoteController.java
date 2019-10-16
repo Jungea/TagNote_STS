@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import net.skhu.dto.Memo;
 import net.skhu.dto.User;
@@ -80,7 +81,7 @@ public class TagnoteController {
 	public String list(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		List<Memo> memos = memoMapper.findByUserNum(user.getUserNum());
+		List<Memo> memos = memoMapper.findByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
 		return "list";
 	}
@@ -104,5 +105,31 @@ public class TagnoteController {
 	public String memo1(Model model) {
 		return "memo";
 	}
+
+	@RequestMapping(value = "edit", method = RequestMethod.GET)
+	public String edit(Model model, @RequestParam("memoNum") int memoNum) {
+//		Student student = studentMapper.findOne(id);
+//		List<Department> departments = departmentMapper.findAll();
+//		model.addAttribute("student", student);
+//		model.addAttribute("departments", departments);
+		System.out.println("memo " + memoNum + "번");
+		//return "student/edit";
+		return "list";
+
+	}
+
+	@RequestMapping(value = "edit", method = RequestMethod.POST)
+	public String edit(Model model, Memo memo) {
+//		studentMapper.update(student);
+		return "redirect:list";
+
+	}
+	
+	@RequestMapping("delete")
+    public String delete(Model model, @RequestParam("memoNum") int memoNum) {
+        memoMapper.delete(memoNum);
+        return "redirect:list";
+    }
+
 
 }

@@ -9,13 +9,42 @@
 		memo_num = #{memoNum}
 	</select>
 
-	<select id="findAllByUserNum" resultType="Memo">
+	<select id="findByUserNum" resultType="Memo">
 		SELECT * FROM Memo
 		WHERE
 		user_num = #{userNum}
 	</select>
 
-	<select id="findAllByTagNum" resultType="Memo">
+	<select id="findByUserNumWithTags" resultMap="resultMap1">
+		SELECT m.memo_num,
+		m.user_num, m.memo_text, date_format(m.memo_date, '%y-%m-%d %H:%i') 'memo_date',
+		m.impt_memo, m.del_memo,
+		t.tag_num,
+		t.tag_name FROM memo m JOIN tm ON
+		m.memo_num=tm.memo_num
+		JOIN tag t ON
+		tm.tag_num = t.tag_num JOIN user u
+		ON m.user_num =
+		u.user_num WHERE
+		u.user_num = #{userNum}
+	</select>
+
+	<resultMap id="resultMap1" type="Memo">
+		<id property="memoNum" column="memo_num" />
+		<result property="userNum" column="user_num" />
+		<result property="memoText" column="memo_text" />
+		<result property="memoDate" column="memo_date" />
+		<result property="imptMemo" column="impt_memo" />
+		<result property="delMemo" column="del_memo" />
+		<collection property="tags" ofType="Tag">
+			<id property="tagNum" column="tag_num" />
+			<result property="userNum" column="user_num" />
+			<result property="tagName" column="tag_name" />
+		</collection>
+	</resultMap>
+
+
+	<select id="findByTagNum" resultType="Memo">
 		SELECT * FROM Memo
 		WHERE
 		user_num = #{tagNum}

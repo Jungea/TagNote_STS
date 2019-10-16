@@ -1,7 +1,13 @@
 package net.skhu.dto;
 
-import lombok.Data;
+import java.util.List;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@ToString(exclude = "tags")
+@EqualsAndHashCode(exclude = "tags")
 @Data
 public class Memo {
 	int memoNum;
@@ -11,6 +17,7 @@ public class Memo {
 	int imptMemo;
 	int delMemo;
 
-	String userId;
+
+	List<Tag> tags;
 
 }
