@@ -54,15 +54,14 @@ a {
 							<form:password path="userPass" placeholder="비밀번호" />
 						</div>
 					</div>
-					<button class="ui button fluid teal" type="submit">로그인
+					<button class="ui button fluid teal" type="submit">로그인</button>
 				</div>
-				</ui>
 			</form:form>
 
 			<div class="ui divider"></div>
 			<div class="ui right aligned container">
-				<span><a href="find_password">비밀번호 찾기</a></span> <span>|</span>
-				<span><a href="membership">회원가입</a></span>
+				<span><a href="findPassword">비밀번호 찾기</a></span> <span>|</span> <span><a
+					href="membership">회원가입</a></span>
 			</div>
 		</div>
 

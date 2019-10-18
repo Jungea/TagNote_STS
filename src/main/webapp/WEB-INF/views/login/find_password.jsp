@@ -31,14 +31,6 @@ body>.grid {
 }
 </style>
 
-<script>
-	$(function() {
-		$('.button.overlap').click(function(event) {
-			
-		});
-	});
-</script>
-
 </head>
 <body>
 
@@ -49,43 +41,21 @@ body>.grid {
 				style="font-size: 40px; margin-bottom: 60px;">TAGNOTE</h1>
 
 			<h3 class="ui header teal"
-				style="margin: 5px 20px; text-align: left;">회원가입</h3>
+				style="margin: 5px 20px; text-align: left;">비밀번호 찾기</h3>
 			<div class="ui divider" style="margin: 5px;"></div>
 
 			<div class="ui grid middle aligned center aligned">
 				<div class="inner column">
 
-					<form:form id="membership_form" method="post" class="ui form"
+					<form:form id="findPassword_form" method="post" class="ui form"
 						modelAttribute="user">
 
 						<div class="field" style="text-align: left;">
 							<label>아이디</label>
-							<div class="two fields">
-								<div class="inputId thirteen wide field">
-									<div class="ui left icon input">
-										<i class="user icon"></i>
-										<form:input path="userId" placeholder="아이디" />
-									</div>
-								</div>
-								<div class="three wide field">
-									<button class="overlap ui button fluid teal" type="button">중복확인</button>
-								</div>
-							</div>
-						</div>
-
-						<div class="field" style="text-align: left;">
-							<label>비밀번호</label>
 							<div class="ui left icon input">
-								<i class="lock icon"></i>
-								<form:password path="userPass" placeholder="비밀번호"/>
-							</div>
-						</div>
+								<i class="user icon"></i>
+								<form:input path="userId" placeholder="아이디" />
 
-						<div class="field" style="text-align: left;">
-							<label>비밀번호 확인</label>
-							<div class="ui left icon input">
-								<i class="lock icon"></i> <input type="password"
-									name="userPass2" value="" placeholder="비밀번호 확인">
 							</div>
 						</div>
 
@@ -108,7 +78,6 @@ body>.grid {
 								<form:input path="passFindAnsr" placeholder="비밀번호 찾기 답변" />
 							</div>
 						</div>
-
 					</form:form>
 
 				</div>
@@ -116,7 +85,8 @@ body>.grid {
 
 			<div class="ui divider"></div>
 			<div class="ui container right aligned">
-				<button class="ui button teal" type="submit" form="membership_form">가입</button>
+				<button class="ui button teal" type="submit"
+					form="findPassword_form">확인</button>
 				<button class="ui button" type="button"
 					onclick="location.href
 				='login'">취소</button>

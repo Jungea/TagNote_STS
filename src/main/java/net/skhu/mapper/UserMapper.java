@@ -7,11 +7,16 @@ import net.skhu.dto.User;
 @Mapper
 public interface UserMapper {
 	User findOne(int userNum);
-	
-    User login(User user);
-    int idCheck(String userId);
-    void insert(User user);
-    void update(User user);
-    void delete(int userNum);
-}
 
+	User login(User user);
+
+	int idCheck(String userId);
+
+	User findPassword(User user);
+
+	void insert(User user);
+
+	void update(User user);
+
+	void delete(int userNum);
+}

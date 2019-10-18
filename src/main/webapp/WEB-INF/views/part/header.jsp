@@ -20,7 +20,7 @@
 		<a href="list" style="color: white !important;">TAGNOTE</a>
 		<div class="header-userName">
 			<span style="margin-right: 5px;"> ${user.userId} 님</span>
-			<button class="ui inverted mini button">로그아웃</button>
+			<button class="ui inverted mini button" data-url="logout">로그아웃</button>
 		</div>
 	</header>
 </body>

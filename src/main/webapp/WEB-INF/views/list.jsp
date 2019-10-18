@@ -13,8 +13,9 @@
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.css" />
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.js"></script>
-<script src="${R}res/listCommon.js"></script>
-<script src="${R}res/memoScript.js"></script>
+<script src="${R}res/common.js"></script>
+<script src="${R}res/listScript.js"></script>
+
 <link rel="stylesheet" href="${R}res/common.css">
 <link rel="stylesheet" href="${R}res/listStyle.css">
 
@@ -30,13 +31,13 @@
 
 		<%@ include file="part/header.jsp"%>
 		
-		<%@ include file="part/nav.jsp"%>
+		<%@ include file="part/nav/nav.jsp"%>
 
-		<%@ include file="part/article_list.jsp"%>
+		<%@ include file="part/article/article_list.jsp"%>
 
 		<%@ include file="part/topButton.jsp"%>
 
-		<%@ include file="part/tagBookmark.jsp"%>
+		<%@ include file="part/nav/tagBookmark.jsp"%>
 
 		<%@ include file="part/footer.jsp"%>
 	</div>
