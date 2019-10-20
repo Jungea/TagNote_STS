@@ -11,8 +11,7 @@
 	<nav id="mainNav">
 
 		<div class="navDiv1">
-			<button class="ui teal button" onclick="location.href='memo'">새
-				메모 쓰기</button>
+			<button class="ui teal button" data-url="memo">새 메모 쓰기</button>
 		</div>
 
 		<div class="navDiv2">

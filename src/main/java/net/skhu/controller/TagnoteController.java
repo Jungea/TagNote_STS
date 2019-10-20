@@ -173,9 +173,19 @@ public class TagnoteController {
 		return "list";
 	}
 
-	@RequestMapping(value = "memo")
-	public String memo1(Model model) {
+	@RequestMapping(value = "memo", method = RequestMethod.GET)
+	public String memo(Model model) {
+		Memo memo = new Memo();
+		model.addAttribute("memo", memo);
 		return "memo";
+	}
+
+	// 비밀번호 변경 화면에서 확인 버튼 클릭
+	@RequestMapping(value = "memo", method = RequestMethod.POST)
+	public String memo(Model model, HttpServletRequest request, Memo memo) {
+		System.out.println(memo);
+		return "memo";
+
 	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.GET)

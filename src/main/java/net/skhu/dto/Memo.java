@@ -17,7 +17,7 @@ public class Memo {
 	int imptMemo;
 	int delMemo;
 
-
+	String tagString;
 	List<Tag> tags;
 
 }

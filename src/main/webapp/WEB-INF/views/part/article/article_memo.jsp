@@ -6,9 +6,48 @@
 <head>
 
 <title></title>
+<style type="text/css">
+div.tagarea {
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	line-height: 35px;
+	padding-left: 5px;
+	display: block;
+}
+
+a.tagA {
+	border: 1px solid #cacacb;
+	border-radius: 3px;
+	color: #5d5d5d;
+	background-color: #e8e8e8;
+	height: 15px;
+	padding: 3px 10px;
+	margin-right: 5px;
+}
+
+a.tagA:hover {
+	color: #5d5d5d;
+}
+
+.taginput {
+	border: none;
+	margin-left: 5px;
+}
+
+.taginput::-webkit-input-placeholder {
+	color: silver;
+}
+
+.taginput:focus {
+	outline: none;
+}
+
+.tagA i {
+	padding-left: 7px;
+}
+</style>
 </head>
 
-</style>
 <body>
 	<article id="mainArticle">
 		<!--  -->
@@ -52,7 +91,9 @@
 
 					<div class="thirteen wide column left aligned"
 						style="padding-left: 5px;">
-						<button class="ui button basic" onclick="alert('저장되었습니다.')">저장</button>
+						<button class="ui button basic" type="submit" form="textarea_form">저장</button>
+						<button class="ui button basic" type="button"
+							onclick="location.href='list.html'">삭제</button>
 						<button class="ui button basic" type="button"
 							onclick="window.open('add_tag.html', '_blank', 'width=1000, height=600')">태그목록</button>
 					</div>
@@ -72,16 +113,21 @@
 					style="background-color: white; border-bottom: 1px solid lightgray; width: 100%">
 
 
-					<div class="field fluid ui input">
-						<input type="text" placeholder="태그를 입력하세요.">
+					<div class="fifteen wide field center tagarea"
+						style="margin: 10px;">
+
+						<input type="hidden" class="tagString" name="tagString"
+							value="${memo.tagString}" form="textarea_form" /> <input
+							class="taginput" type="text" placeholder="태그 입력">
 					</div>
 
 				</div>
 
 
-				<form:form class="field wrap" id="textarea_form" method="post" modelAttribute="memo">
-					<form:textarea path="text" class="memoTextarea"
-						style="background-color: LightYellow;" />
+				<form:form id="textarea_form" class="field wrap" method="post"
+					modelAttribute="memo">
+					<form:textarea path="memoText" class="memoText"
+						style="background-color: LightYellow;"></form:textarea>
 				</form:form>
 			</div>
 
