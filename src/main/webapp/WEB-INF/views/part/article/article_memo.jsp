@@ -116,9 +116,11 @@ a.tagA:hover {
 					<div class="fifteen wide field center tagarea"
 						style="margin: 10px;">
 
+						<!-- 실질적인 데이터 태그들이 공백으로 나누어짐 (사용자에게 안보여짐)-->
 						<input type="hidden" class="tagString" name="tagString"
-							value="${memo.tagString}" form="textarea_form" /> <input
-							class="taginput" type="text" placeholder="태그 입력">
+							value="${memo.tagString}" form="textarea_form" />
+						<!-- 사용자에게 보여지는 태그들 -->
+						<input class="taginput" type="text" placeholder="태그 입력">
 					</div>
 
 				</div>
@@ -126,8 +128,9 @@ a.tagA:hover {
 
 				<form:form id="textarea_form" class="field wrap" method="post"
 					modelAttribute="memo">
+					<form:label path="memoDate" class="memoDate" />
 					<form:textarea path="memoText" class="memoText"
-						style="background-color: LightYellow;"></form:textarea>
+						style="background-color: LightYellow;" />
 				</form:form>
 			</div>
 

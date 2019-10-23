@@ -17,13 +17,16 @@
 
 	<select id="findByUserNumWithTags" resultMap="resultMap1">
 		SELECT m.memo_num,
-		m.user_num, m.memo_text, date_format(m.memo_date, '%y-%m-%d %H:%i') 'memo_date',
+		m.user_num, m.memo_text, date_format(m.memo_date, '%y-%m-%d %H:%i')
+		'memo_date',
 		m.impt_memo, m.del_memo,
 		t.tag_num,
-		t.tag_name FROM memo m JOIN tm ON
+		t.tag_name FROM memo m
+		JOIN tm ON
 		m.memo_num=tm.memo_num
 		JOIN tag t ON
-		tm.tag_num = t.tag_num JOIN user u
+		tm.tag_num = t.tag_num
+		JOIN user u
 		ON m.user_num =
 		u.user_num WHERE
 		u.user_num = #{userNum}
@@ -53,11 +56,9 @@
 	<insert id="insert" useGeneratedKeys="true"
 		keyProperty="memoNum">
 		INSERT
-		User (user_id, user_pass, pass_find_qust,
-		pass_find_ansr)
+		Memo (user_num, memo_text, memo_date)
 		VALUES
-		(#{userId}, #{userPass}, #{passFindQust},
-		#{passFindAnsr})
+		(#{userNum}, #{memoText}, #{memoDate})
 	</insert>
 
 	<update id="update">

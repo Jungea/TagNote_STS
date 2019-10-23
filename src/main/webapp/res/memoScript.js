@@ -2,13 +2,16 @@ $(function() {
 	// tag 입력칸
 
 	var tag = $('.tagString').val();
-	var userTags = tag.split(' ');
-	alert(userTags);
+	var userTags = [];
+	if (tag.length != 0) {
+		userTags = tag.split(' ');
+		alert(userTags);
 
-	for ( var i in userTags) {
-		$(".taginput").before(
-				'<a class="tagA">' + userTags[i]
-						+ '<i class="times grey icon"></i></a>');
+		for ( var i in userTags) {
+			$(".taginput").before(
+					'<a class="tagA">' + userTags[i]
+							+ '<i class="times grey icon"></i></a>');
+		}
 	}
 
 	// tag칸 어디를 입력하든 input태그 포커스
@@ -16,6 +19,7 @@ $(function() {
 		$('.taginput').focus();
 	})
 
+	// taginput에서 엔터를 치면 입력한 태그가 a태그로 감싸짐.
 	$(".taginput")
 			.keydown(
 					function(key) {

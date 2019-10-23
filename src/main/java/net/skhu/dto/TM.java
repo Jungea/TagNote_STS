@@ -7,13 +7,13 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @Data
-public class Tag {
+public class TM {
+	int tagMemoNum;
+	int memoNum;
 	int tagNum;
-	int userNum;
-	String tagName;
 
-	public Tag(int userNum, String tagName) {
-		this.userNum = userNum;
-		this.tagName = tagName;
+	public TM(int memoNum, int tagNum) {
+		this.memoNum = memoNum;
+		this.tagNum = tagNum;
 	}
 }

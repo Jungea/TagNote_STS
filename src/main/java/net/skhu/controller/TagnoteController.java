@@ -1,5 +1,9 @@
 package net.skhu.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.skhu.dto.Memo;
+import net.skhu.dto.TM;
+import net.skhu.dto.Tag;
 import net.skhu.dto.User;
 import net.skhu.mapper.MemoMapper;
+import net.skhu.mapper.TMMapper;
+import net.skhu.mapper.TagMapper;
 import net.skhu.mapper.UserMapper;
 
 @Controller
@@ -24,6 +32,10 @@ public class TagnoteController {
 	UserMapper userMapper;
 	@Autowired
 	MemoMapper memoMapper;
+	@Autowired
+	TagMapper tagMapper;
+	@Autowired
+	TMMapper tmMapper;
 
 	@RequestMapping(value = "test")
 	public String test(Model model) {
@@ -180,12 +192,49 @@ public class TagnoteController {
 		return "memo";
 	}
 
-	// 비밀번호 변경 화면에서 확인 버튼 클릭
+	// 메모 작성화면에서 저장 클릭
 	@RequestMapping(value = "memo", method = RequestMethod.POST)
 	public String memo(Model model, HttpServletRequest request, Memo memo) {
-		System.out.println(memo);
-		return "memo";
 
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		memo.setUserNum(user.getUserNum());
+		List<Tag> userTag = tagMapper.findByUserNum(memo.getUserNum());
+
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date time = new Date();
+		String memoDate = format1.format(time);
+		memo.setMemoDate(memoDate);
+
+		System.out.println(memo);
+
+		memoMapper.insert(memo); // 1. 메모 insert (userNum, memoText, memoDate)
+
+		// 2. 없는 태그 추가 (userNum, tagName)
+		List<String> tagStringList = new ArrayList<>(Arrays.asList(memo.getTagString().split(" ")));
+
+		List<Tag> existTags = new ArrayList<>();
+		for (Tag t : userTag) {
+			if (tagStringList.contains(t.getTagName())) {
+				existTags.add(t);
+				tagStringList.remove(t.getTagName());
+			}
+		}
+
+		System.out.println(tagStringList); // 추가할 태그(tag insert, tm insert)
+		System.out.println(existTags); // 존재하는 태그(tm만 insert)
+
+		for (String s : tagStringList) {
+			Tag t = new Tag(memo.getUserNum(), s);
+			tagMapper.insert(t);
+			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum())); // 3. 태그 만들어서 tm 추가 (tagNum, memoNum)
+		}
+
+		for (Tag t : existTags)
+			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum()));
+		// 3. 이미 만들어진 태그 tm 추가 (tagNum, memoNum)
+
+		return "redirect:edit?memoNum=" + memo.getMemoNum();
 	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
@@ -196,14 +245,14 @@ public class TagnoteController {
 //		model.addAttribute("departments", departments);
 		System.out.println("memo " + memoNum + "번");
 		// return "student/edit";
-		return "list";
+		return "memo";
 
 	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public String edit(Model model, Memo memo) {
 //		studentMapper.update(student);
-		return "redirect:list";
+		return "memo";
 
 	}
 

@@ -17,7 +17,7 @@ public class Memo {
 	int imptMemo;
 	int delMemo;
 
-	String tagString;
-	List<Tag> tags;
+	String tagString; // 공백으로 구분되는 태그 이름들의 모임
+	List<Tag> tags; // tagString을 Tag객체로 리스트
 
 }

@@ -10,26 +10,23 @@
 		#{tagNum}
 	</select>
 
-	<select id="findAllByUserNum" resultType="Tag">
+	<select id="findByUserNum" resultType="Tag">
 		SELECT * FROM Tag
 		WHERE
 		user_num = #{userNum}
 	</select>
 
-	<select id="findAllByTagNum" resultType="Tag">
+	<select id="findByTagNum" resultType="Tag">
 		SELECT * FROM Tag
 		WHERE
 		memo_num = #{memoNum}
 	</select>
 
-	<insert id="insert" useGeneratedKeys="true"
-		keyProperty="tagNum">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="tagNum">
 		INSERT
-		User (user_id, user_pass, pass_find_qust,
-		pass_find_ansr)
+		Tag (user_num, tag_name)
 		VALUES
-		(#{userId}, #{userPass}, #{passFindQust},
-		#{passFindAnsr})
+		(#{userNum}, #{tagName})
 	</insert>
 
 	<update id="update">
