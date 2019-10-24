@@ -12,6 +12,10 @@ $(function() {
 					'<a class="tagA">' + userTags[i]
 							+ '<i class="times grey icon"></i></a>');
 		}
+	} else {
+		$(".tagA").each(function(index) {
+			userTags.push($(this).text());
+		});
 	}
 
 	// tag칸 어디를 입력하든 input태그 포커스

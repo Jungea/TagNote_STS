@@ -4,6 +4,12 @@
 
 <mapper namespace="net.skhu.mapper.TMMapper">
 
+	<select id="findByMemoNum" resultType="TM">
+		SELECT * FROM TM
+		WHERE
+		memo_num = #{memoNum}
+	</select>
+
 	<insert id="insert" useGeneratedKeys="true"
 		keyProperty="tagMemoNum">
 		INSERT

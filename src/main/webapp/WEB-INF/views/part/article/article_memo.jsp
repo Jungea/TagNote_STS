@@ -120,6 +120,9 @@ a.tagA:hover {
 						<input type="hidden" class="tagString" name="tagString"
 							value="${memo.tagString}" form="textarea_form" />
 						<!-- 사용자에게 보여지는 태그들 -->
+						<c:forEach var="tag" items="${memo.tags}">
+							<a class="tagA">${tag.tagName}<i class="times grey icon"></i></a>
+						</c:forEach>
 						<input class="taginput" type="text" placeholder="태그 입력">
 					</div>
 
@@ -128,7 +131,7 @@ a.tagA:hover {
 
 				<form:form id="textarea_form" class="field wrap" method="post"
 					modelAttribute="memo">
-					<form:label path="memoDate" class="memoDate" />
+					<label class="memoDate">최종수정 : ${memo.memoDate}</label>
 					<form:textarea path="memoText" class="memoText"
 						style="background-color: LightYellow;" />
 				</form:form>

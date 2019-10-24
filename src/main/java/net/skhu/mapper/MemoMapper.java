@@ -8,7 +8,7 @@ import net.skhu.dto.Memo;
 
 @Mapper
 public interface MemoMapper {
-	Memo findOne(int memoNum); // 메모 수정할떄
+	Memo findOneWithTags(int memoNum); // 메모 수정할떄
 
 	List<Memo> findByUserNum(int userNum); // 아직 안씀
 

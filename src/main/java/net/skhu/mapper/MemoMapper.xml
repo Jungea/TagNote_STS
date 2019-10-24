@@ -4,32 +4,26 @@
 
 <mapper namespace="net.skhu.mapper.MemoMapper">
 
-	<select id="findOne" resultType="Memo">
-		SELECT * FROM Memo WHERE
-		memo_num = #{memoNum}
+	<select id="findOneWithTags" resultMap="resultMap1">
+		SELECT m.memo_num,
+		m.user_num, m.memo_text, date_format(m.memo_date, '%y-%m-%d %H:%i')
+		'memo_date', m.impt_memo, m.del_memo, t.tag_num, t.tag_name FROM memo
+		m JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num =
+		t.tag_num WHERE m.memo_num = #{memoNum}
 	</select>
 
 	<select id="findByUserNum" resultType="Memo">
-		SELECT * FROM Memo
-		WHERE
+		SELECT * FROM Memo WHERE
 		user_num = #{userNum}
 	</select>
 
 	<select id="findByUserNumWithTags" resultMap="resultMap1">
 		SELECT m.memo_num,
 		m.user_num, m.memo_text, date_format(m.memo_date, '%y-%m-%d %H:%i')
-		'memo_date',
-		m.impt_memo, m.del_memo,
-		t.tag_num,
-		t.tag_name FROM memo m
-		JOIN tm ON
-		m.memo_num=tm.memo_num
-		JOIN tag t ON
-		tm.tag_num = t.tag_num
-		JOIN user u
-		ON m.user_num =
-		u.user_num WHERE
-		u.user_num = #{userNum}
+		'memo_date', m.impt_memo, m.del_memo,
+		t.tag_num, t.tag_name FROM memo m
+		JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num = t.tag_num
+		WHERE m.user_num = #{userNum}
 	</select>
 
 	<resultMap id="resultMap1" type="Memo">
@@ -48,25 +42,19 @@
 
 
 	<select id="findByTagNum" resultType="Memo">
-		SELECT * FROM Memo
-		WHERE
+		SELECT * FROM Memo WHERE
 		user_num = #{tagNum}
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true"
 		keyProperty="memoNum">
-		INSERT
-		Memo (user_num, memo_text, memo_date)
-		VALUES
+		INSERT Memo (user_num, memo_text, memo_date) VALUES
 		(#{userNum}, #{memoText}, #{memoDate})
 	</insert>
 
 	<update id="update">
-		UPDATE User SET
-		user_pass = #{userPass}
-		WHERE
-		pass_find_qust =
-		#{passFindQust} and pass_find_ansr = #{passFindAnsr}
+		UPDATE Memo SET memo_text = #{memoText}, memo_date =
+		#{memoDate} WHERE memo_num = #{memoNum}
 	</update>
 
 	<delete id="delete">

@@ -239,19 +239,56 @@ public class TagnoteController {
 
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
 	public String edit(Model model, @RequestParam("memoNum") int memoNum) {
-//		Student student = studentMapper.findOne(id);
-//		List<Department> departments = departmentMapper.findAll();
-//		model.addAttribute("student", student);
-//		model.addAttribute("departments", departments);
-		System.out.println("memo " + memoNum + "번");
-		// return "student/edit";
+		Memo memo = memoMapper.findOneWithTags(memoNum);
+		model.addAttribute("memo", memo);
+		System.out.println(memo);
+		System.out.println(memo.getTags());
 		return "memo";
-
 	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public String edit(Model model, Memo memo) {
-//		studentMapper.update(student);
+		System.out.println(memo);
+
+		List<Tag> userTag = tagMapper.findByUserNum(memo.getUserNum());
+
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date time = new Date();
+		String memoDate = format1.format(time);
+		memo.setMemoDate(memoDate);
+
+		memoMapper.update(memo); // 1. 메모 insert (userNum, memoText, memoDate)
+
+		// 2. 없는 태그 추가 (userNum, tagName)
+		List<String> tagStringList = new ArrayList<>(Arrays.asList(memo.getTagString().split(" ")));
+
+		List<Tag> existTags = new ArrayList<>();
+		for (Tag t : userTag) {
+			if (tagStringList.contains(t.getTagName())) {
+				existTags.add(t);
+				tagStringList.remove(t.getTagName());
+			}
+		}
+
+		System.out.println(tagStringList); // 추가할 태그(tag insert, tm insert)
+		System.out.println(existTags); // 존재하는 태그(tm만 insert)
+
+		List<TM> beforeMemoTags = tmMapper.findByMemoNum(memo.getMemoNum()); // 업데이트 전 메모의 태그들
+		// 1.beforeMemoTags 복사 리스트
+		// 2.before - exist ==> tm에서 제거(tagNum으로 delete)
+		// 3.exist - 복사 리스트 ==> tm에 추가 (insert)
+		// 4.update한 메모 다시 불러오기
+
+		for (String s : tagStringList) {
+			Tag t = new Tag(memo.getUserNum(), s);
+			tagMapper.insert(t);
+			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum())); // 3. 태그 만들어서 tm 추가 (tagNum, memoNum)
+		}
+
+		for (Tag t : existTags)
+			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum()));
+		// 3. 이미 만들어진 태그 tm 추가 (tagNum, memoNum)
+
 		return "memo";
 
 	}
