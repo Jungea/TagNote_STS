@@ -20,7 +20,8 @@
 	</insert>
 
 	<delete id="delete">
-		DELETE FROM tm WHERE tag_memo_num = #{tagMemoNum}
+		DELETE FROM tm WHERE tag_num = #{tagNum} and memo_num
+		= #{memoNum}
 	</delete>
 
 </mapper>

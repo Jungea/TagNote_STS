@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @Data
-public class Tag {
+public class Tag implements Cloneable {
 	int tagNum;
 	int userNum;
 	String tagName;
@@ -15,5 +15,11 @@ public class Tag {
 	public Tag(int userNum, String tagName) {
 		this.userNum = userNum;
 		this.tagName = tagName;
+	}
+
+	@Override
+	public Tag clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return (Tag) super.clone();
 	}
 }

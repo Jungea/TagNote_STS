@@ -13,5 +13,5 @@ public interface TMMapper {
 
 	void insert(TM tm);
 
-	void delete(int tagMemoNum);
+	void delete(TM tm);
 }

@@ -206,8 +206,6 @@ public class TagnoteController {
 		String memoDate = format1.format(time);
 		memo.setMemoDate(memoDate);
 
-		System.out.println(memo);
-
 		memoMapper.insert(memo); // 1. 메모 insert (userNum, memoText, memoDate)
 
 		// 2. 없는 태그 추가 (userNum, tagName)
@@ -220,9 +218,6 @@ public class TagnoteController {
 				tagStringList.remove(t.getTagName());
 			}
 		}
-
-		System.out.println(tagStringList); // 추가할 태그(tag insert, tm insert)
-		System.out.println(existTags); // 존재하는 태그(tm만 insert)
 
 		for (String s : tagStringList) {
 			Tag t = new Tag(memo.getUserNum(), s);
@@ -241,56 +236,82 @@ public class TagnoteController {
 	public String edit(Model model, @RequestParam("memoNum") int memoNum) {
 		Memo memo = memoMapper.findOneWithTags(memoNum);
 		model.addAttribute("memo", memo);
-		System.out.println(memo);
-		System.out.println(memo.getTags());
 		return "memo";
 	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
-	public String edit(Model model, Memo memo) {
-		System.out.println(memo);
+	public String edit(Model model, HttpServletRequest request, Memo memo) throws CloneNotSupportedException {
+		System.out.println("form 입력값 memo ------ " + memo);
 
-		List<Tag> userTag = tagMapper.findByUserNum(memo.getUserNum());
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		memo.setUserNum(user.getUserNum());
 
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 		Date time = new Date();
-		String memoDate = format1.format(time);
+		String memoDate = format.format(time);
 		memo.setMemoDate(memoDate);
 
-		memoMapper.update(memo); // 1. 메모 insert (userNum, memoText, memoDate)
+		// 1. 메모 insert (userNum, memoText, memoDate)
+		memoMapper.update(memo);
 
-		// 2. 없는 태그 추가 (userNum, tagName)
-		List<String> tagStringList = new ArrayList<>(Arrays.asList(memo.getTagString().split(" ")));
+		// 2. 태그 확인 (userNum, tagName)
+		List<String> tagStringSplitList = new ArrayList<>(Arrays.asList(memo.getTagString().split(" ")));
+		// 띄어쓰기로 구분된 태그문자열을 split한 리스트
 
-		List<Tag> existTags = new ArrayList<>();
-		for (Tag t : userTag) {
-			if (tagStringList.contains(t.getTagName())) {
-				existTags.add(t);
-				tagStringList.remove(t.getTagName());
+		List<Tag> allUserTagList = tagMapper.findByUserNum(memo.getUserNum());
+		// 해당 사용자의 모든 태그 리스트
+
+		List<Tag> alreadyExistTagList = new ArrayList<>();
+		// 이미 존재하는 태그 리스트
+		for (Tag t : allUserTagList) { // 이미 만들어져 있는 태그 인지 확인
+			if (tagStringSplitList.contains(t.getTagName())) {
+				alreadyExistTagList.add(t);
+				tagStringSplitList.remove(t.getTagName());
 			}
 		}
 
-		System.out.println(tagStringList); // 추가할 태그(tag insert, tm insert)
-		System.out.println(existTags); // 존재하는 태그(tm만 insert)
+		// 3. 태그, TM 관리
 
-		List<TM> beforeMemoTags = tmMapper.findByMemoNum(memo.getMemoNum()); // 업데이트 전 메모의 태그들
-		// 1.beforeMemoTags 복사 리스트
-		// 2.before - exist ==> tm에서 제거(tagNum으로 delete)
-		// 3.exist - 복사 리스트 ==> tm에 추가 (insert)
-		// 4.update한 메모 다시 불러오기
-
-		for (String s : tagStringList) {
+		// [[[[추가할 태그]]]] - tag insert/ tm insert 필요
+		// 태그 만들어서 tm 추가 (tagNum, memoNum)
+		for (String s : tagStringSplitList) {
 			Tag t = new Tag(memo.getUserNum(), s);
 			tagMapper.insert(t);
-			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum())); // 3. 태그 만들어서 tm 추가 (tagNum, memoNum)
+			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum()));
 		}
 
-		for (Tag t : existTags)
+		// [[[이미 만들어져 있는 태그]]] - tm insert 필요
+		// 유지, 추가(tm insert), 삭제(tm delete) 태그 구별
+		List<Tag> pastMemoTagList = tagMapper.findByMemoNum(memo.getMemoNum()); // 업데이트 전 메모 태그 리스트
+		System.out.println("past - " + pastMemoTagList);
+		List<Tag> pastMemoTagListCopy = cloneList(pastMemoTagList); // pastMemoTagList 복사 리스트
+
+		// past - exist ==> tm에서 제거(tagNum, memoNum으로 delete)
+		pastMemoTagList.removeAll(alreadyExistTagList);
+		for (Tag t : pastMemoTagList)
+			tmMapper.delete(new TM(memo.getMemoNum(), t.getTagNum()));
+
+		// exist - past 복사 리스트 ==> tm에 추가 (insert)
+		alreadyExistTagList.removeAll(pastMemoTagListCopy);
+		for (Tag t : alreadyExistTagList)
 			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum()));
-		// 3. 이미 만들어진 태그 tm 추가 (tagNum, memoNum)
+
+		System.out.println("past - " + pastMemoTagList);
+		System.out.println("already - " + alreadyExistTagList);
+
+		// 4.update한 메모 다시 불러오기
+		Memo m = memoMapper.findOneWithTags(memo.getMemoNum());
+		model.addAttribute("memo", memo);
 
 		return "memo";
+	}
 
+	public static List<Tag> cloneList(List<Tag> list) throws CloneNotSupportedException {
+		List<Tag> clone = new ArrayList<Tag>(list.size());
+		for (Tag item : list)
+			clone.add(item.clone());
+		return clone;
 	}
 
 	@RequestMapping("delete")

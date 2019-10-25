@@ -6,7 +6,7 @@
 
 	<select id="findOneWithTags" resultMap="resultMap1">
 		SELECT m.memo_num,
-		m.user_num, m.memo_text, date_format(m.memo_date, '%y-%m-%d %H:%i')
+		m.user_num, m.memo_text, date_format(m.memo_date, '%Y.%m.%d %H:%i')
 		'memo_date', m.impt_memo, m.del_memo, t.tag_num, t.tag_name FROM memo
 		m JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num =
 		t.tag_num WHERE m.memo_num = #{memoNum}
@@ -19,7 +19,7 @@
 
 	<select id="findByUserNumWithTags" resultMap="resultMap1">
 		SELECT m.memo_num,
-		m.user_num, m.memo_text, date_format(m.memo_date, '%y-%m-%d %H:%i')
+		m.user_num, m.memo_text, date_format(m.memo_date, '%Y.%m.%d %H:%i')
 		'memo_date', m.impt_memo, m.del_memo,
 		t.tag_num, t.tag_name FROM memo m
 		JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num = t.tag_num

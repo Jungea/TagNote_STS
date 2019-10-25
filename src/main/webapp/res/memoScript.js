@@ -5,7 +5,6 @@ $(function() {
 	var userTags = [];
 	if (tag.length != 0) {
 		userTags = tag.split(' ');
-		alert(userTags);
 
 		for ( var i in userTags) {
 			$(".taginput").before(
@@ -63,7 +62,6 @@ $(function() {
 		var s = userTags.join(' ')
 
 		$('.tagString').val(s)
-		alert($('.tagString').val())
 	});
 
 	// /////////////////////////////////////////////////
