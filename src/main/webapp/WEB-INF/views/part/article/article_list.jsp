@@ -42,14 +42,26 @@
 						<div class=""
 							style="border: 1px solid lightgray; padding: 10px; width: 40px; height: 40px;">
 							<div class="ui fitted checkbox">
-								<input type="checkbox"> <label></label>
+								<input type="checkbox" class="checkbox_all"> <label></label>
 							</div>
 						</div>
 					</div>
 					<div class="thirteen wide column left aligned"
 						style="padding-left: 5px;">
-						<button class="ui button basic"
-							onclick="alert('선택한 메모를 삭제하시겠습니까?')">삭제</button>
+						<c:if test="${memos.get(0).delMemo == 1}">
+
+							<button class="ui button basic"
+								onclick="alert('선택한 메모를 삭제하시겠습니까?')">삭제</button>
+
+						</c:if>
+						<c:if test="${memos.get(0).delMemo == 0}">
+
+							<button class="ui button basic"
+								onclick="alert('선택한 메모를 삭제하시겠습니까?')">복원</button>
+							<button class="ui button basic"
+								onclick="alert('선택한 메모를 삭제하시겠습니까?')">영구삭제</button>
+
+						</c:if>
 					</div>
 				</div>
 
@@ -78,10 +90,11 @@
 				<tbody>
 					<c:forEach var="memo" items="${memos}">
 
-						<tr data-url="edit?memoNum=${memo.memoNum}">
+						<tr data-url="edit?memoNum=${memo.memoNum}"
+							data-num="${memo.memoNum}">
 							<td class="collapsing">
 								<div class="ui checkbox">
-									<input type="checkbox"> <label></label>
+									<input type="checkbox" class="inputCheck"> <label></label>
 								</div>
 							</td>
 							<td>

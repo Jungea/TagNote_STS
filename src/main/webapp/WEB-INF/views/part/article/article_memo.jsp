@@ -93,7 +93,7 @@ a.tagA:hover {
 						style="padding-left: 5px;">
 						<button class="ui button basic" type="submit" form="textarea_form">저장</button>
 						<button class="ui button basic" type="button"
-							onclick="location.href='list.html'">삭제</button>
+							data-url="trash?memoNum=${memo.memoNum}">삭제</button>
 						<button class="ui button basic" type="button"
 							onclick="window.open('add_tag.html', '_blank', 'width=1000, height=600')">태그목록</button>
 					</div>

@@ -307,16 +307,45 @@ public class TagnoteController {
 		return "memo";
 	}
 
-	public static List<Tag> cloneList(List<Tag> list) throws CloneNotSupportedException {
+	public List<Tag> cloneList(List<Tag> list) throws CloneNotSupportedException {
 		List<Tag> clone = new ArrayList<Tag>(list.size());
 		for (Tag item : list)
 			clone.add(item.clone());
 		return clone;
 	}
 
+	public void tagTableCleanup() {
+		//
+	}
+
+	// 쓰레기통
+	@RequestMapping("trashList")
+	public String trash(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Memo> memos = memoMapper.findTrashByUserNumWithTags(user.getUserNum());
+		model.addAttribute("memos", memos);
+		return "list";
+	}
+
+	// 쓰레기통
+	// 메모는 delMemo 1,
+	@RequestMapping("trash")
+	public String trash(Model model, @RequestParam("memoNum") int memoNum) {
+		memoMapper.trash(memoNum);
+
+		return "redirect:list";
+	}
+
+	// 쓰레기통에서 영구삭제
+	// tm제거, delete 메모, tag 제거
 	@RequestMapping("delete")
 	public String delete(Model model, @RequestParam("memoNum") int memoNum) {
-		memoMapper.delete(memoNum);
+		Memo memo = memoMapper.findOneWithTags(memoNum);
+
+		List<Tag> memoTagList = tagMapper.findByMemoNum(memo.getMemoNum());
+		for (Tag t : memoTagList)
+			tmMapper.delete(new TM(memo.getMemoNum(), t.getTagNum()));
 		return "redirect:list";
 	}
 

@@ -43,7 +43,7 @@
 
 		<div class="navDiv4" style="padding-right: 15px;">
 
-			<a href="trashCan"> <i class="icon trash alternate"
+			<a href="trashList"> <i class="icon trash alternate"
 				style="margin-right: 10px"></i><b>휴지통</b>
 			</a> <span class="test" style="float: right"
 				onclick="confirm('휴지통을 비우시겠습니까?')"> <i
