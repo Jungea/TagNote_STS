@@ -15,6 +15,8 @@ public interface TagMapper {
 
 	List<Tag> findByMemoNum(int memoNum); // 메모 저장했을 때 전에 저장한 태그 가져오기
 
+	List<Tag> findWithoutReference();
+
 	void insert(Tag tag);
 
 	void update(Tag tag);

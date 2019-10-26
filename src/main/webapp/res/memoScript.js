@@ -53,7 +53,7 @@ $(function() {
 	$('.tagarea').on('click', '.times.icon', function() {
 		var atag = $(this).parent();
 		var index = userTags.indexOf(atag.text());
-		userTags.splice(index, index + 1);
+		userTags.splice(index, 1);
 		atag.remove();
 	});
 
@@ -78,6 +78,7 @@ $(function() {
 			$('#mainArticle').scrollTop(d + 20);
 		} else
 			$('#mainArticle').scrollTop(t);
+
 	});
 	$('.wrap').find('textarea').keyup();
 
@@ -90,6 +91,18 @@ $(function() {
 	timer = setInterval(function() {
 		$('textarea').trigger('keyup');
 	}, 500)
+
+	// 자동 저장 (문제. 커서가 맨앞으로 감)
+	// var pastMemoText = $('.memoText').val();
+	// timer2 = setInterval(function() {
+	// var memoText = $('.memoText').val();
+	// if (memoText == "") {
+	// alert("메모를 입력해 주세요.")
+	// } else if (pastMemoText != memoText) {
+	// $('#textarea_form').trigger('submit')
+	// pastMemoText = memoText;
+	// }
+	// }, 5000)
 
 	$(".tagBar").on("click", function(event) {
 		event.stopPropagation();

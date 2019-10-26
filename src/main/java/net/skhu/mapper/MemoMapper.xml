@@ -27,7 +27,8 @@
 		'memo_date', m.impt_memo, m.del_memo,
 		t.tag_num, t.tag_name FROM memo m
 		JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num = t.tag_num
-		WHERE m.user_num = #{userNum} and m.del_memo = 1
+		WHERE m.user_num = #{userNum} and m.del_memo = 1 ORDER BY m.memo_date
+		DESC
 	</select>
 
 
@@ -42,7 +43,8 @@
 		memo m
 		JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num =
 		t.tag_num
-		WHERE m.user_num = #{userNum} and m.del_memo = 0
+		WHERE m.user_num = #{userNum} and m.del_memo = 0 ORDER BY
+		m.memo_date DESC
 	</select>
 
 	<resultMap id="resultMap1" type="Memo">
@@ -81,7 +83,12 @@
 		#{memoNum}
 	</update>
 
+	<update id="restore">
+		UPDATE Memo SET del_memo = 1 WHERE memo_num =
+		#{memoNum}
+	</update>
+
 	<delete id="delete">
-		DELETE FROM User WHERE memo_num = #{memoNum}
+		DELETE FROM Memo WHERE memo_num = #{memoNum}
 	</delete>
 </mapper>

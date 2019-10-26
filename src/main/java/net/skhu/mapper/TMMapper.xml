@@ -24,4 +24,7 @@
 		= #{memoNum}
 	</delete>
 
+	<delete id="deleteByMemoNum">
+		DELETE FROM tm WHERE memo_num = #{memoNum}
+	</delete>
 </mapper>

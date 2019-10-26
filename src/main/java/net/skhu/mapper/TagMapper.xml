@@ -21,6 +21,11 @@
 		TM on t.tag_num = tm.tag_num WHERE tm.memo_num = #{memoNum};
 	</select>
 
+	<select id="findWithoutReference" resultType="Tag">
+		SELECT t.* FROM Tag
+		t LEFT JOIN TM on t.tag_num = tm.tag_num WHERE tm.tag_num IS NULL;
+	</select>
+
 	<insert id="insert" useGeneratedKeys="true" keyProperty="tagNum">
 		INSERT
 		Tag (user_num, tag_name)
@@ -29,13 +34,13 @@
 	</insert>
 
 	<update id="update">
-		UPDATE User SET
+		UPDATE Tag SET
 		user_pass = #{userPass}
 		WHERE
 
 	</update>
 
 	<delete id="delete">
-		DELETE FROM User WHERE memo_num = #{memoNum}
+		DELETE FROM Tag WHERE tag_num = #{tagNum}
 	</delete>
 </mapper>

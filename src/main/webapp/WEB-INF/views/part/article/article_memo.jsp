@@ -92,8 +92,25 @@ a.tagA:hover {
 					<div class="thirteen wide column left aligned"
 						style="padding-left: 5px;">
 						<button class="ui button basic" type="submit" form="textarea_form">저장</button>
-						<button class="ui button basic" type="button"
-							data-url="trash?memoNum=${memo.memoNum}">삭제</button>
+
+						<c:if test="${memo.delMemo == 1}">
+							<c:if test="${memo.memoNum > 0}">
+								<button class="ui button basic" type="button"
+									data-url="trashFromMemo?memoNum=${memo.memoNum}">삭제</button>
+							</c:if>
+							<c:if test="${memo.memoNum == 0}">
+								<button class="ui button basic disabled" type="button"
+									data-url="trashFromMemo?memoNum=${memo.memoNum}" disabled>삭제</button>
+							</c:if>
+
+						</c:if>
+						<c:if test="${memo.delMemo == 0}">
+
+							<button class="ui button basic restore"
+								data-url="restoreFromMemo?memoNum=${memo.memoNum}">복원</button>
+
+						</c:if>
+
 						<button class="ui button basic" type="button"
 							onclick="window.open('add_tag.html', '_blank', 'width=1000, height=600')">태그목록</button>
 					</div>
@@ -131,7 +148,13 @@ a.tagA:hover {
 
 				<form:form id="textarea_form" class="field wrap" method="post"
 					modelAttribute="memo">
-					<label class="memoDate">최종수정 : ${memo.memoDate}</label>
+					<c:if test="${memo.memoNum > 0}">
+						<label class="memoDate">최종수정 : ${memo.memoDate}</label>
+					</c:if>
+					<c:if test="${memo.memoNum == 0}">
+						<label class="memoDate">&nbsp;</label>
+					</c:if>
+
 					<form:textarea path="memoText" class="memoText"
 						style="background-color: LightYellow;" />
 				</form:form>

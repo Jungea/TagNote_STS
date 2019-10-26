@@ -17,13 +17,18 @@ public interface MemoMapper {
 	List<Memo> findByTagNum(int tagNum); // 메뉴의 태그 목록
 
 	List<Memo> findByUserNumWithTags(int userNum); // 메모 리스트
+
 	List<Memo> findTrashByUserNumWithTags(int userNum); // 메모 리스트
 
 	void insert(Memo memo);
 
+	//////
 	void update(Memo memo);
 
-	void trash(int memoNum);
+	void trash(int memoNum); // 휴지통으로 보낼때(삭제)
 
-	void delete(int memoNum);
+	void restore(int memoNum); // 휴지통에서 복원
+
+	//////
+	void delete(int memoNum); // 영구삭제
 }

@@ -14,4 +14,6 @@ public interface TMMapper {
 	void insert(TM tm);
 
 	void delete(TM tm);
+
+	void deleteByMemoNum(int memoNum);
 }

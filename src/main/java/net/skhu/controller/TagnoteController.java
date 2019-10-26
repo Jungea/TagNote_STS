@@ -107,10 +107,8 @@ public class TagnoteController {
 	// 회원가입 화면 내의 가입 버튼 클릭
 	@RequestMapping(value = "membership", method = RequestMethod.POST)
 	public String membership(Model model, User user) {
-//		 userMapper.insert(user);
-		return "login/membership";
-
-		// return "redirect:login";
+		userMapper.insert(user);
+		return "redirect:login";
 
 	}
 
@@ -180,21 +178,17 @@ public class TagnoteController {
 		return "list";
 	}
 
-	@RequestMapping(value = "trashCan")
-	public String trashCan(Model model) {
-		return "list";
-	}
-
-	@RequestMapping(value = "memo", method = RequestMethod.GET)
-	public String memo(Model model) {
+	@RequestMapping(value = "create", method = RequestMethod.GET)
+	public String create(Model model) {
 		Memo memo = new Memo();
+		memo.setDelMemo(1);
 		model.addAttribute("memo", memo);
 		return "memo";
 	}
 
 	// 메모 작성화면에서 저장 클릭
-	@RequestMapping(value = "memo", method = RequestMethod.POST)
-	public String memo(Model model, HttpServletRequest request, Memo memo) {
+	@RequestMapping(value = "create", method = RequestMethod.POST)
+	public String create(Model model, HttpServletRequest request, Memo memo) {
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
@@ -273,14 +267,6 @@ public class TagnoteController {
 
 		// 3. 태그, TM 관리
 
-		// [[[[추가할 태그]]]] - tag insert/ tm insert 필요
-		// 태그 만들어서 tm 추가 (tagNum, memoNum)
-		for (String s : tagStringSplitList) {
-			Tag t = new Tag(memo.getUserNum(), s);
-			tagMapper.insert(t);
-			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum()));
-		}
-
 		// [[[이미 만들어져 있는 태그]]] - tm insert 필요
 		// 유지, 추가(tm insert), 삭제(tm delete) 태그 구별
 		List<Tag> pastMemoTagList = tagMapper.findByMemoNum(memo.getMemoNum()); // 업데이트 전 메모 태그 리스트
@@ -300,9 +286,19 @@ public class TagnoteController {
 		System.out.println("past - " + pastMemoTagList);
 		System.out.println("already - " + alreadyExistTagList);
 
+		// [[[[추가할 태그]]]] - tag insert/ tm insert 필요
+		// 태그 만들어서 tm 추가 (tagNum, memoNum)
+		for (String s : tagStringSplitList) {
+			Tag t = new Tag(memo.getUserNum(), s);
+			tagMapper.insert(t);
+			tmMapper.insert(new TM(memo.getMemoNum(), t.getTagNum()));
+		}
+
+		tagTableCleanup(); // 태그제거
+
 		// 4.update한 메모 다시 불러오기
 		Memo m = memoMapper.findOneWithTags(memo.getMemoNum());
-		model.addAttribute("memo", memo);
+		model.addAttribute("memo", m);
 
 		return "memo";
 	}
@@ -314,11 +310,15 @@ public class TagnoteController {
 		return clone;
 	}
 
-	public void tagTableCleanup() {
-		//
-	}
+	/**
+	 * 휴지통 처리
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 */
 
-	// 쓰레기통
+	// 쓰레기통 화면
 	@RequestMapping("trashList")
 	public String trash(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -328,25 +328,86 @@ public class TagnoteController {
 		return "list";
 	}
 
-	// 쓰레기통
-	// 메모는 delMemo 1,
-	@RequestMapping("trash")
-	public String trash(Model model, @RequestParam("memoNum") int memoNum) {
-		memoMapper.trash(memoNum);
+	// 메모 작성 화면에서 삭제 버튼 클릭 (휴지통으로)
+	@RequestMapping("trashFromMemo")
+	public String trashFromMemo(Model model, @RequestParam("memoNum") int memoNum) {
+		memoMapper.trash(memoNum); // del_memo update
 
 		return "redirect:list";
+	}
+
+	// 리스트 화면에서 체크해서 삭제 버튼 클릭(휴지통으로)
+	@RequestMapping("trashChecked")
+	public String trashChecked(Model model, @RequestParam("memoNumString") String memoNumString) {
+		String[] memmoNumStringSplit = memoNumString.split(" ");
+
+		System.out.println("memmoNumStringSplit ---- " + Arrays.toString(memmoNumStringSplit));
+		for (String memoNum : memmoNumStringSplit)
+			memoMapper.trash(Integer.parseInt(memoNum));
+
+		return "redirect:list";
+	}
+
+	// 메모 작성 화면에서 삭제 버튼 클릭 (휴지통으로)
+	@RequestMapping("restoreFromMemo")
+	public String restoreFromMemo(Model model, @RequestParam("memoNum") int memoNum) {
+		memoMapper.restore(memoNum); // del_memo update
+
+		return "redirect:trashList";
+	}
+
+	// 휴지통 화면에서 체크해서 복원 버튼 클릭(휴지통으로)
+	@RequestMapping("restoreFromTrash")
+	public String restoreFromTrash(Model model, @RequestParam("memoNumString") String memoNumString) {
+		String[] memmoNumStringSplit = memoNumString.split(" ");
+
+		System.out.println("memmoNumStringSplit ---- " + Arrays.toString(memmoNumStringSplit));
+		for (String memoNum : memmoNumStringSplit)
+			memoMapper.restore(Integer.parseInt(memoNum));
+
+		return "redirect:trashList";
 	}
 
 	// 쓰레기통에서 영구삭제
 	// tm제거, delete 메모, tag 제거
 	@RequestMapping("delete")
-	public String delete(Model model, @RequestParam("memoNum") int memoNum) {
-		Memo memo = memoMapper.findOneWithTags(memoNum);
+	public String delete(Model model, @RequestParam("memoNumString") String memoNumString) {
 
-		List<Tag> memoTagList = tagMapper.findByMemoNum(memo.getMemoNum());
-		for (Tag t : memoTagList)
-			tmMapper.delete(new TM(memo.getMemoNum(), t.getTagNum()));
-		return "redirect:list";
+		String[] memmoNumStringSplit = memoNumString.split(" ");
+
+		System.out.println("memmoNumStringSplit ---- " + Arrays.toString(memmoNumStringSplit));
+		for (String memoNum : memmoNumStringSplit) {
+
+			tmMapper.deleteByMemoNum(Integer.parseInt(memoNum)); // 해당 메모의 tm다 제거
+			memoMapper.delete(Integer.parseInt(memoNum)); // 해당 메모 제거
+		}
+
+		tagTableCleanup(); // 태그제거
+		return "redirect:trashList";
+	}
+
+	@RequestMapping("deleteAll")
+	public String deleteAll(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Memo> memos = memoMapper.findTrashByUserNumWithTags(user.getUserNum());
+
+		for (Memo memo : memos) {
+
+			tmMapper.deleteByMemoNum(memo.getMemoNum()); // 해당 메모의 tm다 제거
+			memoMapper.delete(memo.getMemoNum()); // 해당 메모 제거
+		}
+
+		tagTableCleanup(); // 태그제거
+		return "redirect:trashList";
+	}
+
+	// 연결된 메모가 없는 태그들 제거(delete)
+	public void tagTableCleanup() {
+		List<Tag> withoutReferenceTagList = tagMapper.findWithoutReference(); // 연결된 메모가 없는 태그 리스트
+		System.out.println("withoutReferenceTagList --- " + withoutReferenceTagList);
+		for (Tag t : withoutReferenceTagList)
+			tagMapper.delete(t.getTagNum()); // 태그 삭제
 	}
 
 }

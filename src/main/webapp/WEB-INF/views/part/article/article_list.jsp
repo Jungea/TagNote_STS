@@ -48,19 +48,21 @@
 					</div>
 					<div class="thirteen wide column left aligned"
 						style="padding-left: 5px;">
-						<c:if test="${memos.get(0).delMemo == 1}">
-
-							<button class="ui button basic"
-								onclick="alert('선택한 메모를 삭제하시겠습니까?')">삭제</button>
-
+						<c:if test="${memos.size() == 0}">
+							<button class="ui button basic trash disabled" disabled>삭제</button>
 						</c:if>
-						<c:if test="${memos.get(0).delMemo == 0}">
+						<c:if test="${memos.size() > 0}">
+							<c:if test="${memos.get(0).delMemo == 1}">
 
-							<button class="ui button basic"
-								onclick="alert('선택한 메모를 삭제하시겠습니까?')">복원</button>
-							<button class="ui button basic"
-								onclick="alert('선택한 메모를 삭제하시겠습니까?')">영구삭제</button>
+								<button class="ui button basic trash">삭제</button>
 
+							</c:if>
+							<c:if test="${memos.get(0).delMemo == 0}">
+
+								<button class="ui button basic restore">복원</button>
+								<button class="ui button basic permanentlyDelete">영구삭제</button>
+
+							</c:if>
 						</c:if>
 					</div>
 				</div>

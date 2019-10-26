@@ -11,7 +11,7 @@
 	<nav id="mainNav">
 
 		<div class="navDiv1">
-			<button class="ui teal button" data-url="memo">새 메모 쓰기</button>
+			<button class="ui teal button" data-url="create">새 메모 쓰기</button>
 		</div>
 
 		<div class="navDiv2">
@@ -45,8 +45,7 @@
 
 			<a href="trashList"> <i class="icon trash alternate"
 				style="margin-right: 10px"></i><b>휴지통</b>
-			</a> <span class="test" style="float: right"
-				onclick="confirm('휴지통을 비우시겠습니까?')"> <i
+			</a> <span class="navDiv4-trash-span" style="float: right"> <i
 				class="icon trash alternate outline small"></i>
 			</span>
 		</div>
