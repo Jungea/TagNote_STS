@@ -17,6 +17,8 @@ public interface TagMapper {
 
 	List<Tag> findWithoutReference();
 
+	List<Tag> findLiving(int userNum); // 메뉴의 태그 목록을 위한 살아있는 태그 리스트
+
 	void insert(Tag tag);
 
 	void update(Tag tag);

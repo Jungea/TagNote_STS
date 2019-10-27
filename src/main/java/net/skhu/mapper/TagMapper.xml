@@ -3,19 +3,21 @@
              "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.skhu.mapper.TagMapper">
-
+	<!-- -->
 	<select id="findOne" resultType="Tag">
 		SELECT * FROM Tag WHERE
 		tag_num =
 		#{tagNum}
 	</select>
 
+	<!-- 메모 insert할 때 이미 만들어져 있는 태그인지 확인 -->
 	<select id="findByUserNum" resultType="Tag">
 		SELECT * FROM Tag
 		WHERE
 		user_num = #{userNum}
 	</select>
 
+	<!-- 메모 저장했을 때 전에 저장한 태그 가져오기 -->
 	<select id="findByMemoNum" resultType="Tag">
 		SELECT t.* FROM Tag t JOIN
 		TM on t.tag_num = tm.tag_num WHERE tm.memo_num = #{memoNum};
@@ -24,6 +26,13 @@
 	<select id="findWithoutReference" resultType="Tag">
 		SELECT t.* FROM Tag
 		t LEFT JOIN TM on t.tag_num = tm.tag_num WHERE tm.tag_num IS NULL;
+	</select>
+
+	<!-- 메뉴의 태그 목록을 위한 살아있는 태그 리스트 -->
+	<select id="findLiving" resultType="Tag">
+		SELECT distinct t.* FROM tag
+		t JOIN tm ON t.tag_num = tm.tag_num JOIN memo m ON tm.memo_num =
+		m.memo_num WHERE m.del_memo = 1 and t.user_num = #{userNum}
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="tagNum">
