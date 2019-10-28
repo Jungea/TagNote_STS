@@ -31,6 +31,61 @@ body>.grid {
 }
 </style>
 
+<script>
+	$(function() {
+		$("#membership_form").submit(function() {
+			$('.error').each(function() {
+				$(this).toggleClass('error');
+			});
+
+			var errorText = "";
+
+			var userId = $('#userId').val();
+			if (isEmptyOrWhiteSpace(userId)) {
+				errorText += "아이디를 입력하세요. \n";
+				$('#userId').parent().parent().addClass('error')
+			}
+			var userPass = $('#userPass').val();
+			if (isEmptyOrWhiteSpace(userPass)) {
+				errorText += "비밀번호를 입력하세요. \n";
+				$('#userPass').parent().parent().addClass('error')
+			}
+			var userPass2 = $('#userPass2').val();
+			if (isEmptyOrWhiteSpace(userPass2)) {
+				errorText += "비밀번호 확인을 입력하세요. \n";
+				$('#userPass2').parent().parent().addClass('error')
+			}
+
+			if (errorText.length < 15) {
+				if (userPass != userPass2) {
+					errorText += "비밀번호가 일치하지 않습니다. \n";
+					$('#userPass2').parent().parent().addClass('error')
+				}
+			}
+
+			var passFindAnsr = $('#passFindAnsr').val();
+			if (isEmptyOrWhiteSpace(passFindAnsr)) {
+				errorText += "비밀번호 찾기 답변을 입력하세요. \n";
+				$('#passFindAnsr').parent().parent().addClass('error')
+			}
+
+			if (errorText.length != 0) {
+				alert(errorText)
+				return false;
+			}
+
+		})
+
+		function isEmptyOrWhiteSpace(inputValue) {
+
+			if (inputValue == null)
+				return true;
+			return inputValue.trim().length == 0;
+		}
+
+	})
+</script>
+
 <script type="text/javascript">
 	var openWin;
 
@@ -90,7 +145,7 @@ body>.grid {
 						<div class="field" style="text-align: left;">
 							<label>비밀번호 확인</label>
 							<div class="ui left icon input">
-								<i class="lock icon"></i> <input type="password"
+								<i class="lock icon"></i> <input type="password" id="userPass2"
 									name="userPass2" value="" placeholder="비밀번호 확인">
 							</div>
 						</div>

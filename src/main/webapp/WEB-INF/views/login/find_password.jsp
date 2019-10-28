@@ -31,6 +31,44 @@ body>.grid {
 }
 </style>
 
+<script>
+	$(function() {
+		$("#findPassword_form").submit(function() {
+			$('.error').each(function() {
+				$(this).toggleClass('error');
+			});
+
+			var errorText = "";
+
+			var userId = $('#userId').val();
+			if (isEmptyOrWhiteSpace(userId)) {
+				errorText += "아이디를 입력하세요. \n";
+				$('#userId').parent().parent().addClass('error')
+			}
+
+			var passFindAnsr = $('#passFindAnsr').val();
+			if (isEmptyOrWhiteSpace(passFindAnsr)) {
+				errorText += "비밀번호 찾기 답변을 입력하세요. \n";
+				$('#passFindAnsr').parent().parent().addClass('error')
+			}
+
+			if (errorText.length != 0) {
+				alert(errorText)
+				return false;
+			}
+
+		})
+
+		function isEmptyOrWhiteSpace(inputValue) {
+
+			if (inputValue == null)
+				return true;
+			return inputValue.trim().length == 0;
+		}
+
+	})
+</script>
+
 </head>
 <body>
 

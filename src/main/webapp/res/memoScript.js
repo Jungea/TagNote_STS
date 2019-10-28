@@ -59,6 +59,20 @@ $(function() {
 
 	// submit 시 tag들을 input type hidden에 넣어서 보내기
 	$('#textarea_form').submit(function(event) {
+		var errorText = "";
+
+		if (userTags.length == 0) {
+			errorText += "태그를 입력하세요. \n";
+		}
+		if ($('.memoText').val() == "") {
+			errorText += "메모를 입력하세요. \n";
+		}
+
+		if (errorText != 0) {
+			alert(errorText);
+			return false;
+		}
+		
 		var s = userTags.join(' ')
 
 		$('.tagString').val(s)

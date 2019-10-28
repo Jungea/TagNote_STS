@@ -31,6 +31,43 @@ a {
 }
 </style>
 
+<script>
+	$(function() {
+		$("#loginForm").submit(function() {
+			$('.error').each(function() {
+				$(this).toggleClass('error');
+			});
+
+			var errorText = "";
+
+			var userId = $('#userId').val();
+			if (isEmptyOrWhiteSpace(userId)) {
+				errorText += "아이디를 입력하세요. \n";
+				$('#userId').parent().parent().addClass('error')
+			}
+			var userPass = $('#userPass').val();
+			if (isEmptyOrWhiteSpace(userPass)) {
+				errorText += "비밀번호를 입력하세요. \n";
+				$('#userPass').parent().parent().addClass('error')
+			}
+
+			if (errorText.length != 0) {
+				alert(errorText)
+				return false;
+			}
+
+		})
+
+		function isEmptyOrWhiteSpace(inputValue) {
+
+			if (inputValue == null)
+				return true;
+			return inputValue.trim().length == 0;
+		}
+
+	})
+</script>
+
 </head>
 <body>
 
@@ -38,7 +75,8 @@ a {
 		<div class="column">
 			<h1 class="ui teal header" style="font-size: 40px;">TAGNOTE</h1>
 
-			<form:form method="post" class="ui form" modelAttribute="user">
+			<form:form method="post" class="ui form" modelAttribute="user"
+				id="loginForm">
 				<div class="ui segment">
 					<div class="field" style="text-align: left;">
 						<label>아이디</label>

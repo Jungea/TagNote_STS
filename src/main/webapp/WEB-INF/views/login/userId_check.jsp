@@ -30,6 +30,32 @@
 			alert("이미 사용중인 아이디입니다.")
 		}
 
+		$("#userIdCheck_form").submit(function() {
+			$('.error').each(function() {
+				$(this).toggleClass('error');
+			});
+
+			var errorText = "";
+
+			var userId = $('#userId').val();
+			if (isEmptyOrWhiteSpace(userId)) {
+				errorText += "아이디를 입력하세요. \n";
+				$('#userId').parent().parent().addClass('error')
+			}
+			if (errorText.length != 0) {
+				alert(errorText)
+				return false;
+			}
+
+		})
+
+		function isEmptyOrWhiteSpace(inputValue) {
+
+			if (inputValue == null)
+				return true;
+			return inputValue.trim().length == 0;
+		}
+
 	})
 </script>
 
@@ -54,7 +80,8 @@ a {
 
 			<div class="ui grid middle aligned center aligned">
 				<div class="inner column">
-					<form method="post" class="ui form" action="userIdCheck">
+					<form method="post" class="ui form" action="userIdCheck"
+						id="userIdCheck_form">
 						<div class="ui segment">
 							<div class="field" style="text-align: left;">
 								<label>아이디</label>
