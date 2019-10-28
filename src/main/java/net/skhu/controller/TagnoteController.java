@@ -127,7 +127,7 @@ public class TagnoteController {
 
 		if (u != null) {
 			HttpSession session = request.getSession();
-			session.setAttribute("user", u);
+			session.setAttribute("findPassUser", u);
 			return "redirect:changePassword";
 		}
 
@@ -146,7 +146,7 @@ public class TagnoteController {
 	@RequestMapping(value = "changePassword", method = RequestMethod.POST)
 	public String changePassword(Model model, HttpServletRequest request, @RequestParam("userPass") String userPass) {
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user"); // 비밀번호 변경 화면에서 추가한 user 정보
+		User user = (User) session.getAttribute("findPassUser"); // 비밀번호 변경 화면에서 추가한 user 정보
 		user.setUserPass(userPass); // user 정보에 비밀번호 변경
 		userMapper.update(user); // 비밀번호 업데이트
 
