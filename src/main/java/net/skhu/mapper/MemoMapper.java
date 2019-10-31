@@ -18,7 +18,11 @@ public interface MemoMapper {
 
 	List<Memo> findByUserNumWithTags(int userNum); // 메모 리스트
 
-	List<Memo> findTrashByUserNumWithTags(int userNum); // 메모 리스트
+	List<Memo> findTrashByUserNumWithTags(int userNum); // 쓰레기통 메모 리스트
+
+	List<Memo> findImptByUserNumWithTags(int userNum); // 중요 메모 리스트
+
+	List<Memo> findRecentByUserNumWithTags(int userNum); // 중요 메모 리스트
 
 	void insert(Memo memo);
 
@@ -28,6 +32,10 @@ public interface MemoMapper {
 	void trash(int memoNum); // 휴지통으로 보낼때(삭제)
 
 	void restore(int memoNum); // 휴지통에서 복원
+
+	void impt(int memoNum); // 휴지통에서 복원
+
+	void notImpt(int memoNum); // 휴지통에서 복원
 
 	//////
 	void delete(int memoNum); // 영구삭제

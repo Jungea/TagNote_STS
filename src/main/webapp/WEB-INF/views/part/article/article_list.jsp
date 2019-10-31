@@ -83,7 +83,7 @@
 								<input type="checkbox" checked> <label></label>
 							</div>
 						</th>
-						<th class="one wide"><div class="fixed ui star rating "
+						<th class="one wide"><div class="fixed ui star rating"
 								data-rating="1" data-max-rating="1"></div></th>
 						<th class="eleven wide">Tags</th>
 						<th class="three wide">Date</th>
@@ -100,8 +100,8 @@
 								</div>
 							</td>
 							<td>
-								<div class="ui star rating" data-max-rating="1"
-									data-rating="${memo.imptMemo} }"></div>
+								<div class="ui star rating impt" data-max-rating="1"
+									data-rating="${memo.imptMemo}"></div>
 							</td>
 							<td><c:forEach var="tag" items="${memo.tags}">${tag.tagName}&nbsp;&nbsp;</c:forEach></td>
 							<td>${memo.memoDate}</td>

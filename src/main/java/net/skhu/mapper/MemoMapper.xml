@@ -47,6 +47,37 @@
 		m.memo_date DESC
 	</select>
 
+
+	<select id="findImptByUserNumWithTags" resultMap="resultMap1">
+		SELECT
+		m.memo_num,
+		m.user_num, m.memo_text, date_format(m.memo_date, '%Y.%m.%d
+		%H:%i')
+		'memo_date', m.impt_memo, m.del_memo,
+		t.tag_num, t.tag_name FROM
+		memo m
+		JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num =
+		t.tag_num
+		WHERE m.user_num = #{userNum} and m.del_memo = 1 and
+		impt_memo = 1 ORDER BY
+		m.memo_date DESC
+	</select>
+
+	<select id="findRecentByUserNumWithTags" resultMap="resultMap1">
+		SELECT
+		m.memo_num,
+		m.user_num, m.memo_text, date_format(m.memo_date, '%Y.%m.%d
+		%H:%i')
+		'memo_date', m.impt_memo, m.del_memo,
+		t.tag_num, t.tag_name FROM
+		memo m
+		JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num =
+		t.tag_num
+		WHERE m.user_num = #{userNum} and m.del_memo = 1 and
+		memo_date BETWEEN date_add(now(),interval -7 day) and now() ORDER BY
+		m.memo_date DESC
+	</select>
+
 	<resultMap id="resultMap1" type="Memo">
 		<id property="memoNum" column="memo_num" />
 		<result property="userNum" column="user_num" />
@@ -85,6 +116,16 @@
 
 	<update id="restore">
 		UPDATE Memo SET del_memo = 1 WHERE memo_num =
+		#{memoNum}
+	</update>
+
+	<update id="impt">
+		UPDATE Memo SET impt_memo = 1 WHERE memo_num =
+		#{memoNum}
+	</update>
+	
+	<update id="notImpt">
+		UPDATE Memo SET impt_memo = 0 WHERE memo_num =
 		#{memoNum}
 	</update>
 

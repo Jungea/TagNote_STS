@@ -64,7 +64,20 @@ $(function() {
 	$('#target').accordion({
 		exclusive : false
 	});
+
 	$('.ui.rating').rating();
+	$('.ui.rating.impt').click(function(event) {
+		var memoNum = $(this).parent().parent().attr("data-num");
+		if (memoNum == 0) {
+			alert("메모 저장 후 사용 가능한 기능입니다.")
+		} else {
+			if ($(this).children('i').hasClass('active')) {
+				location.href = 'impt?memoNum=' + memoNum;
+			} else {
+				location.href = 'notImpt?memoNum=' + memoNum;
+			}
+		}
+	});
 
 	$('.ui.dropdown').dropdown();
 })

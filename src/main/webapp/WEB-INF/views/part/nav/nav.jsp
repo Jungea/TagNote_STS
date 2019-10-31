@@ -16,13 +16,13 @@
 
 		<div class="navDiv2">
 			<div class="ui list">
-				<a class="item" href="star">
+				<a class="item" href="imptList">
 					<div class="fixed ui star rating" data-rating="1"
 						data-max-rating="1" style="float: left; margin-right: 9px;"></div>
 					<div class="content">
 						<b>중요한 메모</b>
 					</div>
-				</a> <a class="item" href="recent"> <i
+				</a> <a class="item" href="recentList"> <i
 					class="icon sticky note outline" style="padding-left: 3px;"></i>
 					<div class="content">
 						<b>최근본 메모</b>

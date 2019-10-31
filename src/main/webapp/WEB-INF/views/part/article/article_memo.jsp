@@ -77,16 +77,18 @@ a.tagA:hover {
 				</div>
 
 				<div class="row">
-					<div class="three wide column">
+					<div class="three wide column" data-num="${memo.memoNum}">
 						<div
 							style="border: 1px solid lightgray; width: 40px; height: 40px; padding-top: 9px;">
-							<div class="fixed ui star rating huge" data-max-rating="1"></div>
+							<div class="fixed ui star rating huge impt" data-max-rating="1"
+								data-rating="${memo.imptMemo}"></div>
 						</div>
 					</div>
 
 
 					<!------------------------------------------------------------------->
-					<!-- 저장 버튼  type="submit" form="textarea_form" -->
+					<!-- 저장 버튼  type="
+								submit" form="textarea_form"-->
 					<!------------------------------------------------------------------->
 
 					<div class="thirteen wide column left aligned"
@@ -161,7 +163,6 @@ a.tagA:hover {
 			</div>
 
 		</div>
-
 	</article>
 </body>
 </html>

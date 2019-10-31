@@ -153,6 +153,13 @@ public class TagnoteController {
 		return "redirect:login";
 
 	}
+	/**
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	
+	
 
 	/**
 	 * @param model
@@ -168,13 +175,38 @@ public class TagnoteController {
 		return "list";
 	}
 
-	@RequestMapping(value = "star")
-	public String star(Model model) {
+	// 중요한 메모 리스트
+	@RequestMapping(value = "imptList")
+	public String imptList(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Memo> memos = memoMapper.findImptByUserNumWithTags(user.getUserNum());
+		model.addAttribute("memos", memos);
 		return "list";
 	}
 
-	@RequestMapping(value = "recent")
-	public String recent(Model model) {
+	// 별표 체크(리스트, 메모 둘다)
+	@RequestMapping("impt")
+	public String impt(Model model, @RequestParam("memoNum") int memoNum) {
+		memoMapper.impt(memoNum); // impt_memo update
+
+		return "redirect:imptList";
+	}
+
+	// 별표 해제
+	@RequestMapping("notImpt")
+	public String notImpt(Model model, @RequestParam("memoNum") int memoNum) {
+		memoMapper.notImpt(memoNum); // impt_memo update
+
+		return "redirect:imptList";
+	}
+
+	@RequestMapping(value = "recentList")
+	public String recentList(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Memo> memos = memoMapper.findRecentByUserNumWithTags(user.getUserNum());
+		model.addAttribute("memos", memos);
 		return "list";
 	}
 
@@ -195,7 +227,7 @@ public class TagnoteController {
 		memo.setUserNum(user.getUserNum());
 		List<Tag> userTag = tagMapper.findByUserNum(memo.getUserNum());
 
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 		Date time = new Date();
 		String memoDate = format1.format(time);
 		memo.setMemoDate(memoDate);
