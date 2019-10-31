@@ -10,6 +10,10 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+	rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.css" />
 <script type="text/javascript"
@@ -31,7 +35,7 @@
 	<div class="frame">
 
 		<%@ include file="part/header.jsp"%>
-		
+
 		<%@ include file="part/nav/nav.jsp"%>
 
 		<%@ include file="part/article/article_list.jsp"%>

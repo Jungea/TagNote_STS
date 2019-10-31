@@ -1,5 +1,8 @@
 package net.skhu.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -153,13 +156,29 @@ public class TagnoteController {
 		return "redirect:login";
 
 	}
+
 	/**
 	 * @param model
 	 * @param request
 	 * @return
+	 * @throws UnsupportedEncodingException
 	 */
-	
-	
+
+	// 중요한 메모 리스트
+	@RequestMapping(value = "search")
+	public String imptList(Model model, HttpServletRequest request, @RequestParam("searchString") String searchString)
+			throws UnsupportedEncodingException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		String s = URLDecoder.decode(searchString, "utf-8");
+		List<String> serachStringList = new ArrayList<>(Arrays.asList(s.split("\\+")));
+		System.out.println(serachStringList);
+		List<Memo> memos = memoMapper.findByUserNumAndListWithTags(user.getUserNum(), serachStringList);
+		model.addAttribute("memos", memos);
+		
+		return "list";
+	}
 
 	/**
 	 * @param model
@@ -172,6 +191,9 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 		List<Memo> memos = memoMapper.findByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
+
+//		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+//		model.addAttribute("searchTags", jsonArray.fromObject(tags));
 		return "list";
 	}
 

@@ -23,6 +23,8 @@ public interface MemoMapper {
 	List<Memo> findImptByUserNumWithTags(int userNum); // 중요 메모 리스트
 
 	List<Memo> findRecentByUserNumWithTags(int userNum); // 중요 메모 리스트
+	
+	List<Memo> findByUserNumAndListWithTags(int userNum, List<String> list); // 중요 메모 리스트
 
 	void insert(Memo memo);
 

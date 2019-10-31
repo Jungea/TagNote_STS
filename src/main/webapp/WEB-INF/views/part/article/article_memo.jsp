@@ -64,12 +64,9 @@ a.tagA:hover {
 						</button>
 					</div>
 					<div class="ten wide column" style="padding-left: 0px;">
-						<div class="ui search">
-							<div class="ui icon input">
-								<input class="prompt" type="text" placeholder="검색"> <i
-									class="search icon"></i>
-							</div>
-							<div class="results"></div>
+						<div class="ui icon input ui-widget">
+							<input class="autocomplete search" type="text" placeholder="검색"> <i
+								class="search icon"></i>
 						</div>
 					</div>
 					<div class="three wide column"></div>

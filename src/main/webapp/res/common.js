@@ -7,27 +7,20 @@ $(function() {
 	})
 
 	// 태그 검색 목록
-	var content = [ {
-		title : '#1학기'
-	}, {
-		title : '#2018년'
-	}, {
-		title : '#2019년'
-	}, {
-		title : '#2학기'
-	}, {
-		title : '#데이터베이스'
-	}, {
-		title : '#프로젝트'
-	}, {
-		title : '#안드로이드'
-	}, {
-		title : '#Java'
-	}, {
-		title : '#Angola'
-	} ];
-	$('.ui.search').search({
-		source : content
+	var availableTutorials = [ "ActionScript", "Bootstrap", "C", "C++", ];
+	$(".autocomplete.search").autocomplete({
+		source : availableTutorials,
+		autoFocus : true
+	});
+
+	$('.autocomplete.search').focus(function(event) {
+		$(this).keydown(function(event) {
+			if (event.keyCode === 13) {
+				var searchString = $(this).val();
+				searchString = encodeURIComponent(searchString);
+				location.href = 'search?searchString=' + searchString;
+			}
+		});
 	});
 
 	// setting 버튼 버블링x
