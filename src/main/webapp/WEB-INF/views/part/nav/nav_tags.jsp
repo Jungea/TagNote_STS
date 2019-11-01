@@ -18,14 +18,15 @@
 
 			<div class="content" style="padding: 14px 14px 0px 14px">
 
-				<div class="item" style="color:#00b5ad;">태그목록</div>
+				<div class="item" style="color: #00b5ad;">태그목록</div>
 
 
 				<div class="list">
 
 					<c:forEach var="tag" items="${tags}">
 
-						<div class="item" data-url="listByTag?tagNum=${tag.tagNum}" style="font-size:13px; padding:3px 0px 3px 0px">${tag.tagName}</div>
+						<div class="item" data-url="listByTag?tagNum=${tag.tagNum}"
+							style="font-size: 13px; padding: 3px 0px 3px 0px; cursor: pointer;">${tag.tagName}&nbsp;&nbsp;&nbsp;&nbsp;(${tag.count})</div>
 
 					</c:forEach>
 				</div>

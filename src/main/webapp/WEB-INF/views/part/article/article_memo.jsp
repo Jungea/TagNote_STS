@@ -65,11 +65,13 @@ a.tagA:hover {
 					</div>
 					<div class="ten wide column" style="padding-left: 0px;">
 						<div class="ui icon input ui-widget">
-							<input class="autocomplete search" type="text" placeholder="검색"> <i
-								class="search icon"></i>
+							<input class="autocomplete search" type="text" placeholder="검색">
+							<i class="search icon"></i>
 						</div>
 					</div>
-					<div class="three wide column"></div>
+					<div class="three wide column"
+						style="padding: 9px 0px 0px 0px; text-align: left; cursor: pointer;"
+						data-url="list">목록보기</div>
 
 				</div>
 

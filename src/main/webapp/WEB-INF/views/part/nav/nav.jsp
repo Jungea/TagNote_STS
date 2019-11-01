@@ -41,14 +41,16 @@
 			</div>
 		</div>
 
-		<div class="navDiv4" style="padding-right: 15px;">
+		<c:if test="${lastPage != 'create' && !lastPage.startsWith('edit')}">
+			<div class="navDiv4" style="padding-right: 15px;">
 
-			<a href="trashList"> <i class="icon trash alternate"
-				style="margin-right: 10px"></i><b>휴지통</b>
-			</a> <span class="navDiv4-trash-span" style="float: right"> <i
-				class="icon trash alternate outline small"></i>
-			</span>
-		</div>
+				<a href="trashList"> <i class="icon trash alternate"
+					style="margin-right: 10px"></i><b>휴지통</b>
+				</a> <span class="navDiv4-trash-span" style="float: right"> <i
+					class="icon trash alternate outline small"></i>
+				</span>
+			</div>
+		</c:if>
 
 	</nav>
 

@@ -23,6 +23,17 @@ $(function() {
 		}
 	});
 
+	var inputLastPage = $('.input-lastPage').val();
+	var showLastPage = inputLastPage;
+	var index = inputLastPage.indexOf('?');
+	if (index != -1) {
+		showLastPage = inputLastPage.slice(0, index);
+	}
+	$('.lastPage').text(showLastPage + $('.lastPage').text())
+	if (showLastPage == 'listByTag') {
+		$('.lastPage').text("");
+	}
+
 	$('li').on("click", function(event) {
 		event.stopPropagation();
 	});

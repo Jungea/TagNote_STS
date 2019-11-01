@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,12 +46,11 @@ public class TagnoteController {
 		return "parent";
 	}
 
-	/**
-	 * 사이트로 이동한 후 로그인 화면, 빈 유저 객체 생성
-	 * 
-	 * @param model
-	 * @return login view 이름
-	 */
+	/////////////////////////////////////////////////////////////////////////
+	// 로그인, 회원가입, 비밀번호 찾기, 비밀번호 변경
+	/////////////////////////////////////////////////////////////////////////
+
+	// 로그인
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(Model model) {
 		User user = new User();
@@ -61,7 +61,6 @@ public class TagnoteController {
 	// 로그인 화면에서 로그인버튼 클릭
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(Model model, User user, HttpServletRequest request) {
-		System.out.println(user.getUserId() + " " + user.getUserPass());
 		User u = userMapper.login(user);
 		if (u != null) {
 			HttpSession session = request.getSession();
@@ -99,7 +98,6 @@ public class TagnoteController {
 	public String idCheck(Model model, @RequestParam("userId") String userId) {
 		int result = userMapper.idCheck(userId);
 		if (result == 1) { // 이미 사용중인 아이디
-			model.addAttribute("userId", ""); //// ???????????????????????????????????????????????
 			model.addAttribute("refresh", "refresh"); // submit 되었음을 표시하는 input hidden
 		} else
 			model.addAttribute("userId", userId);
@@ -157,17 +155,37 @@ public class TagnoteController {
 
 	}
 
+	/////////////////////////////////////////////////////////////////////////
+	// 리스트
+	/////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * @param model
 	 * @param request
 	 * @return
-	 * @throws UnsupportedEncodingException
 	 */
+	@RequestMapping(value = "list")
+	public String list(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Memo> memos = memoMapper.findByUserNumWithTags(user.getUserNum());
+		model.addAttribute("memos", memos);
+
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
+
+		session.setAttribute("lastPage", "list");
+		return "list";
+	}
+
+	//
 	@RequestMapping(value = "listByTag")
 	public String listByTag(Model model, HttpServletRequest request, @RequestParam("tagNum") int tagNum) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 
+		session.setAttribute("pageTag", tagMapper.findOne(tagNum));
+		
 		List<Integer> list = memoMapper.findByTagNumWithTags(tagNum);
 
 		List<Memo> memos = new ArrayList<>();
@@ -178,6 +196,8 @@ public class TagnoteController {
 
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
+
+		session.setAttribute("lastPage", "listByTag?tagNum=" + tagNum);
 		return "list";
 	}
 
@@ -208,23 +228,7 @@ public class TagnoteController {
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
 
-		return "list";
-	}
-
-	/**
-	 * @param model
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "list")
-	public String list(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
-		List<Memo> memos = memoMapper.findByUserNumWithTags(user.getUserNum());
-		model.addAttribute("memos", memos);
-
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+		session.setAttribute("lastPage", "search?searchString=" + searchString);
 		return "list";
 	}
 
@@ -238,23 +242,29 @@ public class TagnoteController {
 
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
+
+		session.setAttribute("lastPage", "imptList");
 		return "list";
 	}
 
 	// 별표 체크(리스트, 메모 둘다)
 	@RequestMapping("impt")
-	public String impt(Model model, @RequestParam("memoNum") int memoNum) {
+	public String impt(Model model, @RequestParam("memoNum") int memoNum, HttpServletRequest request) {
 		memoMapper.impt(memoNum); // impt_memo update
 
-		return "redirect:imptList";
+		HttpSession session = request.getSession();
+		String page = (String) session.getAttribute("lastPage");
+		return "redirect:" + page;
 	}
 
 	// 별표 해제
 	@RequestMapping("notImpt")
-	public String notImpt(Model model, @RequestParam("memoNum") int memoNum) {
+	public String notImpt(Model model, @RequestParam("memoNum") int memoNum, HttpServletRequest request) {
 		memoMapper.notImpt(memoNum); // impt_memo update
 
-		return "redirect:imptList";
+		HttpSession session = request.getSession();
+		String page = (String) session.getAttribute("lastPage");
+		return "redirect:" + page;
 	}
 
 	@RequestMapping(value = "recentList")
@@ -266,6 +276,8 @@ public class TagnoteController {
 
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
+
+		session.setAttribute("lastPage", "recentList");
 		return "list";
 	}
 
@@ -279,6 +291,8 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
+
+		session.setAttribute("lastPage", "create");
 		return "memo";
 	}
 
@@ -331,6 +345,8 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
+
+		session.setAttribute("lastPage", "edit?memoNum" + memoNum);
 		return "memo";
 	}
 
@@ -429,38 +445,48 @@ public class TagnoteController {
 
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
+
+		session.setAttribute("lastPage", "trashList");
+
 		return "list";
 	}
 
 	// 메모 작성 화면에서 삭제 버튼 클릭 (휴지통으로)
 	@RequestMapping("trashFromMemo")
-	public String trashFromMemo(Model model, @RequestParam("memoNum") int memoNum) {
+	public String trashFromMemo(Model model, @RequestParam("memoNum") int memoNum, HttpServletRequest request) {
 		memoMapper.trash(memoNum); // del_memo update
 
-		return "redirect:list";
+		HttpSession session = request.getSession();
+		String page = (String) session.getAttribute("lastPage");
+		return "redirect:" + page;
 	}
 
 	// 리스트 화면에서 체크해서 삭제 버튼 클릭(휴지통으로)
 	@RequestMapping("trashChecked")
-	public String trashChecked(Model model, @RequestParam("memoNumString") String memoNumString) {
+	public String trashChecked(Model model, @RequestParam("memoNumString") String memoNumString,
+			HttpServletRequest request) {
 		String[] memmoNumStringSplit = memoNumString.split(" ");
 
 		System.out.println("memmoNumStringSplit ---- " + Arrays.toString(memmoNumStringSplit));
 		for (String memoNum : memmoNumStringSplit)
 			memoMapper.trash(Integer.parseInt(memoNum));
 
-		return "redirect:list";
+		HttpSession session = request.getSession();
+		String page = (String) session.getAttribute("lastPage");
+		return "redirect:" + page;
 	}
 
-	// 메모 작성 화면에서 삭제 버튼 클릭 (휴지통으로)
+	// 메모 작성 화면에서 복원 버튼 클릭 (리스트로)
 	@RequestMapping("restoreFromMemo")
-	public String restoreFromMemo(Model model, @RequestParam("memoNum") int memoNum) {
+	public String restoreFromMemo(Model model, @RequestParam("memoNum") int memoNum, HttpServletRequest request) {
 		memoMapper.restore(memoNum); // del_memo update
 
-		return "redirect:trashList";
+		HttpSession session = request.getSession();
+		String page = (String) session.getAttribute("lastPage");
+		return "redirect:" + page;
 	}
 
-	// 휴지통 화면에서 체크해서 복원 버튼 클릭(휴지통으로)
+	// 휴지통 화면에서 체크해서 복원 버튼 클릭(리스트로)
 	@RequestMapping("restoreFromTrash")
 	public String restoreFromTrash(Model model, @RequestParam("memoNumString") String memoNumString) {
 		String[] memmoNumStringSplit = memoNumString.split(" ");
@@ -490,6 +516,7 @@ public class TagnoteController {
 		return "redirect:trashList";
 	}
 
+	// 휴지통 비우기
 	@RequestMapping("deleteAll")
 	public String deleteAll(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -497,13 +524,14 @@ public class TagnoteController {
 		List<Memo> memos = memoMapper.findTrashByUserNumWithTags(user.getUserNum());
 
 		for (Memo memo : memos) {
-
 			tmMapper.deleteByMemoNum(memo.getMemoNum()); // 해당 메모의 tm다 제거
 			memoMapper.delete(memo.getMemoNum()); // 해당 메모 제거
 		}
 
 		tagTableCleanup(); // 태그제거
-		return "redirect:trashList";
+
+		String page = (String) session.getAttribute("lastPage");
+		return "redirect:" + page;
 	}
 
 	// 연결된 메모가 없는 태그들 제거(delete)

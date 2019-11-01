@@ -11,6 +11,7 @@ public class Tag implements Cloneable {
 	int tagNum;
 	int userNum;
 	String tagName;
+	int count;
 
 	public Tag(int userNum, String tagName) {
 		this.userNum = userNum;
