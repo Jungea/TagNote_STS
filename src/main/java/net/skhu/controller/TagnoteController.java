@@ -99,7 +99,7 @@ public class TagnoteController {
 	public String idCheck(Model model, @RequestParam("userId") String userId) {
 		int result = userMapper.idCheck(userId);
 		if (result == 1) { // 이미 사용중인 아이디
-			model.addAttribute("userId", "");
+			model.addAttribute("userId", ""); //// ???????????????????????????????????????????????
 			model.addAttribute("refresh", "refresh"); // submit 되었음을 표시하는 input hidden
 		} else
 			model.addAttribute("userId", userId);
@@ -163,20 +163,51 @@ public class TagnoteController {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
+	@RequestMapping(value = "listByTag")
+	public String listByTag(Model model, HttpServletRequest request, @RequestParam("tagNum") int tagNum) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+
+		List<Integer> list = memoMapper.findByTagNumWithTags(tagNum);
+
+		List<Memo> memos = new ArrayList<>();
+		for (Integer i : list)
+			memos.add(memoMapper.findOneWithTags(i));
+
+		model.addAttribute("memos", memos);
+
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
+		return "list";
+	}
 
 	// 중요한 메모 리스트
 	@RequestMapping(value = "search")
-	public String imptList(Model model, HttpServletRequest request, @RequestParam("searchString") String searchString)
+	public String search(Model model, HttpServletRequest request, @RequestParam("searchString") String searchString)
 			throws UnsupportedEncodingException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		
+
 		String s = URLDecoder.decode(searchString, "utf-8");
-		List<String> serachStringList = new ArrayList<>(Arrays.asList(s.split("\\+")));
-		System.out.println(serachStringList);
-		List<Memo> memos = memoMapper.findByUserNumAndListWithTags(user.getUserNum(), serachStringList);
-		model.addAttribute("memos", memos);
-		
+		if (s.charAt(0) == '#') {
+			List<String> serachStringList = new ArrayList<>(Arrays.asList(s.split(" ")));
+			System.out.println(serachStringList);
+			List<Integer> list = memoMapper.findByUserNumAndListWithTags(user.getUserNum(), serachStringList,
+					serachStringList.size());
+			System.out.println(list);
+			List<Memo> memos = new ArrayList<>();
+			for (Integer i : list)
+				memos.add(memoMapper.findOneWithTags(i));
+
+			model.addAttribute("memos", memos);
+		} else {
+			List<Memo> memos = memoMapper.findByUserNumAndMemoTextWithTags(user.getUserNum(), s);
+			model.addAttribute("memos", memos);
+		}
+
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
+
 		return "list";
 	}
 
@@ -192,8 +223,8 @@ public class TagnoteController {
 		List<Memo> memos = memoMapper.findByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
 
-//		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-//		model.addAttribute("searchTags", jsonArray.fromObject(tags));
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
 		return "list";
 	}
 
@@ -204,6 +235,9 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 		List<Memo> memos = memoMapper.findImptByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
+
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
 		return "list";
 	}
 
@@ -229,14 +263,22 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 		List<Memo> memos = memoMapper.findRecentByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
+
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
 		return "list";
 	}
 
 	@RequestMapping(value = "create", method = RequestMethod.GET)
-	public String create(Model model) {
+	public String create(Model model, HttpServletRequest request) {
 		Memo memo = new Memo();
 		memo.setDelMemo(1);
 		model.addAttribute("memo", memo);
+
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
 		return "memo";
 	}
 
@@ -281,9 +323,14 @@ public class TagnoteController {
 	}
 
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
-	public String edit(Model model, @RequestParam("memoNum") int memoNum) {
+	public String edit(Model model, @RequestParam("memoNum") int memoNum, HttpServletRequest request) {
 		Memo memo = memoMapper.findOneWithTags(memoNum);
 		model.addAttribute("memo", memo);
+
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
 		return "memo";
 	}
 
@@ -350,11 +397,11 @@ public class TagnoteController {
 
 		tagTableCleanup(); // 태그제거
 
-		// 4.update한 메모 다시 불러오기
-		Memo m = memoMapper.findOneWithTags(memo.getMemoNum());
-		model.addAttribute("memo", m);
+//		// 4.update한 메모 다시 불러오기
+//		Memo m = memoMapper.findOneWithTags(memo.getMemoNum());
+//		model.addAttribute("memo", m);
 
-		return "memo";
+		return "redirect:edit?memoNum=" + memo.getMemoNum();
 	}
 
 	public List<Tag> cloneList(List<Tag> list) throws CloneNotSupportedException {
@@ -379,6 +426,9 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 		List<Memo> memos = memoMapper.findTrashByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
+
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
 		return "list";
 	}
 

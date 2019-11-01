@@ -14,7 +14,7 @@ public interface MemoMapper {
 
 	List<Memo> findByUserNum(int userNum); // 아직 안씀
 
-	List<Memo> findByTagNum(int tagNum); // 메뉴의 태그 목록
+	List<Integer> findByTagNumWithTags(int tagNum); // 메뉴의 태그 목록
 
 	List<Memo> findByUserNumWithTags(int userNum); // 메모 리스트
 
@@ -24,7 +24,12 @@ public interface MemoMapper {
 
 	List<Memo> findRecentByUserNumWithTags(int userNum); // 중요 메모 리스트
 	
-	List<Memo> findByUserNumAndListWithTags(int userNum, List<String> list); // 중요 메모 리스트
+	List<Integer> findByUserNumAndListWithTags(int userNum, List<String> list, int size); // 중요 메모 리스트
+	
+	List<Memo> findByUserNumAndMemoTextWithTags(int userNum, String memoText); // 중요 메모 리스트
+	
+//	List<Memo> findByUserNumAndListWithTags(int userNum, List<String> list); // 중요 메모 리스트
+	
 
 	void insert(Memo memo);
 

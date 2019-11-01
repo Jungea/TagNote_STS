@@ -11,52 +11,23 @@
 	<div class="title" style="border: 1px solid lightgray;">
 		<i class="dropdown icon"></i> 태그별 메모
 	</div>
-	<div class="content" style="padding-left: 30px;">
+	<div class="content" style="padding-left: 20px;">
 
 		<!--  -->
 		<div class="ui list">
 
-			<div class="item">
+			<div class="content" style="padding: 14px 14px 0px 14px">
 
-				<div class="header">태그목록</div>
+				<div class="item" style="color:#00b5ad;">태그목록</div>
 
 
 				<div class="list">
-					<div class="item">
 
-						<div class="header link" path="tag-list.html?2">#2018년</div>
+					<c:forEach var="tag" items="${tags}">
 
-					</div>
+						<div class="item" data-url="listByTag?tagNum=${tag.tagNum}" style="font-size:13px; padding:3px 0px 3px 0px">${tag.tagName}</div>
 
-					<div class="item">
-						<div class="header link" path="tag-list.html?2">#2019년</div>
-
-					</div>
-
-					<div class="item">
-						<div class="header link" path="tag-list.html?2">#프로젝트</div>
-
-					</div>
-
-					<div class="item">
-						<div class="header link" path="tag-list.html?2">#1학기</div>
-
-					</div>
-
-					<div class="item">
-						<div class="header link" path="tag-list.html?2">#2학기</div>
-
-					</div>
-
-					<div class="item">
-						<div class="header link" path="tag-list.html?2">#TagNote</div>
-
-					</div>
-
-					<div class="item">
-						<div class="header link" path="tag-list.html?2">#알고리즘</div>
-
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 

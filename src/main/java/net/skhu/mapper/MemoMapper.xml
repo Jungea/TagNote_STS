@@ -78,26 +78,44 @@
 		m.memo_date DESC
 	</select>
 
-	<select id="findByUserNumAndListWithTags" resultMap="resultMap1">
-		SELECT
-		m.memo_num,
-		m.user_num, m.memo_text, date_format(m.memo_date,
-		'%Y.%m.%d
-		%H:%i')
-		'memo_date', m.impt_memo, m.del_memo,
-		t.tag_num,
-		t.tag_name FROM
-		memo m
-		JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON
-		tm.tag_num =
-		t.tag_num
-		WHERE m.user_num = #{userNum} and m.del_memo = 1
-		and t.tag_name IN
+	<select id="findByUserNumAndListWithTags" resultType="integer">
+		SELECT m.memo_num FROM memo m JOIN tm ON m.memo_num=tm.memo_num JOIN
+		tag t ON
+		tm.tag_num = t.tag_num WHERE m.user_num = #{userNum} and
+		m.del_memo = 1 and t.tag_name IN
 		<foreach collection="list" item="item" index="index" open="("
 			separator="," close=")">
 			#{item}
 		</foreach>
-		ORDER BY m.memo_date DESC
+		GROUP BY m.memo_num HAVING count(m.memo_num) >= #{size}
+		ORDER BY
+		m.memo_date DESC
+	</select>
+
+	<select id="findByTagNumWithTags" resultType="integer">
+		SELECT m.memo_num
+		FROM memo m
+		JOIN tm ON m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num
+		= t.tag_num
+		WHERE m.del_memo = 1 and t.tag_num = #{tagNum} ORDER BY
+		m.memo_date
+		DESC
+	</select>
+
+	<select id="findByUserNumAndMemoTextWithTags"
+		resultMap="resultMap1">
+		SELECT m.memo_num,
+		m.user_num, m.memo_text,
+		date_format(m.memo_date, '%Y.%m.%d %H:%i')
+		'memo_date', m.impt_memo,
+		m.del_memo,
+		t.tag_num, t.tag_name FROM memo m
+		JOIN tm ON
+		m.memo_num=tm.memo_num JOIN tag t ON tm.tag_num = t.tag_num
+		WHERE
+		m.user_num = #{userNum} and m.del_memo = 1 and m.memo_text LIKE
+		concat('%',#{memoText},'%') ORDER BY m.memo_date
+		DESC
 	</select>
 
 	<resultMap id="resultMap1" type="Memo">
@@ -115,10 +133,7 @@
 	</resultMap>
 
 
-	<select id="findByTagNum" resultType="Memo">
-		SELECT * FROM Memo WHERE
-		user_num = #{tagNum}
-	</select>
+
 
 	<insert id="insert" useGeneratedKeys="true"
 		keyProperty="memoNum">

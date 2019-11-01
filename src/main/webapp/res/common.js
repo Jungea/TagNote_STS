@@ -13,15 +13,27 @@ $(function() {
 		autoFocus : true
 	});
 
-	$('.autocomplete.search').focus(function(event) {
-		$(this).keydown(function(event) {
-			if (event.keyCode === 13) {
-				var searchString = $(this).val();
+	$('.autocomplete.search').keydown(function(event) {
+		if (event.keyCode === 13) {
+			var searchString = $(this).val();
+			if (searchString.length == 0) {
+				alert("검색어를 입력하세요.");
+			} else {
 				searchString = encodeURIComponent(searchString);
 				location.href = 'search?searchString=' + searchString;
 			}
-		});
+		}
 	});
+
+	$('.search.icon').click(function() {
+		var searchString = $(this).parent().children('input').val();
+		if (searchString.length == 0) {
+			alert("검색어를 입력하세요.");
+		} else {
+			searchString = encodeURIComponent(searchString);
+			location.href = 'search?searchString=' + searchString;
+		}
+	})
 
 	// setting 버튼 버블링x
 	$(".navDiv3-setting-span").click(function(event) {
