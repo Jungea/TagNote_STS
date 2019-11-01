@@ -185,7 +185,7 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 
 		session.setAttribute("pageTag", tagMapper.findOne(tagNum));
-		
+
 		List<Integer> list = memoMapper.findByTagNumWithTags(tagNum);
 
 		List<Memo> memos = new ArrayList<>();
@@ -294,6 +294,29 @@ public class TagnoteController {
 
 		session.setAttribute("lastPage", "create");
 		return "memo";
+	}
+
+	// 회원가입 화면에서 아이디 중복 확인 버튼 클릭
+	@RequestMapping(value = "addTags", method = RequestMethod.GET)
+	public String addTags(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
+		
+		return "add_tags";
+	}
+
+	// 아이디 중복 확인 화면에서 확인 버튼 클릭
+	@RequestMapping(value = "addTags", method = RequestMethod.POST)
+	public String addTags(Model model, @RequestParam("userId") String userId) {
+		int result = userMapper.idCheck(userId);
+		if (result == 1) { // 이미 사용중인 아이디
+			model.addAttribute("refresh", "refresh"); // submit 되었음을 표시하는 input hidden
+		} else
+			model.addAttribute("userId", userId);
+
+		return "login/userId_check"; // 이후 처리를 자바스크립트로 구현
 	}
 
 	// 메모 작성화면에서 저장 클릭

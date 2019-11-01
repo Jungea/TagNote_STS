@@ -72,7 +72,7 @@ $(function() {
 			alert(errorText);
 			return false;
 		}
-		
+
 		var s = userTags.join(' ')
 
 		$('.tagString').val(s)
@@ -131,3 +131,10 @@ $(function() {
 		location.href = a;
 	});
 })
+function openChild() {
+	// window.name = "부모창 이름";
+	window.name = "parentForm";
+	// window.open("open할 window", "자식창 이름", "팝업창 옵션");
+	openWin = window.open("addTags", "childForm",
+			"width=800, height=600, resizable = no, scrollbars = no");
+}

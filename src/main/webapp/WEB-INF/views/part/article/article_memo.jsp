@@ -46,6 +46,10 @@ a.tagA:hover {
 	padding-left: 7px;
 }
 </style>
+
+<script>
+
+</script>
 </head>
 
 <body>
@@ -113,7 +117,7 @@ a.tagA:hover {
 						</c:if>
 
 						<button class="ui button basic" type="button"
-							onclick="window.open('add_tag.html', '_blank', 'width=1000, height=600')">태그목록</button>
+							onclick="openChild()">태그목록</button>
 					</div>
 				</div>
 
