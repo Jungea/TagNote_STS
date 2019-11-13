@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.skhu.mapper.PathMapper">
+
+	<select id="findByUserNum" resultMap="resultMap1">
+		SELECT * FROM Path p JOIN
+		Tag t ON p.tag_num = t.tag_num ORDER BY p.path;
+	</select>
+
+	<resultMap id="resultMap1" type="Path">
+		<id property="pathNum" column="path_num" />
+		<result property="tagNum" column="tag_num" />
+		<result property="path" column="path" />
+		<association property="tag" javaType="Tag">
+			<id property="tagNum" column="tag_num" />
+			<result property="userNum" column="user_num" />
+			<result property="tagName" column="tag_name" />
+		</association>
+	</resultMap>
+
+</mapper>

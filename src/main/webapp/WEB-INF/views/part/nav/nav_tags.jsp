@@ -6,6 +6,7 @@
 <head>
 
 <title></title>
+
 </head>
 <body>
 	<div class="title" style="border: 1px solid lightgray;">
@@ -22,7 +23,6 @@
 
 
 				<div class="list">
-
 					<c:forEach var="tag" items="${tags}">
 
 						<div class="item" data-url="listByTag?tagNum=${tag.tagNum}"

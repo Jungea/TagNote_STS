@@ -2,7 +2,6 @@ package net.skhu.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,18 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import net.sf.json.JSONArray;
 import net.skhu.dto.Memo;
+import net.skhu.dto.Path;
 import net.skhu.dto.TM;
 import net.skhu.dto.Tag;
 import net.skhu.dto.User;
 import net.skhu.mapper.MemoMapper;
+import net.skhu.mapper.PathMapper;
 import net.skhu.mapper.TMMapper;
 import net.skhu.mapper.TagMapper;
 import net.skhu.mapper.UserMapper;
@@ -40,10 +41,19 @@ public class TagnoteController {
 	TagMapper tagMapper;
 	@Autowired
 	TMMapper tmMapper;
+	@Autowired
+	PathMapper pathMapper;
 
 	@RequestMapping(value = "test")
 	public String test(Model model) {
 		return "parent";
+	}
+
+	@RequestMapping(value = "main")
+	public String reculsion(Model model) {
+		List<Path> paths = pathMapper.findByUserNum(2);
+		model.addAttribute("paths", paths);
+		return "main";
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -164,6 +174,11 @@ public class TagnoteController {
 	 * @param request
 	 * @return
 	 */
+	
+	public void navMaker() {
+		
+	}
+	
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -173,6 +188,9 @@ public class TagnoteController {
 
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
+
+		List<Path> paths = pathMapper.findByUserNum(user.getUserNum());
+		model.addAttribute("paths", paths);
 
 		session.setAttribute("lastPage", "list");
 		return "list";
@@ -303,7 +321,7 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
 		model.addAttribute("tags", tags);
-		
+
 		return "add_tags";
 	}
 
