@@ -1,3 +1,4 @@
+var checkNum = 0;
 $(function() {
 
 	// nav 영역 숨기기
@@ -64,6 +65,8 @@ $(function() {
 
 	$('.icon.tagBookmark.setting').click(function(event) {
 		$('.ui.modal').modal('show');
+		$('span[pathNum=' + checkNum + ']').toggleClass('bookmark_check');
+		checkNum = 0;
 	});
 
 	$('#target').accordion({
@@ -85,4 +88,33 @@ $(function() {
 	});
 
 	$('.ui.dropdown').dropdown();
+
+	$('.description.setting').click(
+			function(event) {
+				$(this).toggleClass('bookmark_check');
+				$('span[pathNum=' + checkNum + ']').toggleClass(
+						'bookmark_check');
+				checkNum = $(this).attr('pathNum');
+
+				alert(checkNum + " " + $(this).attr('pathNum') + " "
+						+ $(this).attr('path'))
+			});
+
+	$('.negative.button').click(
+			function() {
+				location.href = 'bookmarkDelete?path='
+						+ $('span[pathNum=' + checkNum + ']').attr('path');
+			})
+
+	$('.positive.button').click(
+			function() {
+				var name = $('.bookmark.input.tag').val();
+				name = encodeURIComponent(name);
+				alert('bookmarkInsert?path='
+						+ $('span[pathNum=' + checkNum + ']').attr('path')
+						+ "&name=" + name)
+				location.href = 'bookmarkInsert?path='
+						+ $('span[pathNum=' + checkNum + ']').attr('path')
+						+ "&name=" + name;
+			})
 })

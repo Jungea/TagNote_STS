@@ -3,10 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
 	var openWin;
+	var arr = []
 
 	function openChild() {
 		// window.name = "부모창 이름"; 
@@ -20,6 +24,23 @@
 	function setChildText() {
 		openWin.document.getElementById("cInput").value = "aaa";
 	}
+
+	function aasplit() {
+		childArr = document.getElementById("pInput").value.split(" ");
+		for ( var i in childArr) {
+			arr.
+		}
+		alert(arr);
+	}
+
+	$(function() {
+		$('.ui.list').on('click', '.item', function() {
+			alert(arr)
+			for ( var i in arr) {
+				$('.ui.list').append('<div class="item">' + arr[i] + '</div>');
+			}
+		})
+	})
 </script>
 
 </head>
@@ -33,5 +54,16 @@
 	<br> 전달할 값 :
 	<input type="text" id="pInput">
 	<input type="button" value="전달" onclick="setChildText()">
+
+	<div class="ui list">
+
+		<div class="item">#2019년</div>
+		<div class="item">#2학기</div>
+		<div class="item">#html</div>
+		<div class="item">#spring</div>
+		<div class="item">#mysql</div>
+		<div class="item">#mybatis</div>
+		<div class="item">#데이터베이스 캡스톤</div>
+	</div>
 </body>
 </html>

@@ -26,6 +26,8 @@ public interface MemoMapper {
 	
 	List<Integer> findByUserNumAndListWithTags(int userNum, List<String> list, int size); // 중요 메모 리스트
 	
+	List<Integer> findByUserNumAndListWithPath(int userNum, List<String> list, int size); // 중요 메모 리스트
+	
 	List<Memo> findByUserNumAndMemoTextWithTags(int userNum, String memoText); // 중요 메모 리스트
 	
 //	List<Memo> findByUserNumAndListWithTags(int userNum, List<String> list); // 중요 메모 리스트

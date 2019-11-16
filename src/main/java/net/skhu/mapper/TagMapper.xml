@@ -10,6 +10,12 @@
 		#{tagNum}
 	</select>
 
+	<select id="findOneByTagName" resultType="Tag">
+		SELECT * FROM Tag WHERE
+		tag_name =
+		#{tagName}
+	</select>
+
 	<!-- 메모 insert할 때 이미 만들어져 있는 태그인지 확인 -->
 	<select id="findByUserNum" resultType="Tag">
 		SELECT * FROM Tag
@@ -31,9 +37,12 @@
 
 	<!-- 메뉴의 태그 목록을 위한 살아있는 태그 리스트(쓰레기통 메모의 태그들 제외됨.) -->
 	<select id="findLiving" resultType="Tag">
-		SELECT count(t.tag_num) 'count', t.* FROM tag
-		t JOIN tm ON t.tag_num = tm.tag_num JOIN memo m ON tm.memo_num =
-		m.memo_num WHERE m.del_memo = 1 and t.user_num = #{userNum} GROUP BY t.tag_num
+		SELECT count(t.tag_num)
+		'count', t.* FROM tag
+		t JOIN tm ON t.tag_num = tm.tag_num JOIN memo m
+		ON tm.memo_num =
+		m.memo_num WHERE m.del_memo = 1 and t.user_num =
+		#{userNum} GROUP BY t.tag_num
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="tagNum">

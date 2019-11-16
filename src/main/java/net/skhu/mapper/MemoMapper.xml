@@ -91,6 +91,20 @@
 		ORDER BY
 		m.memo_date DESC
 	</select>
+	
+	<select id="findByUserNumAndListWithPath" resultType="integer">
+		SELECT m.memo_num FROM memo m JOIN tm ON m.memo_num=tm.memo_num JOIN
+		tag t ON
+		tm.tag_num = t.tag_num WHERE m.user_num = #{userNum} and
+		m.del_memo = 1 and t.tag_num IN
+		<foreach collection="list" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		GROUP BY m.memo_num HAVING count(m.memo_num) >= #{size}
+		ORDER BY
+		m.memo_date DESC
+	</select>
 
 	<select id="findByTagNumWithTags" resultType="integer">
 		SELECT m.memo_num

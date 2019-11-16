@@ -5,10 +5,10 @@ body {
 
 .frame {
 	display: grid;
-	grid-template-areas: "header header header" "nav article article"
+	grid-template-areas: "header header header" "nav article aside"
 		"footer footer footer";
-	grid-template-rows: 50px 1fr 30px;
-	grid-template-columns: 250px 1fr;
+	grid-template-rows: 50px 1fr 60px;
+	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 0px;
 	height: 100vh;
 }
@@ -21,13 +21,18 @@ body {
 	grid-area: footer;
 }
 
-#mainArticle {
+#mid1 {
+	grid-area: nav;
+	overflow: auto;
+}
+
+#mid2 {
 	grid-area: article;
 	overflow: auto;
 }
 
-#mainNav {
-	grid-area: nav;
+#mid3 {
+	grid-area: aside;
 	overflow: auto;
 }
 
@@ -40,6 +45,7 @@ header {
 	background-color: #00b5ad;
 	border-bottom: 1px solid lightgray;
 	font-weight: bold;
+	color: white;
 	font-size: 25px;
 	vertical-align: middle;
 	line-height: 50px;
@@ -48,42 +54,30 @@ header {
 
 /*--------------------- footer --------------------*/
 footer {
-	background-color: lightgray;
+	border-top: 1px solid lightgray
 }
 
 /*--------------------- nav --------------------*/
 nav {
+	padding: 20px;
+}
+
+/*--------------------- article --------------------*/
+article {
+	display: grid;
+	grid-template-rows: 120px 1fr;
+	grid-gap: 0px;
+	padding: 20px;
 	border-right: 1px solid lightgray;
+	border-left: 1px solid lightgray;
 }
 
-nav>.navDiv1 {
-	border-bottom: 1px solid lightgray;
-	text-align: center;
-	padding: 10px 0 10px 0;
+.artDiv1>.grid {
+	max-width: 400px;
+	padding: 15px;
 }
 
-nav>.navDiv1>button {
-	width: 200px;
-}
-
-nav>.navDiv2 {
-	padding: 10px 20px 10px 20px;
-}
-
-nav>.navDiv2>.ui>.item {
-	margin: 5px;
-}
-
-nav>.navDiv4 {
-	padding: 10px 25px 10px 25px;
-}
-
-.description {
-	cursor: pointer;
-	display: inline-block !important;
-}
-
-.bookmark_check {
-	background-color: rgba(0, 181, 173, 0.5);
-	font-weight: bold;
+/*--------------------- aside --------------------*/
+aside {
+	padding: 20px;
 }

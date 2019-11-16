@@ -9,8 +9,13 @@ import lombok.ToString;
 @Data
 public class Path {
 	int pathNum;
-	int TagNum;
+	int tagNum;
 	String path;
 
 	Tag tag;
+
+	public Path(int tagNum, String path) {
+		this.tagNum = tagNum;
+		this.path = path;
+	}
 }

@@ -20,4 +20,18 @@
 		</association>
 	</resultMap>
 
+	<insert id="insert" useGeneratedKeys="true"
+		keyProperty="pathNum">
+		INSERT
+		Path (tag_num, path)
+		VALUES
+		(#{tagNum},
+		#{path})
+	</insert>
+
+
+	<delete id="deleteByPath">
+		DELETE FROM Path WHERE path LIKE concat(#{path},'%')
+	</delete>
+
 </mapper>

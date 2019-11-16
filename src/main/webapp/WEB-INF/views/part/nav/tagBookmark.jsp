@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,134 +17,19 @@
 
 			<div class="ui list">
 
-				<div class="item">
-
-					<div class="content">
-						<div class="header">태그조합</div>
-						<div class="description"></div>
-
-
-						<div class="list">
-							<div class="item">
-
-								<i class="bookmark yellow icon"></i>
-								<div class="content">
-									<div class="header">#2018년</div>
-									<div class="description"></div>
-
-
-									<div class="list">
-										<div class="item">
-
-											<i class="bookmark yellow icon"></i>
-											<div class="content">
-												<div class="header">#1학기</div>
-												<div class="description"></div>
-
-												<div class="list">
-													<div class="item">
-
-														<i class="bookmark yellow icon"></i>
-														<div class="content">
-															<div class="header">#데이터베이스</div>
-															<div class="description"></div>
-														</div>
-													</div>
-													<div class="item">
-														<i class="bookmark yellow icon"></i>
-														<div class="content">
-															<div class="header">#자바</div>
-															<div class="description"></div>
-														</div>
-													</div>
-												</div>
-
-											</div>
-
-										</div>
-										<div class="item">
-
-											<i class="bookmark yellow icon"></i>
-											<div class="content">
-												<div class="header">#2학기</div>
-												<div class="description"></div>
-											</div>
-
-										</div>
-
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<i class="bookmark yellow icon"></i>
-								<div class="content">
-									<div class="header">#2019년</div>
-									<div class="description"></div>
-									<div class="list">
-										<div class="item">
-
-											<i class="bookmark yellow icon"></i>
-											<div class="content">
-												<div class="header">#1학기</div>
-												<div class="description"></div>
-
-											</div>
-
-										</div>
-										<div class="item">
-
-											<i class="bookmark yellow icon"></i>
-											<div class="content">
-												<div class="header">#2학기</div>
-												<div class="description"></div>
-											</div>
-
-										</div>
-
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<i class="bookmark yellow icon"></i>
-								<div class="content">
-									<div class="header">#프로젝트</div>
-									<div class="description"></div>
-
-									<div class="list">
-										<div class="item">
-
-											<i class="bookmark yellow icon"></i>
-											<div class="content">
-												<div class="header">#HalliGalli</div>
-												<div class="description"></div>
-											</div>
-
-										</div>
-
-										<div class="item">
-
-											<i class="bookmark yellow icon"></i>
-											<div class="content">
-												<div class="header">#TagNote</div>
-												<div class="description"></div>
-											</div>
-
-										</div>
-
-									</div>
-								</div>
-							</div>
-						</div>
+				<div class="content" style="padding: 14px 14px 0px 14px">
+					<div class="description" style="color: #00b5ad;">태그조합</div>
+					<div class="list">
+						<my:bookmarkSetting index="" paths="${paths}" />
 					</div>
 				</div>
-
 			</div>
 			<!--  -->
 
 		</div>
 
 		<div class="ui input fluid">
-			<input type="text" placeholder="Search...">
+			<input class="bookmark input tag" type="text" placeholder="#태그를 입력하세요.">
 		</div>
 
 		<div class="actions">
@@ -155,7 +41,7 @@
 
 	</div>
 
-	<!--------------------------  ------------------------------------->
+	<!----------------------------------------------------------------->
 
 </body>
 </html>

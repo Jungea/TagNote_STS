@@ -49,11 +49,9 @@ public class TagnoteController {
 		return "parent";
 	}
 
-	@RequestMapping(value = "main")
+	@RequestMapping(value = "child")
 	public String reculsion(Model model) {
-		List<Path> paths = pathMapper.findByUserNum(2);
-		model.addAttribute("paths", paths);
-		return "main";
+		return "child";
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -174,16 +172,42 @@ public class TagnoteController {
 	 * @param request
 	 * @return
 	 */
-	
-	public void navMaker() {
-		
+
+	public void navMaker(Model model, User user) {
+
+		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
+		model.addAttribute("tags", tags);
+
+		List<Path> paths = pathMapper.findByUserNum(user.getUserNum());
+		model.addAttribute("paths", paths);
 	}
-	
+
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		List<Memo> memos = memoMapper.findByUserNumWithTags(user.getUserNum());
+		model.addAttribute("memos", memos);
+
+		navMaker(model, user);
+
+		session.setAttribute("lastPage", "list");
+		return "list";
+	}
+
+	@RequestMapping(value = "listByBookmark")
+	public String listByBookmark(Model model, HttpServletRequest request, @RequestParam("path") String path) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+
+		List<String> searchStringList = new ArrayList<>(Arrays.asList(path.split("/")));
+		searchStringList.remove(0);
+		List<Integer> list = memoMapper.findByUserNumAndListWithPath(user.getUserNum(), searchStringList,
+				searchStringList.size());
+		List<Memo> memos = new ArrayList<>();
+		for (Integer i : list)
+			memos.add(memoMapper.findOneWithTags(i));
+
 		model.addAttribute("memos", memos);
 
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
@@ -192,8 +216,48 @@ public class TagnoteController {
 		List<Path> paths = pathMapper.findByUserNum(user.getUserNum());
 		model.addAttribute("paths", paths);
 
-		session.setAttribute("lastPage", "list");
+		session.setAttribute("lastPage", "listByBookmark?path=" + path);
+
 		return "list";
+	}
+
+	@RequestMapping(value = "bookmarkDelete")
+	public String bookmarkDelete(Model model, HttpServletRequest request, @RequestParam("path") String path) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+
+		System.out.println("bookmarkDelete " + path);
+		pathMapper.deleteByPath(path);
+		model.addAttribute("msg", "태그 북마크 삭제 성공");
+
+		return "bookmarkMessage";
+	}
+
+	@RequestMapping(value = "bookmarkInsert")
+	public String bookmarkInsert(Model model, HttpServletRequest request, @RequestParam("path") String path,
+			@RequestParam("name") String name) throws UnsupportedEncodingException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+
+		String nameDecoding = URLDecoder.decode(name, "utf-8");
+		System.out.println("bookmarkInsert " + path + " " + nameDecoding);
+
+		Tag t = tagMapper.findOneByTagName(nameDecoding);
+
+		String[] split = path.split("/");
+		System.out.println(split.equals(t.getTagNum()));
+		if (split.equals(t.getTagNum())) {
+			model.addAttribute("msg", "태그 북마크 추가 실패");
+			System.out.println("실패");
+		} else {
+			pathMapper.insert(new Path(t.getTagNum(), path + "/" + t.getTagNum()));
+			System.out.println(t.getTagNum() + " " + (path + "/" + t.getTagNum()));
+			model.addAttribute("msg", "태그 북마크 추가 성공");
+			System.out.println("성공");
+			// 가로층에 이미 있을 경우 오류 확인
+		}
+
+		return "bookmarkMessage";
 	}
 
 	//
@@ -212,8 +276,7 @@ public class TagnoteController {
 
 		model.addAttribute("memos", memos);
 
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+		navMaker(model, user);
 
 		session.setAttribute("lastPage", "listByTag?tagNum=" + tagNum);
 		return "list";
@@ -307,8 +370,8 @@ public class TagnoteController {
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+
+		navMaker(model, user);
 
 		session.setAttribute("lastPage", "create");
 		return "memo";
@@ -319,8 +382,8 @@ public class TagnoteController {
 	public String addTags(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+
+		navMaker(model, user);
 
 		return "add_tags";
 	}
@@ -384,8 +447,8 @@ public class TagnoteController {
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+
+		navMaker(model, user);
 
 		session.setAttribute("lastPage", "edit?memoNum" + memoNum);
 		return "memo";
@@ -484,8 +547,7 @@ public class TagnoteController {
 		List<Memo> memos = memoMapper.findTrashByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
 
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+		navMaker(model, user);
 
 		session.setAttribute("lastPage", "trashList");
 
