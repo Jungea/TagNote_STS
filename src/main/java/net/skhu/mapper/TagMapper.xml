@@ -16,6 +16,13 @@
 		#{tagName}
 	</select>
 
+	<select id="findByStartTagName" resultType="Tag">
+		SELECT * FROM Tag
+		WHERE
+		tag_name LIKE
+		CONCAT(#{tagName},'%') and user_num = #{userNum}
+	</select>
+
 	<!-- 메모 insert할 때 이미 만들어져 있는 태그인지 확인 -->
 	<select id="findByUserNum" resultType="Tag">
 		SELECT * FROM Tag

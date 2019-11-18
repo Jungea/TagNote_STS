@@ -46,7 +46,9 @@ public class TagnoteController {
 
 	@RequestMapping(value = "test")
 	public String test(Model model) {
-		return "parent";
+		List<Tag> tags = tagMapper.findLiving(2);
+		model.addAttribute("tags", tags);
+		return "test";
 	}
 
 	@RequestMapping(value = "child")
@@ -210,11 +212,7 @@ public class TagnoteController {
 
 		model.addAttribute("memos", memos);
 
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
-
-		List<Path> paths = pathMapper.findByUserNum(user.getUserNum());
-		model.addAttribute("paths", paths);
+		navMaker(model, user);
 
 		session.setAttribute("lastPage", "listByBookmark?path=" + path);
 
@@ -246,11 +244,14 @@ public class TagnoteController {
 
 		String[] split = path.split("/");
 		System.out.println(split.equals(t.getTagNum()));
-		if (split.equals(t.getTagNum())) {
+		if (split.equals(t.getTagNum())) { // 세로 층에 이미 있을 경우
 			model.addAttribute("msg", "태그 북마크 추가 실패");
 			System.out.println("실패");
 		} else {
-			pathMapper.insert(new Path(t.getTagNum(), path + "/" + t.getTagNum()));
+			if (path.equals("0"))
+				pathMapper.insert(new Path(t.getTagNum(), "/" + t.getTagNum()));
+			else
+				pathMapper.insert(new Path(t.getTagNum(), path + "/" + t.getTagNum()));
 			System.out.println(t.getTagNum() + " " + (path + "/" + t.getTagNum()));
 			model.addAttribute("msg", "태그 북마크 추가 성공");
 			System.out.println("성공");
@@ -258,6 +259,7 @@ public class TagnoteController {
 		}
 
 		return "bookmarkMessage";
+
 	}
 
 	//
@@ -306,8 +308,7 @@ public class TagnoteController {
 			model.addAttribute("memos", memos);
 		}
 
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+		navMaker(model, user);
 
 		session.setAttribute("lastPage", "search?searchString=" + searchString);
 		return "list";
@@ -321,8 +322,7 @@ public class TagnoteController {
 		List<Memo> memos = memoMapper.findImptByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
 
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+		navMaker(model, user);
 
 		session.setAttribute("lastPage", "imptList");
 		return "list";
@@ -355,8 +355,7 @@ public class TagnoteController {
 		List<Memo> memos = memoMapper.findRecentByUserNumWithTags(user.getUserNum());
 		model.addAttribute("memos", memos);
 
-		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
-		model.addAttribute("tags", tags);
+		navMaker(model, user);
 
 		session.setAttribute("lastPage", "recentList");
 		return "list";
@@ -384,20 +383,80 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 
 		navMaker(model, user);
+		model.addAttribute("userTags", new ArrayList<Tag>());
+
+		return "add_tags";
+	}
+
+	// 중요한 메모 리스트
+	@RequestMapping(value = "addTagsSearch")
+	public String addTagsSearch(Model model, HttpServletRequest request,
+			@RequestParam("searchString") String searchString, @RequestParam("tagNumString") String tagNumString)
+			throws UnsupportedEncodingException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+
+		String s = URLDecoder.decode(searchString, "utf-8");
+
+		List<Tag> tags = tagMapper.findByStartTagName(user.getUserNum(), searchString);
+
+		model.addAttribute("tags", tags);
+
+		List<Path> paths = pathMapper.findByUserNum(user.getUserNum());
+		model.addAttribute("paths", paths);
+
+		model.addAttribute("tagNumString", tagNumString);
 
 		return "add_tags";
 	}
 
 	// 아이디 중복 확인 화면에서 확인 버튼 클릭
-	@RequestMapping(value = "addTags", method = RequestMethod.POST)
-	public String addTags(Model model, @RequestParam("userId") String userId) {
-		int result = userMapper.idCheck(userId);
-		if (result == 1) { // 이미 사용중인 아이디
-			model.addAttribute("refresh", "refresh"); // submit 되었음을 표시하는 input hidden
-		} else
-			model.addAttribute("userId", userId);
+	@RequestMapping(value = "addTagsRefresh")
+	public String addTagsRefresh(Model model, @RequestParam("tagNumString") String tagNumString,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
 
-		return "login/userId_check"; // 이후 처리를 자바스크립트로 구현
+		System.out.println(tagNumString);
+		String[] splitString = tagNumString.split(" ");
+
+		List<Tag> userTags = new ArrayList<>();
+		for (int i = 0; i < splitString.length; i++)
+			userTags.add(tagMapper.findOne(Integer.parseInt(splitString[i])));
+
+		navMaker(model, user);
+		model.addAttribute("userTags", userTags);
+		model.addAttribute("tagNumString", tagNumString);
+
+		return "add_tags"; // 이후 처리를 자바스크립트로 구현
+	}
+
+	// 아이디 중복 확인 화면에서 확인 버튼 클릭
+	@RequestMapping(value = "addTags", method = RequestMethod.POST)
+	public String addTags(Model model, @RequestParam("tagNumString") String tagNumString, HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		System.out.println(tagNumString);
+		String[] splitString = tagNumString.split(" ");
+
+		List<Tag> userTags = new ArrayList<>();
+		StringBuilder tagNameString = new StringBuilder();
+		for (int i = 0; i < splitString.length; i++) {
+			if (i != 0)
+				tagNameString.append(" ");
+			Tag t = tagMapper.findOne(Integer.parseInt(splitString[i]));
+			userTags.add(t);
+			tagNameString.append(t.getTagName());
+		}
+
+		navMaker(model, user);
+
+		model.addAttribute("userTags", userTags);
+		model.addAttribute("tagNumString", tagNumString);
+		model.addAttribute("tagNameString", tagNameString.toString());
+
+		return "add_tags"; // 이후 처리를 자바스크립트로 구현
 	}
 
 	// 메모 작성화면에서 저장 클릭

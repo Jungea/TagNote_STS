@@ -50,11 +50,9 @@
 
 		<article id="mid2">
 			<div>
-				<div class="ui search ">
-					<div class="ui icon input fluid">
-						<input class="prompt" type="text" placeholder="검색"> <i
-							class="search icon"></i>
-					</div>
+				<div class="ui icon input ui-widget">
+					<input class="autocomplete search" type="text" placeholder="검색">
+					<i class="search icon"></i>
 				</div>
 
 				<div class="ui list">
@@ -63,8 +61,8 @@
 						<div class="list">
 							<c:forEach var="tag" items="${tags}">
 
-								<div class="item" tagNum="${tag.tagNum}"
-							style="font-size: 13px; padding: 3px 0px 3px 0px; cursor: pointer;">${tag.tagName}</div>
+								<div class="addTag item" tagNum="${tag.tagNum}"
+									style="font-size: 13px; padding: 3px 0px 3px 0px; cursor: pointer;">${tag.tagName}</div>
 
 							</c:forEach>
 						</div>
@@ -77,22 +75,30 @@
 		<!-- -------------------- aside -------------------- -->
 
 		<aside id="mid3">
-			<form id="add_tag_form">
-
-				<div class="ui list">
-
-					<div class="item">#2019년</div>
-					<div class="item">#2학기</div>
-					<div class="item">#html</div>
-					<div class="item">#spring</div>
-					<div class="item">#mysql</div>
-					<div class="item">#mybatis</div>
-					<div class="item">#데이터베이스 캡스톤</div>
-				</div>
+			<form id="add_tag_form" method="post" action="addTags">
+				<input type="hidden" name="tagNumString" value="${tagNumString}"
+					class="tagNumString" /> <input type="hidden" name="tagNameString"
+					value="${tagNameString}" class="tagNameString" />
 			</form>
 
+			<div class="ui list remove">
+				<c:forEach var="tag" items="${userTags}">
+
+					<div class="removeTag item" tagNum="${tag.tagNum}"
+						style="font-size: 13px; padding: 3px 0px 3px 0px; cursor: pointer;">${tag.tagName}</div>
+
+				</c:forEach>
+
+			</div>
 
 		</aside>
+
+
+		<div style="position: fixed; top: 70px; right: 20px;">
+			<button class="refresh ui icon button teal" type="button">
+				<i class="icon refresh"></i>
+			</button>
+		</div>
 
 		<!-- -------------------- aside -------------------- -->
 

@@ -48,7 +48,7 @@ a.tagA:hover {
 </style>
 
 <script>
-
+	
 </script>
 </head>
 
@@ -140,7 +140,8 @@ a.tagA:hover {
 
 						<!-- 실질적인 데이터 태그들이 공백으로 나누어짐 (사용자에게 안보여짐)-->
 						<input type="hidden" class="tagString" name="tagString"
-							value="${memo.tagString}" form="textarea_form" />
+							value="${memo.tagString}" form="textarea_form" /> <input
+							type="hidden" id="tagNameString" name="tagNameString">
 						<!-- 사용자에게 보여지는 태그들 -->
 						<c:forEach var="tag" items="${memo.tags}">
 							<a class="tagA">${tag.tagName}<i class="times grey icon"></i></a>

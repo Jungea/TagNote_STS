@@ -81,3 +81,8 @@ article {
 aside {
 	padding: 20px;
 }
+
+.check {
+	background-color: rgba(0, 181, 173, 0.5);
+	font-weight: bold;
+}

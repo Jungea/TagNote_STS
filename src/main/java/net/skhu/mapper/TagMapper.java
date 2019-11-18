@@ -13,6 +13,8 @@ public interface TagMapper {
 
 	Tag findOneByTagName(String tagName);
 
+	List<Tag> findByStartTagName(int userNum, String tagName);
+
 	List<Tag> findByUserNum(int userNum); // 메모 insert할 때 이미 만들어져 있는 태그인지 확인
 
 	List<Tag> findByMemoNum(int memoNum); // 메모 저장했을 때 전에 저장한 태그 가져오기

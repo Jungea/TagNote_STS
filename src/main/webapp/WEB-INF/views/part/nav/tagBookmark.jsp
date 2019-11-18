@@ -18,7 +18,7 @@
 			<div class="ui list">
 
 				<div class="content" style="padding: 14px 14px 0px 14px">
-					<div class="description" style="color: #00b5ad;">태그조합</div>
+					<span class="description setting" style="color: #00b5ad;" pathNum="0" path="0">태그조합</span>
 					<div class="list">
 						<my:bookmarkSetting index="" paths="${paths}" />
 					</div>

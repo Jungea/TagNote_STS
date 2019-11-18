@@ -104,6 +104,21 @@ $(function() {
 
 	timer = setInterval(function() {
 		$('textarea').trigger('keyup');
+		var k = $('#tagNameString').val();
+		if (k.length > 0) {
+			$('#tagNameString').val("");
+			kTags = k.split(' ');
+
+			for ( var i in kTags) {
+				if ($.inArray(kTags[i], userTags) === -1) { // 중복 내용 체크
+					userTags.push(kTags[i]);
+					$(".taginput").before(
+							'<a class="tagA">' + kTags[i]
+									+ '<i class="times grey icon"></i></a>');
+				}
+			}
+
+		}
 	}, 500)
 
 	// 자동 저장 (문제. 커서가 맨앞으로 감)

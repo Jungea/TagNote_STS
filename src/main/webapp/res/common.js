@@ -1,4 +1,4 @@
-var checkNum = 0;
+var checkNum = -1;
 $(function() {
 
 	// nav 영역 숨기기
@@ -66,7 +66,7 @@ $(function() {
 	$('.icon.tagBookmark.setting').click(function(event) {
 		$('.ui.modal').modal('show');
 		$('span[pathNum=' + checkNum + ']').toggleClass('bookmark_check');
-		checkNum = 0;
+		checkNum = -1;
 	});
 
 	$('#target').accordion({
@@ -102,8 +102,12 @@ $(function() {
 
 	$('.negative.button').click(
 			function() {
-				location.href = 'bookmarkDelete?path='
-						+ $('span[pathNum=' + checkNum + ']').attr('path');
+				if (checkNum > 0) {
+					location.href = 'bookmarkDelete?path='
+							+ $('span[pathNum=' + checkNum + ']').attr('path');
+				} else {
+					alert("다른 값을 선택하세요.");
+				}
 			})
 
 	$('.positive.button').click(
