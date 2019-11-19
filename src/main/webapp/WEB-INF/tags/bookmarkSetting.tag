@@ -5,35 +5,38 @@
 <%@ attribute name="paths" type="java.util.List" required="true"%>
 <%@ attribute name="index" type="java.lang.Integer" required="true"%>
 
-<c:set var="path" value="${paths.get(index).getPath()}" />
-<c:if test="${index!=paths.size()}">
-	<div class="item">
-		<i class="bookmark yellow icon"></i>
-		<div class="content">
-			<span class="description setting" pathNum="${paths.get(index).getPathNum()}" path="${paths.get(index).getPath()}">
-				<c:out value="${paths.get(index).getTag().getTagName()}" />
-			</span>
-			<c:if test="${index!=paths.size()-1}">
-				<c:set var="nextPath" value="${paths.get(index+1).getPath()}" />
-				<c:if test="${nextPath.startsWith(path)}">
-					<div class="list">
-						<my:bookmarkSetting index="${index+1}" paths="${paths}" />
-				</c:if>
-				<c:if test="${!nextPath.startsWith(path)}">
-					<c:set var="pathSize" value='${fn:length(path.split("/"))-1}' />
-					<c:set var="nextPathSize"
-						value='${fn:length(nextPath.split("/"))-1}' />
-					<c:set var="closeCount" value='${pathSize-nextPathSize}' />
+<c:if test="${paths.size() != 0}">
+	<c:set var="path" value="${paths.get(index).getPath()}" />
+	<c:if test="${index!=paths.size()}">
+		<div class="item">
+			<i class="bookmark yellow icon"></i>
+			<div class="content">
+				<span class="description setting"
+					pathNum="${paths.get(index).getPathNum()}"
+					path="${paths.get(index).getPath()}"> <c:out
+						value="${paths.get(index).getTag().getTagName()}" />
+				</span>
+				<c:if test="${index!=paths.size()-1}">
+					<c:set var="nextPath" value="${paths.get(index+1).getPath()}" />
+					<c:if test="${nextPath.startsWith(path)}">
+						<div class="list">
+							<my:bookmarkSetting index="${index+1}" paths="${paths}" />
+					</c:if>
+					<c:if test="${!nextPath.startsWith(path)}">
+						<c:set var="pathSize" value='${fn:length(path.split("/"))-1}' />
+						<c:set var="nextPathSize"
+							value='${fn:length(nextPath.split("/"))-1}' />
+						<c:set var="closeCount" value='${pathSize-nextPathSize}' />
+			</div>
 		</div>
-	</div>
-	<c:forEach var="i" begin="1" end="${closeCount}" step="1">
-		</div>
-		</div>
-		</div>
-	</c:forEach>
+		<c:forEach var="i" begin="1" end="${closeCount}" step="1">
+			</div>
+			</div>
+			</div>
+		</c:forEach>
 
-	<my:bookmarkSetting index="${index+1}" paths="${paths}" />
-</c:if>
+		<my:bookmarkSetting index="${index+1}" paths="${paths}" />
+	</c:if>
 </c:if>
 </c:if>
 
@@ -45,4 +48,5 @@
 	</c:forEach>
 	</div>
 	</div>
+</c:if>
 </c:if>

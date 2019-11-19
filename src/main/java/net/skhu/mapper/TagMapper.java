@@ -23,6 +23,8 @@ public interface TagMapper {
 
 	List<Tag> findLiving(int userNum); // 메뉴의 태그 목록을 위한 살아있는 태그 리스트
 
+	List<String> findAutocomplete(int userNum, String tagName); // 메뉴의 태그 목록을 위한 살아있는 태그 리스트
+
 	void insert(Tag tag);
 
 	void update(Tag tag);

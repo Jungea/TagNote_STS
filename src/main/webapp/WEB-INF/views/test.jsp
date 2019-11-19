@@ -19,13 +19,28 @@
 
 <script>
 	$(function() {
-		var a;
+		$(".prompt").autocomplete({
+			source : 'testa',
+			autoFocus : true,
+			minLength : 1,
+			delay : 500,
+			close : function(event) {
+				alert($('.prompt').val())
+			}
+		});
 
-		a = ${tags};
-		alert(a[1])
-
+		$(".aaa").click(function() {
+			alert($('.prompt').val());
+		})
 	});
 </script>
+<style>
+.ui-widget {
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+</style>
 </head>
 <body>
 
@@ -34,6 +49,8 @@
 			<input class="prompt" id="automplete-1" type="text" placeholder="검색">
 			<i class="search icon link" id="aaaa"></i>
 		</div>
+
+		<div class="aaa">hello</div>
 	</div>
 
 </body>

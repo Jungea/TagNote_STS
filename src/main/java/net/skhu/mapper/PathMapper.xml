@@ -6,7 +6,7 @@
 
 	<select id="findByUserNum" resultMap="resultMap1">
 		SELECT * FROM Path p JOIN
-		Tag t ON p.tag_num = t.tag_num ORDER BY p.path;
+		Tag t ON p.tag_num = t.tag_num WHERE t.user_num = #{userNum} ORDER BY p.path;
 	</select>
 
 	<resultMap id="resultMap1" type="Path">

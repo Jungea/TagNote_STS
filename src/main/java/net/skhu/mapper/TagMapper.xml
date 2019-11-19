@@ -51,6 +51,15 @@
 		m.memo_num WHERE m.del_memo = 1 and t.user_num =
 		#{userNum} GROUP BY t.tag_num
 	</select>
+	
+	<!-- 메뉴의 태그 목록을 위한 살아있는 태그 리스트(쓰레기통 메모의 태그들 제외됨.) -->
+	<select id="findAutocomplete" resultType="String">
+		SELECT t.tag_name FROM tag
+		t JOIN tm ON t.tag_num = tm.tag_num JOIN memo m
+		ON tm.memo_num =
+		m.memo_num WHERE m.del_memo = 1 and t.user_num =
+		#{userNum} and t.tag_name LIKE CONCAT(#{tagName},"%") GROUP BY t.tag_num
+	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="tagNum">
 		INSERT

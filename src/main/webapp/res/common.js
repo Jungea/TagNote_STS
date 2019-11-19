@@ -95,9 +95,6 @@ $(function() {
 				$('span[pathNum=' + checkNum + ']').toggleClass(
 						'bookmark_check');
 				checkNum = $(this).attr('pathNum');
-
-				alert(checkNum + " " + $(this).attr('pathNum') + " "
-						+ $(this).attr('path'))
 			});
 
 	$('.negative.button').click(
@@ -114,9 +111,6 @@ $(function() {
 			function() {
 				var name = $('.bookmark.input.tag').val();
 				name = encodeURIComponent(name);
-				alert('bookmarkInsert?path='
-						+ $('span[pathNum=' + checkNum + ']').attr('path')
-						+ "&name=" + name)
 				location.href = 'bookmarkInsert?path='
 						+ $('span[pathNum=' + checkNum + ']').attr('path')
 						+ "&name=" + name;

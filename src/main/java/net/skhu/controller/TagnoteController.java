@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.sf.json.JSONArray;
 import net.skhu.dto.Memo;
@@ -49,6 +50,19 @@ public class TagnoteController {
 		List<Tag> tags = tagMapper.findLiving(2);
 		model.addAttribute("tags", tags);
 		return "test";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/testa")
+	public List<String> testa(Model model,
+			@RequestParam(value = "term", required = false, defaultValue = "") String term) {
+		System.out.println(term);
+		List<String> suggestions = tagMapper.findAutocomplete(2, term);
+//		System.out.println(term+" "+suggestions);
+//		List<Tag> tags = tagMapper.findLiving(2);
+//		for(Tag t : tags) 
+//			suggestions.add(t.getTagName());
+		return suggestions;
 	}
 
 	@RequestMapping(value = "child")
@@ -509,7 +523,7 @@ public class TagnoteController {
 
 		navMaker(model, user);
 
-		session.setAttribute("lastPage", "edit?memoNum" + memoNum);
+		session.setAttribute("lastPage", "edit?memoNum=" + memoNum);
 		return "memo";
 	}
 
