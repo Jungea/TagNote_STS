@@ -70,7 +70,7 @@ a.tagA:hover {
 					<div class="ten wide column" style="padding-left: 0px;">
 						<div class="ui icon input ui-widget">
 							<input class="autocomplete search" type="text" placeholder="검색">
-							<i class="search icon"></i>
+							<i class="search icon link"></i>
 						</div>
 					</div>
 					<div class="three wide column"
