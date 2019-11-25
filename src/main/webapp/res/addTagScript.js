@@ -56,7 +56,8 @@ $(function() {
 
 	$('.refresh.button').click(function() {
 		var join = userArr.join(" ")
-		location.href = "addTagsRefresh?tagNumString=" + join;
+		if (join != "")
+			location.href = "addTagsRefresh?tagNumString=" + join;
 	})
 
 	$('#add_tag_form').submit(function() {
@@ -92,4 +93,11 @@ $(function() {
 					}
 				}
 			});
+
+	$(".autocomplete.search").autocomplete({
+		source : 'testa',
+		autoFocus : true,
+		minLength : 1,
+		delay : 500
+	});
 })

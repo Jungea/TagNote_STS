@@ -46,17 +46,27 @@ $(function() {
 		event.stopPropagation();
 	});
 
-	// 체크박스 전체 선택, 전체 해제
-	$('.checkbox_all').click(function() {
-		if ($('.checkbox_all').is(':checked')) {
-			$('.inputCheck').prop("checked", true);
-		} else {
-			$('.inputCheck').prop("checked", false);
-		}
-
-	})
-
 	var checkMemoNum = [];
+
+	// 체크박스 전체 선택, 전체 해제
+	$('.checkbox_all').click(
+			function() {
+				if ($('.checkbox_all').is(':checked')) {
+					$('.inputCheck').not(':checked').each(
+							function(index, item) {
+								checkMemoNum.push($(this).parent().parent()
+										.parent().attr("data-num"))
+								$('.inputCheck').prop("checked", true);
+							})
+
+					$('.listRemove').removeClass('disabled');
+				} else {
+					checkMemoNum = [];
+					$('.inputCheck').prop("checked", false);
+					$('.listRemove').addClass('disabled');
+				}
+
+			})
 
 	$('.inputCheck')
 			.click(
@@ -65,11 +75,16 @@ $(function() {
 						if ($(this).is(':checked')) {
 							checkMemoNum.push($(this).parent().parent()
 									.parent().attr("data-num"))
+
 						} else {
 							var index = checkMemoNum.indexOf($(this).parent()
 									.parent().parent().attr("data-num"));
 							checkMemoNum.splice(index, 1);
 						}
+
+						if (checkMemoNum.length == 1
+								|| checkMemoNum.length == 0)
+							$('.listRemove').toggleClass('disabled');
 
 						// 모든 체크박스가 체크 되었을 경우 checkbox_all 체크
 						if ($('.inputCheck:checked').length == $('.inputCheck').length) {

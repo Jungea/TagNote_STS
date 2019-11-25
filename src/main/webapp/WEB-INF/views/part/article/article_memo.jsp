@@ -135,7 +135,7 @@ a.tagA:hover {
 					style="background-color: white; border-bottom: 1px solid lightgray; width: 100%">
 
 
-					<div class="fifteen wide field center tagarea"
+					<div class="fifteen wide field center tagarea ui-widget"
 						style="margin: 10px;">
 
 						<!-- 실질적인 데이터 태그들이 공백으로 나누어짐 (사용자에게 안보여짐)-->
@@ -146,7 +146,8 @@ a.tagA:hover {
 						<c:forEach var="tag" items="${memo.tags}">
 							<a class="tagA">${tag.tagName}<i class="times grey icon"></i></a>
 						</c:forEach>
-						<input class="taginput" type="text" placeholder="태그 입력">
+						<input class="taginput autocomplete search" type="text"
+							placeholder="태그 입력">
 					</div>
 
 				</div>

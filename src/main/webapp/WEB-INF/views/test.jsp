@@ -19,13 +19,13 @@
 
 <script>
 	$(function() {
-		$(".prompt").autocomplete({
+		$(".autocomplete.search").autocomplete({
 			source : 'testa',
 			autoFocus : true,
 			minLength : 1,
 			delay : 500,
 			close : function(event) {
-				alert($('.prompt').val())
+				alert($('.autocomplete search').val())
 			}
 		});
 
@@ -45,9 +45,8 @@
 <body>
 
 	<div class="" style="padding-left: 0px;">
-		<div class="ui icon input ui-widget">
-			<input class="prompt" id="automplete-1" type="text" placeholder="검색">
-			<i class="search icon link" id="aaaa"></i>
+		<div class="ui input ui-widget">
+			<input class="autocomplete search" id="automplete-1" type="text" placeholder="검색">
 		</div>
 
 		<div class="aaa">hello</div>

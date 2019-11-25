@@ -86,3 +86,9 @@ aside {
 	background-color: rgba(0, 181, 173, 0.5);
 	font-weight: bold;
 }
+
+.ui-widget {
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}

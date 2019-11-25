@@ -54,7 +54,7 @@
 						<c:if test="${memos.size() > 0}">
 							<c:if test="${memos.get(0).delMemo == 1}">
 
-								<button class="ui button basic trash">삭제</button>
+								<button class="ui button basic trash listRemove disabled">삭제</button>
 								<c:if test="${lastPage.startsWith('listByTag')}">&nbsp;&nbsp;&nbsp;&nbsp;${pageTag.tagName}
 						&nbsp;&nbsp;|&nbsp;&nbsp;${memos.size()}</c:if>
 							</c:if>

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<!----------------------------- modal ------------------------>
@@ -18,7 +19,8 @@
 			<div class="ui list">
 
 				<div class="content" style="padding: 14px 14px 0px 14px">
-					<span class="description setting" style="color: #00b5ad;" pathNum="0" path="0">태그조합</span>
+					<span class="description setting" style="color: #00b5ad;"
+						pathNum="0" path="0">태그조합</span>
 					<div class="list">
 						<my:bookmarkSetting index="" paths="${paths}" />
 					</div>
@@ -28,8 +30,9 @@
 
 		</div>
 
-		<div class="ui input fluid">
-			<input class="bookmark input tag" type="text" placeholder="#태그를 입력하세요.">
+		<div class="ui input fluid ui-widget">
+			<input class="bookmark input tag autocomplete" type="text"
+				placeholder="#태그를 입력하세요.">
 		</div>
 
 		<div class="actions">

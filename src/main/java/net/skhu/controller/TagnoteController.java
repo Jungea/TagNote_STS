@@ -45,6 +45,7 @@ public class TagnoteController {
 	@Autowired
 	PathMapper pathMapper;
 
+	// 테스트를 위한 액션 메소드
 	@RequestMapping(value = "test")
 	public String test(Model model) {
 		List<Tag> tags = tagMapper.findLiving(2);
@@ -52,143 +53,24 @@ public class TagnoteController {
 		return "test";
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/testa")
-	public List<String> testa(Model model,
-			@RequestParam(value = "term", required = false, defaultValue = "") String term) {
-		System.out.println(term);
-		List<String> suggestions = tagMapper.findAutocomplete(2, term);
-//		System.out.println(term+" "+suggestions);
-//		List<Tag> tags = tagMapper.findLiving(2);
-//		for(Tag t : tags) 
-//			suggestions.add(t.getTagName());
-		return suggestions;
-	}
-
 	@RequestMapping(value = "child")
 	public String reculsion(Model model) {
 		return "child";
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	// 로그인, 회원가입, 비밀번호 찾기, 비밀번호 변경
-	/////////////////////////////////////////////////////////////////////////
-
-	// 로그인
-	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String login(Model model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "login/login";
-	}
-
-	// 로그인 화면에서 로그인버튼 클릭
-	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String login(Model model, User user, HttpServletRequest request) {
-		User u = userMapper.login(user);
-		if (u != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("user", u);
-			System.out.println(u);
-			return "redirect:list";
-		} else
-			return "login/login";
-	}
-
-	// 페이지 내의 로그아웃 버튼을 클릭
-	@RequestMapping(value = "logout")
-	public String logout(Model model, HttpServletRequest request) {
+	// 검색어 자동완성(autocomplete)를 위한 액션메소드, json형식의 리턴타입
+	@ResponseBody
+	@RequestMapping(value = "/testa")
+	public List<String> testa(Model model,
+			@RequestParam(value = "term", required = false, defaultValue = "") String term,
+			HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		session.removeAttribute("user");
-		return "redirect:login";
+		User user = (User) session.getAttribute("user");
+		List<String> suggestions = tagMapper.findAutocomplete(user.getUserNum(), term);
+		return suggestions;
 	}
 
-	// 로그인 화면의 회원가입 버튼을 클릭
-	@RequestMapping(value = "membership", method = RequestMethod.GET)
-	public String membership(Model model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "login/membership";
-	}
-
-	// 회원가입 화면에서 아이디 중복 확인 버튼 클릭
-	@RequestMapping(value = "userIdCheck", method = RequestMethod.GET)
-	public String child(Model model) {
-		return "login/userId_check";
-	}
-
-	// 아이디 중복 확인 화면에서 확인 버튼 클릭
-	@RequestMapping(value = "userIdCheck", method = RequestMethod.POST)
-	public String idCheck(Model model, @RequestParam("userId") String userId) {
-		int result = userMapper.idCheck(userId);
-		if (result == 1) { // 이미 사용중인 아이디
-			model.addAttribute("refresh", "refresh"); // submit 되었음을 표시하는 input hidden
-		} else
-			model.addAttribute("userId", userId);
-
-		return "login/userId_check"; // 이후 처리를 자바스크립트로 구현
-	}
-
-	// 회원가입 화면 내의 가입 버튼 클릭
-	@RequestMapping(value = "membership", method = RequestMethod.POST)
-	public String membership(Model model, User user) {
-		userMapper.insert(user);
-		return "redirect:login";
-
-	}
-
-	// 로그인 화면 내의 비밀번호 찾기 글자 클릭
-	@RequestMapping(value = "findPassword", method = RequestMethod.GET)
-	public String findPassword(Model model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "login/find_password";
-	}
-
-	// 비밀번호 찾기 화면 내의 확인 버튼 클릭
-	@RequestMapping(value = "findPassword", method = RequestMethod.POST)
-	public String findPassword(Model model, User user, HttpServletRequest request) {
-		User u = userMapper.findPassword(user);
-
-		if (u != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("findPassUser", u);
-			return "redirect:changePassword";
-		}
-
-		model.addAttribute("user", new User());
-		return "login/find_password";
-
-	}
-
-	// 비밀번호 찾기 화면에서 확인버튼 클릭(입력이 맞을 경우)
-	@RequestMapping(value = "changePassword", method = RequestMethod.GET)
-	public String changePassword(Model model) {
-		return "login/change_password";
-	}
-
-	// 비밀번호 변경 화면에서 확인 버튼 클릭
-	@RequestMapping(value = "changePassword", method = RequestMethod.POST)
-	public String changePassword(Model model, HttpServletRequest request, @RequestParam("userPass") String userPass) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("findPassUser"); // 비밀번호 변경 화면에서 추가한 user 정보
-		user.setUserPass(userPass); // user 정보에 비밀번호 변경
-		userMapper.update(user); // 비밀번호 업데이트
-
-		return "redirect:login";
-
-	}
-
-	/////////////////////////////////////////////////////////////////////////
-	// 리스트
-	/////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * @param model
-	 * @param request
-	 * @return
-	 */
-
+// 화면전체에 공통적으로 들어가는 메뉴에 대한 list를 model에 add
 	public void navMaker(Model model, User user) {
 
 		List<Tag> tags = tagMapper.findLiving(user.getUserNum());
@@ -198,6 +80,11 @@ public class TagnoteController {
 		model.addAttribute("paths", paths);
 	}
 
+	/////////////////////////////////////////////////////////////////////////
+	// 리스트
+	/////////////////////////////////////////////////////////////////////////
+
+	// 메모 리스트화면
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -211,6 +98,7 @@ public class TagnoteController {
 		return "list";
 	}
 
+	// 즐겨찾기
 	@RequestMapping(value = "listByBookmark")
 	public String listByBookmark(Model model, HttpServletRequest request, @RequestParam("path") String path) {
 		HttpSession session = request.getSession();
@@ -298,7 +186,7 @@ public class TagnoteController {
 		return "list";
 	}
 
-	// 중요한 메모 리스트
+	// 검색창에 입력 후 검색 아이콘 클릭
 	@RequestMapping(value = "search")
 	public String search(Model model, HttpServletRequest request, @RequestParam("searchString") String searchString)
 			throws UnsupportedEncodingException {
@@ -306,18 +194,25 @@ public class TagnoteController {
 		User user = (User) session.getAttribute("user");
 
 		String s = URLDecoder.decode(searchString, "utf-8");
-		if (s.charAt(0) == '#') {
+		// get방식 url에는 '#'을 보낼 수 없어 인코딩하여 전송
+
+		if (s.charAt(0) == '#') { // 태그 검색
 			List<String> serachStringList = new ArrayList<>(Arrays.asList(s.split(" ")));
+			// '+'가 인코딩 후 디코딩 되면 ' '공백으로 바뀜.
 			System.out.println(serachStringList);
+
 			List<Integer> list = memoMapper.findByUserNumAndListWithTags(user.getUserNum(), serachStringList,
 					serachStringList.size());
 			System.out.println(list);
+			// 해당 태그를 모두 갖고있는 메모들 번호
+
 			List<Memo> memos = new ArrayList<>();
 			for (Integer i : list)
 				memos.add(memoMapper.findOneWithTags(i));
 
 			model.addAttribute("memos", memos);
-		} else {
+
+		} else { // 내용으로 검색
 			List<Memo> memos = memoMapper.findByUserNumAndMemoTextWithTags(user.getUserNum(), s);
 			model.addAttribute("memos", memos);
 		}
