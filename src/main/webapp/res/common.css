@@ -1,3 +1,7 @@
+.description.setting {
+	-webkit-user-select: none;
+}
+
 /*---------------------Grid Layout--------------------*/
 body {
 	margin: 0;

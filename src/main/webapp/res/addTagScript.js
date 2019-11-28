@@ -26,7 +26,7 @@ $(function() {
 
 	$('.description').dblclick(function(event) {
 		/* Act on the event */
-		$(this).toggleClass('check');
+		$(this).addClass('check');
 		var tempArr = $(this).attr("path").split("/")
 		tempArr.splice(0, 1)
 		for ( var i in tempArr) {
@@ -38,7 +38,7 @@ $(function() {
 
 	$('.addTag.item').dblclick(function(event) {
 		/* Act on the event */
-		$(this).toggleClass('check');
+		$(this).addClass('check');
 		var tempArr = $(this).attr("tagNum")
 		if ($.inArray(tempArr, userArr) === -1)
 			userArr.push(tempArr);
@@ -47,7 +47,7 @@ $(function() {
 	});
 
 	$('body').on('dblclick', '.removeTag.item', function() {
-		$(this).toggleClass('check');
+		$(this).addClass('check');
 		var tempArr = $(this).attr("tagNum")
 		var index = userArr.indexOf(tempArr);
 		userArr.splice(index, 1);

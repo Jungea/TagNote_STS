@@ -15,13 +15,13 @@ $(function() {
 		delay : 500
 	});
 
-	$('.autocomplete.bookmark').autocomplete({
-		source : 'testa',
-		autoFocus : true,
-		minLength : 1,
-		delay : 500
+	// $('.autocomplete.bookmark').autocomplete({
+	// source : 'testa',
+	// autoFocus : true,
+	// minLength : 1,
+	// delay : 500,
 	// appendTo : ".modal"
-	});
+	// });
 	// 자동완성 기능이 켜져있을 때 enter 누르면 바로 검색되므로 + 로 검색이 불가능함
 
 	// $('.autocomplete.search').keydown(function(event) {
@@ -80,7 +80,7 @@ $(function() {
 		$('.ui.modal').modal('show');
 		$('span[pathNum=' + checkNum + ']').toggleClass('bookmark_check');
 		checkNum = -1;
-		$('.bookmark.input.tag').val("");
+		$('#bookmark-dropdown').dropdown("clear");
 	});
 
 	$('#target').accordion({
@@ -101,11 +101,13 @@ $(function() {
 		}
 	});
 
-	$('.ui.dropdown').dropdown();
+	$('.ui.dropdown').dropdown({
+		showOnFocus : false
+	});
 
-	$('.description.setting').click(function(event) {
-		$(this).toggleClass('bookmark_check');
-		$('span[pathNum=' + checkNum + ']').toggleClass('bookmark_check');
+	$('.description.setting').dblclick(function(event) {
+		$('span[pathNum=' + checkNum + ']').removeClass('bookmark_check');
+		$(this).addClass('bookmark_check');
 		checkNum = $(this).attr('pathNum');
 	});
 
@@ -116,16 +118,19 @@ $(function() {
 							+ $('span[pathNum=' + checkNum + ']').attr('path');
 				} else {
 					alert("삭제할 태그를 선택하세요.");
+					return false;
 				}
 			})
 
 	$('.positive.button').click(
 			function() {
-				var name = $('.bookmark.input.tag').val();
+				var name = $('#bookmark-dropdown').val();
 				if (checkNum == -1) {
 					alert("태그를 추가할 곳을 선택하세요.")
+					return false;
 				} else if (name.length == 0) {
 					alert("추가할 태그이름을 입력하세요.")
+					return false;
 				} else {
 
 					name = encodeURIComponent(name);

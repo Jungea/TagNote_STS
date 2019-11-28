@@ -92,3 +92,13 @@ aside {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
+
+.description {
+	cursor: pointer;
+	display: inline-block !important;
+	-webkit-user-select: none;
+}
+
+.item {
+	-webkit-user-select: none;
+}

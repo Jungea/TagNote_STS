@@ -30,10 +30,13 @@
 
 		</div>
 
-		<div class="ui input fluid ui-widget">
-			<input class="bookmark input tag autocomplete" type="text"
-				placeholder="#태그를 입력하세요.">
-		</div>
+		<select class="ui search dropdown fluid bookmark"
+			id="bookmark-dropdown">
+			<option value="">#태그를 입력하세요</option>
+			<c:forEach var="tag" items="${tags}">
+				<option value="${tag.tagName}">${tag.tagName}</option>
+			</c:forEach>
+		</select>
 
 		<div class="actions">
 			<div class="negative ui deny button">삭제</div>
