@@ -9,6 +9,8 @@ import net.skhu.dto.TM;
 
 @Mapper
 public interface PathMapper {
+	
+	int pathCheck(int userNum, String path);
 
 	List<Path> findByUserNum(int userNum);
 

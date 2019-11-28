@@ -42,7 +42,8 @@
 
 <c:if test="${index==paths.size()-1}">
 	<c:set var="lastSize" value='${fn:length(path.split("/"))-1}' />
-	<c:forEach var="i" begin="1" end="${lastSize}" step="1">
+	<c:forEach var="i" begin="2" end="${lastSize}" step="1">
+		</div>
 		</div>
 		</div>
 	</c:forEach>

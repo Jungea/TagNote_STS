@@ -11,7 +11,7 @@ import net.skhu.dto.Tag;
 public interface TagMapper {
 	Tag findOne(int tagNum);
 
-	Tag findOneByTagName(String tagName);
+	Tag findOneByTagName(int userNum, String tagName);
 
 	List<Tag> findByStartTagName(int userNum, String tagName);
 

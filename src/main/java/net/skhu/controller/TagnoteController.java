@@ -142,22 +142,34 @@ public class TagnoteController {
 		String nameDecoding = URLDecoder.decode(name, "utf-8");
 		System.out.println("bookmarkInsert " + path + " " + nameDecoding);
 
-		Tag t = tagMapper.findOneByTagName(nameDecoding);
+		Tag t = tagMapper.findOneByTagName(user.getUserNum(), nameDecoding);
 
 		String[] split = path.split("/");
-		System.out.println(split.equals(t.getTagNum()));
-		if (split.equals(t.getTagNum())) { // 세로 층에 이미 있을 경우
-			model.addAttribute("msg", "태그 북마크 추가 실패");
-			System.out.println("실패");
+		System.out.println(Arrays.stream(split).anyMatch(Integer.toString(t.getTagNum())::equals));
+		if (Arrays.stream(split).anyMatch(Integer.toString(t.getTagNum())::equals)) { // 수직층 중복
+			model.addAttribute("msg", "태그 북마크 추가 실패[수직중복]");
+			System.out.println("실패[수직중복]");
 		} else {
-			if (path.equals("0"))
-				pathMapper.insert(new Path(t.getTagNum(), "/" + t.getTagNum()));
-			else
-				pathMapper.insert(new Path(t.getTagNum(), path + "/" + t.getTagNum()));
+			int result = 1;
+			if (path.equals("0")) {
+				result = pathMapper.pathCheck(user.getUserNum(), "/" + t.getTagNum());
+				if (result == 0)
+					pathMapper.insert(new Path(t.getTagNum(), "/" + t.getTagNum()));
+			} else {
+				result = pathMapper.pathCheck(user.getUserNum(), path + "/" + t.getTagNum());
+				if (result == 0)
+					pathMapper.insert(new Path(t.getTagNum(), path + "/" + t.getTagNum()));
+			}
 			System.out.println(t.getTagNum() + " " + (path + "/" + t.getTagNum()));
-			model.addAttribute("msg", "태그 북마크 추가 성공");
-			System.out.println("성공");
-			// 가로층에 이미 있을 경우 오류 확인
+
+			if (result == 1) { // 수평층 중복
+				model.addAttribute("msg", "태그 북마크 추가 실패[수평중복]");
+				System.out.println("실패[수평중복]");
+			} else {
+				model.addAttribute("msg", "태그 북마크 추가 성공");
+				System.out.println("성공");
+			}
+
 		}
 
 		return "bookmarkMessage";
@@ -192,6 +204,8 @@ public class TagnoteController {
 			throws UnsupportedEncodingException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+
+		System.out.println("하하핳ㅎㅎ하하하하하");
 
 		String s = URLDecoder.decode(searchString, "utf-8");
 		// get방식 url에는 '#'을 보낼 수 없어 인코딩하여 전송

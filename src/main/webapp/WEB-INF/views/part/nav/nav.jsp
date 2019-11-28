@@ -33,8 +33,11 @@
 
 		<div class="navDiv3">
 			<div id="target" class="ui styled accordion">
+				<!------------ 태그조합 즐겨찾기 시작 ------------>
 
 				<%@ include file="nav_bookmark.jsp"%>
+
+				<!------------ 태그조합 즐겨찾기  종료 ------------>
 
 				<%@ include file="nav_tags.jsp"%>
 

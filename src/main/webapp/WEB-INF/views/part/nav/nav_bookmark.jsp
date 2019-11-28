@@ -23,19 +23,22 @@
 	</div>
 	<div class="content">
 
-		<!--  -->
+		<!------------ 태그조합 즐겨찾기 내용 시작 ------------>
 		<div class="ui list">
+
 
 			<div class="content" style="padding: 14px 14px 0px 14px">
 				<div class="description" style="color: #00b5ad;">태그조합</div>
 				<div class="list">
+					<!------------ 재귀호출 시작 ------------>
+
 					<my:treePrinter index="" paths="${paths}" />
+
+					<!------------ 재귀호출 종료 ------------>
 				</div>
 			</div>
 		</div>
-
-
-		<!--  -->
+		<!------------ 태그조합 즐겨찾기 내용 종료 ------------>
 	</div>
 
 </body>
