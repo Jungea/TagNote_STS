@@ -1,6 +1,20 @@
 var checkNum = -1;
 $(function() {
-
+	$('.menual.slider').slick({
+		dots: true,
+		infinite: true
+	});
+	
+	$('.menual.question.icon').click(function() {
+		$('.menual.ui.modal')
+		.modal('show')
+		;
+		$('.menual.slider').slick('unslick').slick({
+			dots: true,
+			infinite: true
+		});
+	});
+	
 	// nav 영역 숨기기
 	$('.close.ui.basic.button').click(function() {
 		$('nav').toggle();
@@ -77,7 +91,9 @@ $(function() {
 	});
 
 	$('.icon.tagBookmark.setting').click(function(event) {
-		$('.ui.modal').modal('show');
+		$('.ui.modal').modal({
+			autofocus : false
+		}).modal('show');
 		$('span[pathNum=' + checkNum + ']').toggleClass('bookmark_check');
 		checkNum = -1;
 		$('#bookmark-dropdown').dropdown("clear");
@@ -92,6 +108,7 @@ $(function() {
 		var memoNum = $(this).parent().parent().attr("data-num");
 		if (memoNum == 0) {
 			alert("메모 저장 후 사용 가능한 기능입니다.")
+			$(this).rating('clear rating');
 		} else {
 			if ($(this).children('i').hasClass('active')) {
 				location.href = 'impt?memoNum=' + memoNum;
@@ -101,9 +118,7 @@ $(function() {
 		}
 	});
 
-	$('.ui.dropdown').dropdown({
-		showOnFocus : false
-	});
+	$('.ui.dropdown').dropdown();
 
 	$('.description.setting').dblclick(function(event) {
 		$('span[pathNum=' + checkNum + ']').removeClass('bookmark_check');

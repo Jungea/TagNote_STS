@@ -24,7 +24,7 @@ $(function() {
 	// alert(arr)
 	// });
 
-	$('.description').dblclick(function(event) {
+	$('.description').not('.no').dblclick(function(event) {
 		/* Act on the event */
 		$(this).addClass('check');
 		var tempArr = $(this).attr("path").split("/")

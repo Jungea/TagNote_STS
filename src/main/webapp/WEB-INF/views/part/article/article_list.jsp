@@ -32,8 +32,6 @@
 					</div>
 					<div class="three wide column lastPage"
 						style="padding: 9px 0px 0px 0px; text-align: left">
-						<c:if test="${lastPage.startsWith('listByTag')}">${pageTag.tagName}</c:if>
-						&nbsp;&nbsp;|&nbsp;&nbsp;${memos.size()}
 					</div>
 
 					<input class="input-lastPage" type="hidden" value="${lastPage}" />
@@ -56,7 +54,7 @@
 
 								<button class="ui button basic trash listRemove disabled">삭제</button>
 								<c:if test="${lastPage.startsWith('listByTag')}">&nbsp;&nbsp;&nbsp;&nbsp;${pageTag.tagName}
-						&nbsp;&nbsp;|&nbsp;&nbsp;${memos.size()}</c:if>
+						&nbsp;&nbsp;</c:if>|&nbsp;&nbsp;${memos.size()}
 							</c:if>
 							<c:if test="${memos.get(0).delMemo == 0}">
 

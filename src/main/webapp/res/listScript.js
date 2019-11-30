@@ -29,10 +29,10 @@ $(function() {
 	if (index != -1) {
 		showLastPage = inputLastPage.slice(0, index);
 	}
-	$('.lastPage').text(showLastPage + $('.lastPage').text())
-	if (showLastPage == 'listByTag') {
-		$('.lastPage').text("");
-	}
+//	$('.lastPage').text(showLastPage + $('.lastPage').text())
+//	if (showLastPage == 'listByTag') {
+//		$('.lastPage').text("");
+//	}
 
 	$('li').on("click", function(event) {
 		event.stopPropagation();

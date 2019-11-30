@@ -18,6 +18,7 @@
 <body>
 	<header id="pageHeader">
 		<a href="list" style="color: white !important;">TAGNOTE</a>
+		<i class="menual question circle outline icon link inverted"></i>
 		<div class="header-userName">
 			<span style="margin-right: 5px;"> ${user.userId} 님</span>
 			<button class="ui inverted mini button" data-url="logout">로그아웃</button>
