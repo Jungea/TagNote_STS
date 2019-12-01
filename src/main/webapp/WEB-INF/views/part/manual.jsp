@@ -31,9 +31,10 @@
 		<div class="content" style="padding-left: 100px !important;
 	padding-right: 100px !important;">
 			<div class="menual slider ui center aligned container">
-				<img src="${R}image/slide1.jpg" alt="이미지1"> <img
-					src="${R}image/slide2.jpg" alt="이미지2"> <img
-					src="${R}image/slide3.jpg" alt="이미지3">
+				<img src="${R}image/main.png" alt="메인 화면">
+				<img src="${R}image/bookmark.png" alt="태그 즐겨찾기 창">
+				<img src="${R}image/memo.png" alt="메모 작성 페이지">
+				<img src="${R}image/taglist.png" alt="태그 목록 창">
 			</div>
 		</div>
 	</div>

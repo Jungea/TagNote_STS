@@ -10,7 +10,7 @@
 </head>
 <body>
 	<!----------------------------- modal ------------------------>
-	<div class="ui tiny longer modal">
+	<div class="ui tiny longer modal mark">
 		<i class="close icon"></i>
 		<div class="header">태그 조합 즐겨찾기 설정</div>
 		<div class="scrolling content">

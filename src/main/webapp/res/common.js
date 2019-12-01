@@ -91,7 +91,7 @@ $(function() {
 	});
 
 	$('.icon.tagBookmark.setting').click(function(event) {
-		$('.ui.modal').modal({
+		$('.ui.modal.mark').modal({
 			autofocus : false
 		}).modal('show');
 		$('span[pathNum=' + checkNum + ']').toggleClass('bookmark_check');

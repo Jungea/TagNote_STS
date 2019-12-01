@@ -18,6 +18,17 @@
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.css" />
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.js"></script>
+
+<!-- slick slider carousel -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+	rel="stylesheet" />
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+	rel="stylesheet" />
+
 <script src="${R}res/common.js"></script>
 <script src="${R}res/memoScript.js"></script>
 <link rel="stylesheet" href="${R}res/common.css">
@@ -34,6 +45,8 @@
 	<div class="frame">
 
 		<%@ include file="part/header.jsp"%>
+
+		<%@ include file="part/manual.jsp"%>
 
 		<%@ include file="part/nav/nav.jsp"%>
 
