@@ -1,20 +1,18 @@
 var checkNum = -1;
 $(function() {
 	$('.menual.slider').slick({
-		dots: true,
-		infinite: true
+		dots : true,
+		infinite : true
 	});
-	
+
 	$('.menual.question.icon').click(function() {
-		$('.menual.ui.modal')
-		.modal('show')
-		;
+		$('.menual.ui.modal').modal('show');
 		$('.menual.slider').slick('unslick').slick({
-			dots: true,
-			infinite: true
+			dots : true,
+			infinite : true
 		});
 	});
-	
+
 	// nav 영역 숨기기
 	$('.close.ui.basic.button').click(function() {
 		$('nav').toggle();
@@ -24,7 +22,7 @@ $(function() {
 	// autocomplete 기능
 	$('.autocomplete.search').autocomplete({
 		source : 'testa', // 액션메소드 RequestMapping
-		autoFocus : true, // 첫번째 지정
+		// autoFocus : true, // 첫번째 지정
 		minLength : 1, // 검색 최소길이
 		delay : 500
 	});
@@ -38,17 +36,17 @@ $(function() {
 	// });
 	// 자동완성 기능이 켜져있을 때 enter 누르면 바로 검색되므로 + 로 검색이 불가능함
 
-	// $('.autocomplete.search').keydown(function(event) {
-	// if (event.keyCode === 13) {
-	// var searchString = $(this).val();
-	// if (searchString.length == 0) {
-	// alert("검색어를 입력하세요.");
-	// } else {
-	// searchString = encodeURIComponent(searchString);
-	// location.href = 'search?searchString=' + searchString;
-	// }
-	// }
-	// });
+	 $('.autocomplete.search').keydown(function(event) {
+		if (event.keyCode === 13) {
+			var searchString = $(this).val();
+			if (searchString.length == 0) {
+				alert("검색어를 입력하세요.");
+			} else {
+				searchString = encodeURIComponent(searchString);
+				location.href = 'search?searchString=' + searchString;
+			}
+		}
+	});
 
 	// 검색 아이콘 클릭하면 input태그에 입력된 값을 매개변수로 검색
 	$('.search.icon').click(function() {

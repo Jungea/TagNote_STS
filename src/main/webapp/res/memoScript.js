@@ -28,9 +28,9 @@ $(function() {
 					function(key) {
 						if (key.keyCode == 13) { // 엔터
 							event.preventDefault(); // submit 안됨
-							var t = $(this).val();
+							var t = $(this).val().trim().replace(/\s/gi, "_");
 							$(this).val('');
-
+							
 							if (t.length < 2 || t.charAt(0) != '#') {
 								alert("#으로 시작하는 2자리 이상의 태그를 입력하세요.")
 								return 0;
@@ -146,10 +146,16 @@ $(function() {
 		location.href = a;
 	});
 })
+
 function openChild() {
 	// window.name = "부모창 이름";
 	window.name = "parentForm";
 	// window.open("open할 window", "자식창 이름", "팝업창 옵션");
 	openWin = window.open("addTags", "childForm",
 			"width=800, height=600, resizable = no, scrollbars = no");
+}
+
+function closeChild() {
+	if (openWin != null)
+		openWin.close();
 }

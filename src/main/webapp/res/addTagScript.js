@@ -1,15 +1,18 @@
-function setParentText() {
-	opener.document.getElementById("pInput").value = userArr.join(" ");
-	window.close();
-}
+//function setParentText() {
+//	if (opener.document.getElementById("pInput").value != null)
+//		opener.document.getElementById("pInput").value = userArr.join(" ");
+//	window.close();
+//}
 
 $(function() {
 	var userArr = [];
 
 	var name = $('.tagNameString').val();
 	if (name.length > 0) {
-		alert(name);
-		opener.document.getElementById("tagNameString").value = name;
+		// alert(name);
+		if (opener.document.getElementById("tagNameString") != null)
+			opener.document.getElementById("tagNameString").value = name;
+
 		window.close();
 	}
 
@@ -33,7 +36,7 @@ $(function() {
 			if ($.inArray(tempArr[i], userArr) === -1)
 				userArr.push(tempArr[i]);
 		}
-		alert(userArr)
+		// alert(userArr)
 	});
 
 	$('.addTag.item').dblclick(function(event) {
@@ -43,7 +46,7 @@ $(function() {
 		if ($.inArray(tempArr, userArr) === -1)
 			userArr.push(tempArr);
 
-		alert(userArr)
+		// alert(userArr)
 	});
 
 	$('body').on('dblclick', '.removeTag.item', function() {
@@ -51,7 +54,7 @@ $(function() {
 		var tempArr = $(this).attr("tagNum")
 		var index = userArr.indexOf(tempArr);
 		userArr.splice(index, 1);
-		alert(userArr);
+		// alert(userArr);
 	})
 
 	$('.refresh.button').click(function() {
@@ -63,7 +66,7 @@ $(function() {
 	$('#add_tag_form').submit(function() {
 		var join = userArr.join(" ")
 		$('.tagNumString').val(join);
-		alert($('.tagNumString').val())
+		// alert($('.tagNumString').val())
 	})
 
 	$('.search.icon').click(
