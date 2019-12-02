@@ -36,7 +36,7 @@ $(function() {
 	// });
 	// 자동완성 기능이 켜져있을 때 enter 누르면 바로 검색되므로 + 로 검색이 불가능함
 
-	 $('.autocomplete.search').keydown(function(event) {
+	 $('.autocomplete.search.enter').keydown(function(event) {
 		if (event.keyCode === 13) {
 			var searchString = $(this).val();
 			if (searchString.length == 0) {

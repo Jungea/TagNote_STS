@@ -93,12 +93,16 @@ public class TagnoteController {
 		model.addAttribute("memos", memos);
 
 		navMaker(model, user);
+		
+		String referer = request.getHeader("Referer");
+		referer = referer.substring(22, referer.length());
+		System.out.println(referer);
 
 		session.setAttribute("lastPage", "list");
 		return "list";
 	}
 
-	// 즐겨찾기
+	// 즐겨찾기 리스트 화면
 	@RequestMapping(value = "listByBookmark")
 	public String listByBookmark(Model model, HttpServletRequest request, @RequestParam("path") String path) {
 		HttpSession session = request.getSession();

@@ -33,48 +33,44 @@ body>.grid {
 
 <script>
 	$(function() {
-		$("#membership_form").submit(function() {
-			$('.error').each(function() {
-				$(this).toggleClass('error');
-			});
+		$("#membership_form").submit(
+				function() {
+					$('.error').each(function() {
+						$(this).toggleClass('error');
+					});
 
-			var errorText = "";
+					var errorText = "";
 
-			var userId = $('#userId').val();
-			if (isEmptyOrWhiteSpace(userId)) {
-				errorText += "아이디를 입력하세요. \n";
-				$('#userId').parent().parent().addClass('error')
-			}
-			var userPass = $('#userPass').val();
-			if (isEmptyOrWhiteSpace(userPass)) {
-				errorText += "비밀번호를 입력하세요. \n";
-				$('#userPass').parent().parent().addClass('error')
-			}
-			var userPass2 = $('#userPass2').val();
-			if (isEmptyOrWhiteSpace(userPass2)) {
-				errorText += "비밀번호 확인을 입력하세요. \n";
-				$('#userPass2').parent().parent().addClass('error')
-			}
+					var userId = $('#userId').val();
+					if (isEmptyOrWhiteSpace(userId) || userId.length < 2
+							|| 16 < userId.length) {
+						errorText += "아이디를 입력하세요(영문+숫자 3~15). \n";
+						$('#userId').parent().parent().addClass('error')
+					}
+					var userPass = $('#userPass').val();
+					if (isEmptyOrWhiteSpace(userPass) || userPass.length < 2
+							|| 16 < userPass.length) {
+						errorText += "비밀번호를 입력하세요(영문+숫자 3~15). \n";
+						$('#userPass').parent().parent().addClass('error')
+					}
+					var userPass2 = $('#userPass2').val();
+					if (userPass != userPass2) {
+						errorText += "비밀번호가 일치하지 않습니다. \n";
+						$('#userPass2').parent().parent().addClass('error')
+					}
 
-			if (errorText.length < 15) {
-				if (userPass != userPass2) {
-					errorText += "비밀번호가 일치하지 않습니다. \n";
-					$('#userPass2').parent().parent().addClass('error')
-				}
-			}
+					var passFindAnsr = $('#passFindAnsr').val();
+					if (isEmptyOrWhiteSpace(passFindAnsr)) {
+						errorText += "비밀번호 찾기 답변을 입력하세요. \n";
+						$('#passFindAnsr').parent().parent().addClass('error')
+					}
 
-			var passFindAnsr = $('#passFindAnsr').val();
-			if (isEmptyOrWhiteSpace(passFindAnsr)) {
-				errorText += "비밀번호 찾기 답변을 입력하세요. \n";
-				$('#passFindAnsr').parent().parent().addClass('error')
-			}
+					if (errorText.length != 0) {
+						alert(errorText)
+						return false;
+					}
 
-			if (errorText.length != 0) {
-				alert(errorText)
-				return false;
-			}
-
-		})
+				})
 
 		function isEmptyOrWhiteSpace(inputValue) {
 
@@ -138,7 +134,7 @@ body>.grid {
 							<label>비밀번호</label>
 							<div class="ui left icon input">
 								<i class="lock icon"></i>
-								<form:password path="userPass" placeholder="비밀번호" />
+								<form:password path="userPass" placeholder="비밀번호(영문+숫자 3~15)" />
 							</div>
 						</div>
 

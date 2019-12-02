@@ -33,30 +33,33 @@ a {
 
 <script>
 	$(function() {
-		$("#loginForm").submit(function() {
-			$('.error').each(function() {
-				$(this).toggleClass('error');
-			});
+		$("#loginForm").submit(
+				function() {
+					$('.error').each(function() {
+						$(this).toggleClass('error');
+					});
 
-			var errorText = "";
+					var errorText = "";
 
-			var userId = $('#userId').val();
-			if (isEmptyOrWhiteSpace(userId)) {
-				errorText += "아이디를 입력하세요. \n";
-				$('#userId').parent().parent().addClass('error')
-			}
-			var userPass = $('#userPass').val();
-			if (isEmptyOrWhiteSpace(userPass)) {
-				errorText += "비밀번호를 입력하세요. \n";
-				$('#userPass').parent().parent().addClass('error')
-			}
+					var userId = $('#userId').val();
+					if (isEmptyOrWhiteSpace(userId) || userId.length < 2
+							|| 16 < userId.length) {
+						errorText += "아이디를 입력하세요(영문+숫자 3~15). \n";
+						$('#userId').parent().parent().addClass('error')
+					}
+					var userPass = $('#userPass').val();
+					if (isEmptyOrWhiteSpace(userPass) || userPass.length < 2
+							|| 16 < userPass.length) {
+						errorText += "비밀번호를 입력하세요(영문+숫자 3~15). \n";
+						$('#userPass').parent().parent().addClass('error')
+					}
 
-			if (errorText.length != 0) {
-				alert(errorText)
-				return false;
-			}
+					if (errorText.length != 0) {
+						alert(errorText)
+						return false;
+					}
 
-		})
+				})
 
 		function isEmptyOrWhiteSpace(inputValue) {
 
@@ -82,14 +85,14 @@ a {
 						<label>아이디</label>
 						<div class="ui left icon input">
 							<i class="user icon"></i>
-							<form:input path="userId" placeholder="아이디" />
+							<form:input path="userId" placeholder="아이디(영문+숫자 3~15)" />
 						</div>
 					</div>
 					<div class="field" style="text-align: left;">
 						<label>비밀번호</label>
 						<div class="ui left icon input">
 							<i class="lock icon"></i>
-							<form:password path="userPass" placeholder="비밀번호" />
+							<form:password path="userPass" placeholder="비밀번호(영문+숫자 3~15)" />
 						</div>
 					</div>
 					<button class="ui button fluid teal" type="submit">로그인</button>

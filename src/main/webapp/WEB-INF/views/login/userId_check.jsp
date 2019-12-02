@@ -21,42 +21,48 @@
 		window.close();
 	}
 
-	$(function() {
-		var refresh = $("#refresh").val();
-		var checkFiled = $("#userId").val();
-		if (checkFiled.length > 0) {
-			setParentText();
-		} else if (refresh.length > 0) {
-			alert("이미 사용중인 아이디입니다.")
-		}
+	$(
+			function() {
+				var refresh = $("#refresh").val();
+				var checkFiled = $("#userId").val();
+				if (checkFiled.length > 0) {
+					setParentText();
+				} else if (refresh.length > 0) {
+					alert("이미 사용중인 아이디입니다.")
+				}
 
-		$("#userIdCheck_form").submit(function() {
-			$('.error').each(function() {
-				$(this).toggleClass('error');
-			});
+				$("#userIdCheck_form")
+						.submit(
+								function() {
+									$('.error').each(function() {
+										$(this).toggleClass('error');
+									});
 
-			var errorText = "";
+									var errorText = "";
 
-			var userId = $('#userId').val();
-			if (isEmptyOrWhiteSpace(userId)) {
-				errorText += "아이디를 입력하세요. \n";
-				$('#userId').parent().parent().addClass('error')
-			}
-			if (errorText.length != 0) {
-				alert(errorText)
-				return false;
-			}
+									var userId = $('#userId').val();
+									if (isEmptyOrWhiteSpace(userId)
+											|| userId.length < 2
+											|| 16 < userId.length) {
+										errorText += "아이디를 입력하세요(영문+숫자 3~15). \n";
+										$('#userId').parent().parent()
+												.addClass('error')
+									}
+									if (errorText.length != 0) {
+										alert(errorText)
+										return false;
+									}
 
-		})
+								})
 
-		function isEmptyOrWhiteSpace(inputValue) {
+				function isEmptyOrWhiteSpace(inputValue) {
 
-			if (inputValue == null)
-				return true;
-			return inputValue.trim().length == 0;
-		}
+					if (inputValue == null)
+						return true;
+					return inputValue.trim().length == 0;
+				}
 
-	})
+			})
 </script>
 
 <style type="text/css">
@@ -87,7 +93,7 @@ a {
 								<label>아이디</label>
 								<div class="ui left icon input">
 									<i class="user icon"></i> <input type="text" id="userId"
-										name="userId" placeholder="아이디" value="${userId}" />
+										name="userId" placeholder="아이디(영문+숫자 3~15)" value="${userId}" />
 								</div>
 							</div>
 							<input type="hidden" id="refresh" name="refresh"
