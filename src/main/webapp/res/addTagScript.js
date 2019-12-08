@@ -50,12 +50,12 @@ $(function() {
 	});
 
 	$('body').on('dblclick', '.removeTag.item', function() {
-//		$(this).addClass('check');
+		// $(this).addClass('check');
 		$(this).remove();
 		var tempArr = $(this).attr("tagNum")
 		var index = userArr.indexOf(tempArr);
 		userArr.splice(index, 1);
-		alert(userArr);
+		// alert(userArr);
 	})
 
 	$('.refresh.button').click(function() {
@@ -103,7 +103,6 @@ $(function() {
 
 	$(".autocomplete.search").autocomplete({
 		source : 'testa',
-		autoFocus : true,
 		minLength : 1,
 		delay : 500
 	});

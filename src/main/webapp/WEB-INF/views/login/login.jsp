@@ -85,14 +85,14 @@ a {
 						<label>아이디</label>
 						<div class="ui left icon input">
 							<i class="user icon"></i>
-							<form:input path="userId" placeholder="아이디(영문+숫자 3~15)" />
+							<form:input path="userId" placeholder="아이디" />
 						</div>
 					</div>
 					<div class="field" style="text-align: left;">
 						<label>비밀번호</label>
 						<div class="ui left icon input">
 							<i class="lock icon"></i>
-							<form:password path="userPass" placeholder="비밀번호(영문+숫자 3~15)" />
+							<form:password path="userPass" placeholder="비밀번호" />
 						</div>
 					</div>
 					<button class="ui button fluid teal" type="submit">로그인</button>

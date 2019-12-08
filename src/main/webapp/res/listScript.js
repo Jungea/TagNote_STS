@@ -1,6 +1,6 @@
 $(function() {
 	$('.ui.button.trash').click(function(event) {
-		var result = confirm('선택한 메모를 삭제하시겠습니까?');
+		var result = confirm('선택한 메모('+checkMemoNum.length+'개)를 삭제하시겠습니까?');
 		var memoNumString = checkMemoNum.join(' ');
 		if (result) {
 			location.href = 'trashChecked?memoNumString=' + memoNumString;
