@@ -26,13 +26,12 @@
 					</div>
 					<div class="ten wide column" style="padding-left: 0px;">
 						<div class="ui icon input ui-widget">
-							<input class="autocomplete search enter" type="text" placeholder="검색">
-							<i class="search icon link"></i>
+							<input class="autocomplete search enter" type="text"
+								placeholder="검색"> <i class="search icon link"></i>
 						</div>
 					</div>
 					<div class="three wide column lastPage"
-						style="padding: 9px 0px 0px 0px; text-align: left">
-					</div>
+						style="padding: 9px 0px 0px 0px; text-align: left"></div>
 
 					<input class="input-lastPage" type="hidden" value="${lastPage}" />
 				</div>
@@ -58,9 +57,9 @@
 							</c:if>
 							<c:if test="${memos.get(0).delMemo == 0}">
 
-								<button class="ui button basic restore">복원</button>
-								<button class="ui button basic permanentlyDelete">영구삭제</button>
-
+								<button class="ui button basic restore disabled">복원</button>
+								<button class="ui button basic permanentlyDelete disabled">영구삭제</button>
+								|&nbsp;&nbsp;${memos.size()}
 							</c:if>
 						</c:if>
 					</div>

@@ -8,15 +8,17 @@ $(function() {
 	});
 
 	$('.ui.button.restore').click(function(event) {
-		var result = confirm('선택한 메모를 복원하시겠습니까?');
+		var result = confirm('선택한 메모('+checkMemoNum.length+'개)를 복원하시겠습니까?');
 		var memoNumString = checkMemoNum.join(' ');
+
 		if (result) {
 			location.href = 'restoreFromTrash?memoNumString=' + memoNumString;
 		}
+
 	});
 
 	$('.ui.button.permanentlyDelete').click(function(event) {
-		var result = confirm('선택한 메모를 영구삭제하시겠습니까?');
+		var result = confirm('선택한 메모('+checkMemoNum.length+'개)를 영구삭제하시겠습니까?');
 		var memoNumString = checkMemoNum.join(' ');
 		if (result) {
 			location.href = 'delete?memoNumString=' + memoNumString;
@@ -31,7 +33,7 @@ $(function() {
 	}
 //	$('.lastPage').text(showLastPage + $('.lastPage').text())
 //	if (showLastPage == 'listByTag') {
-//		$('.lastPage').text("");
+//	$('.lastPage').text("");
 //	}
 
 	$('li').on("click", function(event) {
@@ -56,19 +58,21 @@ $(function() {
 							function(index, item) {
 								checkMemoNum.push($(this).parent().parent()
 										.parent().attr("data-num"))
-								$('.inputCheck').prop("checked", true);
+										$('.inputCheck').prop("checked", true);
 							})
 
-					$('.listRemove').removeClass('disabled');
+							$('.listRemove').removeClass('disabled');
 				} else {
 					checkMemoNum = [];
 					$('.inputCheck').prop("checked", false);
 					$('.listRemove').addClass('disabled');
+					$('.restore').addClass('disabled');
+					$('.permanentlyDelete').addClass('disabled');
 				}
 
 			})
 
-	$('.inputCheck')
+			$('.inputCheck')
 			.click(
 					function() {
 						// 체크하면 update
@@ -84,8 +88,11 @@ $(function() {
 
 						if (checkMemoNum.length == 1
 								|| checkMemoNum.length == 0)
+						{
 							$('.listRemove').toggleClass('disabled');
-
+							$('.restore').toggleClass('disabled');
+							$('.permanentlyDelete').toggleClass('disabled');
+						}
 						// 모든 체크박스가 체크 되었을 경우 checkbox_all 체크
 						if ($('.inputCheck:checked').length == $('.inputCheck').length) {
 							$('.checkbox_all').prop("checked", true);
